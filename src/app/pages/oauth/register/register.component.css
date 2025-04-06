@@ -1,0 +1,20 @@
+.fixed {
+  position: fixed;
+  z-index: 9999;
+}
+.top-5 {
+  top: 1.25rem; /* Margen superior */
+}
+.right-5 {
+  right: 1.25rem; /* Margen derecho */
+}
+.shadow-lg {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+asl-google-signin-button {
+  display: block !important;
+  width: 300px;
+  height: 50px;
+  border: 1px solid red; /* Solo para debugging */
+}

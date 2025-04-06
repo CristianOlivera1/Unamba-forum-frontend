@@ -1,0 +1,100 @@
+<div class="flex items-center justify-center min-h-screen bg-[#F3F4F6] bg-[url('/assets/img/oauth/backgroundDot.png')] bg-cover bg-no-repeat bg-center bg-fixed">
+  <div *ngIf="alert" [ngClass]="{
+        'bg-green-50 text-green-800': alert.type === 'success',
+        'bg-red-50 text-red-800': alert.type === 'error',
+        'bg-yellow-50 text-yellow-800': alert.type === 'warning'
+      }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg" role="alert">
+    <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <path
+        d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
+    </svg>
+    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
+    </svg>
+    <svg *ngIf="alert.type === 'warning'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <path
+        d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.6c.75 1.336-.213 3-1.743 3H3.482c-1.53 0-2.493-1.664-1.743-3l6.518-11.6ZM11 14a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-1-2a1 1 0 0 0 1-1V8a1 1 0 0 0-2 0v3a1 1 0 0 0 1 1Z" />
+    </svg>
+    <span class="text-sm font-medium">{{ alert.message }}</span>
+  </div>
+
+  <div class="bg-white p-12 pt-10 mt-5 mb-5 rounded-lg shadow-lg w-[30rem]">
+    <h2 class="text-2xl font-semibold text-center mb-4">Crear una cuenta</h2>
+
+    <form (ngSubmit)="register()">
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="text" [(ngModel)]="registerData.nombre" name="nombre" id="nombre"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" " required />
+        <label for="nombre"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <input [(ngModel)]="registerData.apellidos" name="apellidos" id="apellidos"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" " required />
+        <label for="apellidos"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Apellidos</label>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <select [(ngModel)]="registerData.idCarrera" name="idCarrera" id="idCarrera"
+          class="block p-2.5 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          required>
+          <option value="" disabled selected hidden>Seleccione una carrera</option>
+          <option *ngFor="let c of career" [value]="c.idCarrera">{{ c.nombre }}</option>
+        </select>
+        <label for="idCarrera"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Carrera</label>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="email" [(ngModel)]="registerData.email" name="email" id="email"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" " required />
+        <label for="email"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="password" [(ngModel)]="registerData.contrasenha" name="contrasenha" id="contrasenha"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" " required />
+        <label for="contrasenha"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="password" [(ngModel)]="registerData.confirmarContrasenha" name="confirmarContrasenha"
+          id="confirmarContrasenha"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" " required />
+        <label for="confirmarContrasenha"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirmar
+          contraseña</label>
+      </div>
+
+      <button class="w-full bg-black mt-6 text-white py-3 mt- rounded hover:bg-gray-800">Registrarse</button>
+    </form>
+
+    <div class="text-center my-4 relative">
+      <span class="absolute left-0 right-0 top-1/2 bg-gray-300 h-px"></span>
+      <span class="relative bg-white px-2 text-gray-500">O continuar con</span>
+    </div>
+
+    <button (click)="loginWithGoogle()"
+      class="w-full flex items-center justify-center gap-2 border py-3 border-gray-300 rounded text-gray-700 hover:bg-gray-200">
+      <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-5 h-5"> Registrarse con Google
+    </button>
+
+    <p class="text-center mt-4 text-gray-600">¿Ya tienes una cuenta? <a href="/login"
+        class="text-black font-semibold underline">Iniciar sesión</a></p>
+  </div>
+
+
+</div>
+<script src="https://accounts.google.com/gsi/client" async defer></script>

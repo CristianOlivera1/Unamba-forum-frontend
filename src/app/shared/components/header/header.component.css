@@ -1,0 +1,32 @@
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: linear-gradient(to right, #155DFC, #2B7FFF); 
+    animation: header-blur-scroll 1 linear both;
+    color: var(--color-gray-100);
+    animation-timeline: scroll();
+    animation-range: 0 250px;
+    transition: all 0.3s ease;
+  }
+  
+  @keyframes header-blur-scroll {
+    0% {
+      backdrop-filter: blur(0px);
+      background: linear-gradient(to right, #155DFC, #2B7FFF); 
+
+      border-bottom: 1px solid transparent;
+      color: var(--color-gray-100);
+
+
+    }
+    100% {
+      backdrop-filter: blur(10px);
+      background: white;
+      border-bottom: 1px solid var(--color-gray-200);
+    color: var(--color-gray-900);
+
+    }
+  }
+  

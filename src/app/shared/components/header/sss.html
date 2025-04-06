@@ -1,0 +1,41 @@
+<header class="w-full bg-blue-500 text-white">
+    <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
+      <h1 class="text-lg font-bold">Unamba Forum</h1>
+      
+      <div>
+        <ng-container *ngIf="isLoggedIn; else guestButtons">
+          <div class="flex items-center gap-4">
+            <img
+              *ngIf="userProfile?.fotoPerfil"
+              [src]="userProfile.fotoPerfil"
+              alt="Foto de perfil"
+              class="w-10 h-10 rounded-full"
+            />
+            <span class="font-medium">{{ userProfile?.nombre }} {{ userProfile?.apellidos }}</span>
+            <button
+              class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              (click)="logOut()"
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        </ng-container>
+        <ng-template #guestButtons>
+          <div>
+            <button
+              class="bg-white text-blue-500 px-4 py-2 rounded mr-2 hover:bg-gray-200"
+              (click)="navigateToLogin()"
+            >
+              Iniciar sesión
+            </button>
+            <button
+              class="bg-white text-blue-500 px-4 py-2 rounded hover:bg-gray-200"
+              (click)="navigateToRegister()"
+            >
+              Registrarse
+            </button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </header>
