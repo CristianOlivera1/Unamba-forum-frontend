@@ -1,0 +1,225 @@
+<div class="container mx-auto p-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Columna lateral -->
+        <div class="md:col-span-1">
+            <div class="bg-gray-100 rounded-xl p-4 h-full"><div class="space-y-6">
+
+                <!-- Bienvenida -->
+                <div class="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center text-center">
+                  <img src="https://via.placeholder.com/48" alt="Perfil" class="w-12 h-12 rounded-full mb-2" />
+                  <p class="text-gray-700 text-sm">
+                    <strong>¡Hola, Juan Pérez!</strong> 👋<br>
+                    Ya estás listo para publicar. No dudes en compartir tus ideas y opiniones con todos nosotros. ¡Adelante!
+                  </p>
+                  <button class="mt-4 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition">
+                    + Nueva publicación
+                  </button>
+                </div>
+              
+                <!-- Filtro por carreras -->
+                <div class="space-y-3">
+                  <h3 class="text-gray-800 font-semibold text-lg">Carreras</h3>
+                  <div class="grid grid-cols-2 gap-2">
+                    <button class="bg-blue-700 text-white text-sm font-medium py-2 rounded-lg">Todas</button>
+                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg">Administración</button>
+                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg col-span-2">Ing. Informática y sistemas</button>
+                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg">Ing. Minas</button>
+                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg">Ing. Civil</button>
+                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg">Educación Inicial</button>
+                  </div>
+                </div>
+              
+                <!-- Filtro por categorías -->
+                <div class="space-y-2">
+                  <h3 class="text-gray-800 font-semibold text-lg">Categorías</h3>
+                  <select class="w-full border rounded-lg py-2 px-3 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option>Todas</option>
+                    <option>Proyectos</option>
+                    <option>Eventos</option>
+                    <option>Ofertas</option>
+                    <option>Noticias</option>
+                  </select>
+                </div>
+              
+              </div>
+              </div>
+        </div>
+
+        <!-- Publicaciones -->
+        <div class="md:col-span-2">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+
+                <!-- Publicación 1 -->
+                <div class="bg-white border-1 border-gray-300 rounded-xl shadow-sm p-4 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
+                            alt="Avatar" class="w-10 h-10 rounded-full">
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-800">Juan Pérez</h3>
+                            <p class="text-xs text-gray-500 truncate w-40">Ingeniería Informática</p>
+                        </div>
+                        <span class="ml-auto text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Diversión</span>
+                        <span class="text-xs text-gray-400 ml-1">• hace 11d</span>
+                    </div>
+
+                    <!-- Imágenes scroll horizontal -->
+                    <div class="flex overflow-x-auto gap-2">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
+                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
+                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
+                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
+                    </div>
+
+                    <!-- Contenido -->
+                    <div>
+                        <h4 class="font-semibold text-gray-900 text-sm">Introducción a React Hooks</h4>
+                        <p class="text-gray-600 text-sm mt-1">Los hooks son una característica introducida en React 16.8
+                            que
+                            permite usar estado y otras..</p>
+                    </div>
+
+                    <!-- Reacciones -->
+                    <div class="flex items-center gap-6 text-sm text-gray-500">
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                            <span>24</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                            <span>24</span>
+                        </div>
+                        <div class="flex items-center gap-1 ml-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m-4 0H7a2 2 0 01-2-2v-2m5-4l-4 4m0 0l4 4m-4-4h12" />
+                            </svg>
+                            <span>3</span>
+                        </div>
+                    </div>
+
+                    <!-- Acciones -->
+                    <div class="flex justify-between items-center pt-2 border-t border-gray-200 text-gray-500">
+                        <button class="p-2 hover:text-blue-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path d="M5 15l7-7 7 7" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <button class="p-2 hover:text-blue-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m-4 0H7a2 2 0 01-2-2v-2m5-4l-4 4m0 0l4 4m-4-4h12"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <button class="p-2 hover:text-blue-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path d="M4 12h16m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Publicación 1 -->
+                <div class="bg-white border rounded-xl shadow-sm p-4 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
+                            alt="Avatar" class="w-10 h-10 rounded-full">
+                        <div>
+                            <h3 class="text-sm font-semibold text-gray-800">Juan Pérez</h3>
+                            <p class="text-xs text-gray-500 truncate w-40">Ingeniería Informática</p>
+                        </div>
+                        <span class="ml-auto text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Diversión</span>
+                        <span class="text-xs text-gray-400 ml-1">• hace 11d</span>
+                    </div>
+
+                    <!-- Imágenes scroll horizontal -->
+                    <div class="flex overflow-x-auto gap-2">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
+                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
+                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
+                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
+                    </div>
+
+                    <!-- Contenido -->
+                    <div>
+                        <h4 class="font-semibold text-gray-900 text-sm">Introducción a React Hooks</h4>
+                        <p class="text-gray-600 text-sm mt-1">Los hooks son una característica introducida en React 16.8
+                            que
+                            permite usar estado y otras..</p>
+                    </div>
+
+                    <!-- Reacciones -->
+                    <div class="flex items-center gap-6 text-sm text-gray-500">
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                            <span>24</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                            <span>24</span>
+                        </div>
+                        <div class="flex items-center gap-1 ml-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m-4 0H7a2 2 0 01-2-2v-2m5-4l-4 4m0 0l4 4m-4-4h12" />
+                            </svg>
+                            <span>3</span>
+                        </div>
+                    </div>
+
+                    <!-- Acciones -->
+                    <div class="flex justify-between items-center pt-2 border-t border-gray-200 text-gray-500">
+                        <button class="p-2 hover:text-blue-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path d="M5 15l7-7 7 7" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <button class="p-2 hover:text-blue-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m-4 0H7a2 2 0 01-2-2v-2m5-4l-4 4m0 0l4 4m-4-4h12"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                        <button class="p-2 hover:text-blue-600">
+                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                viewBox="0 0 24 24">
+                                <path d="M4 12h16m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+              
+
+            </div>
+        </div>
+    </div>
+</div>
