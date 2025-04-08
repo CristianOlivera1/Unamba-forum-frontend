@@ -4,6 +4,7 @@ import { TokenService } from '../../../core/services/oauth/token.service';
 import { ProfileService } from '../../../core/services/profile/profile.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CareerService } from '../../../core/services/career/career.service';
 
 @Component({
   selector: 'app-header',
@@ -15,14 +16,15 @@ import { FormsModule } from '@angular/forms';
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   userProfile: any = null;
-
+  career: any[] = [];
   constructor(
     private tokenService: TokenService,
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,private careerService: CareerService
   ) {}
 
   ngOnInit(): void {
+    this.loadCareers();
     if (typeof window !== 'undefined') {
       this.isLoggedIn = !!this.tokenService.getToken();
       if (this.isLoggedIn) {
@@ -39,6 +41,23 @@ export class HeaderComponent implements OnInit {
         }
       });
     }
+  }
+
+  loadCareers(): void {
+    this.careerService.getAllCareer().subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.career = response.data;
+    
+        } else {
+          console.error('Error al cargar las carreras:', response.listMessage);
+          alert('No se pudieron cargar las carreras.');
+        }
+      },
+      error: (error: any) => {
+        console.error('Error en la solicitud:', error);
+      }
+    });
   }
 
   loadUserProfile(): void {
@@ -81,6 +100,10 @@ export class HeaderComponent implements OnInit {
   navigateToRegister(): void {
     // Add your navigation logic here
     window.location.href = '/register';
+  }
+
+  navigateToCareer(idCarrera: string) {
+    this.router.navigate(['/carrera', idCarrera]);
   }
 
 
