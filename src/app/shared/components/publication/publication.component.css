@@ -1,0 +1,10 @@
+
+/* Ocultar scrollbar en filtro de carreras */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE */
+    scrollbar-width: none; /* Firefox */
+  }
+  

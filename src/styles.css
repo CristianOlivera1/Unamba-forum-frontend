@@ -1,6 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
+
+@theme{
+  --color-primary-blue:#2b5d9c;
+  --color-gray-dark:#E2E8F0;
+}
 body {
     font-family: 'Open Sans', sans-serif;
   }

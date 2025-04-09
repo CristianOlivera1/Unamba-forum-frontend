@@ -3,14 +3,11 @@ header {
   top: 0;
   z-index: 50;
   background: linear-gradient(90deg, rgba(21, 93, 252, 1) 0%, rgba(43, 93, 156, 1) 46%, rgba(43, 127, 255, 1) 100%);
-  animation: header-blur-scroll 1 linear both;
+  animation: header-blur-scroll 0.3s linear both;
   color: var(--color-gray-100);
   animation-timeline: scroll();
   animation-range: 0 250px;
-  transition: all 0.3s ease;
 }
-
-
 
 @keyframes header-blur-scroll {
   0% {
@@ -27,3 +24,24 @@ header {
     color: var(--color-gray-900);
   }
 }
+
+@keyframes button-bg-scroll {
+  0% {
+    background-color: white;
+    color: #2b7fff;
+  }
+  100% {
+    background-color: #2b7fff;
+    color: white;
+  }
+}
+
+.button-scroll-animate {
+  animation: button-bg-scroll 0.3s linear both;
+  animation-timeline: scroll();
+  animation-range: 0 250px;
+  transition: all 0.3s ease;
+}
+
+
+

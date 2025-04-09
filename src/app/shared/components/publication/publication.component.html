@@ -1,48 +1,94 @@
 <div class="container mx-auto p-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Columna lateral -->
         <div class="md:col-span-1">
-            <div class="bg-gray-100 rounded-xl p-4 h-full"><div class="space-y-6">
+            <div class="h-full">
+                <div class="space-y-6">
+                    <div class="card flex justify-center">
+                        <p-button label="Check"></p-button>
+                    </div>
+                    <app-welcome *ngIf="isLoggedIn"></app-welcome>
+                    <!-- Filtro por carreras -->
+                    <div class="border border-gray-200 rounded-xl p-4" >
+                        <div class="space-y-3">
+                            <h3 class="text-gray-800 font-semibold text-md">Carreras</h3>
 
-                <!-- Bienvenida -->
-                <div class="bg-white rounded-xl p-4 shadow-sm flex flex-col items-center text-center">
-                  <img src="https://via.placeholder.com/48" alt="Perfil" class="w-12 h-12 rounded-full mb-2" />
-                  <p class="text-gray-700 text-sm">
-                    <strong>¡Hola, Juan Pérez!</strong> 👋<br>
-                    Ya estás listo para publicar. No dudes en compartir tus ideas y opiniones con todos nosotros. ¡Adelante!
-                  </p>
-                  <button class="mt-4 bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition">
-                    + Nueva publicación
-                  </button>
+                            <!-- Contenedor con referencia local -->
+                            <div #scrollContainer class="flex md:grid md:grid-cols-2 gap-2 whitespace-nowrap overflow-x-auto scrollbar-hide -mx-4 px-4 
+                           cursor-grab active:cursor-grabbing select-none 
+                           md:cursor-default md:active:cursor-default" (mousedown)="startDrag($event)"
+                                (mouseup)="stopDrag()" (mouseleave)="stopDrag()" (mousemove)="onDrag($event)"
+                                (touchstart)="startDrag($event)" (touchend)="stopDrag()" (touchmove)="onDrag($event)">
+                                <button
+                                    class="bg-primary-blue flex-shrink-0 text-white text-sm font-medium py-2 px-4 rounded-lg">Todas</button>
+                                <button
+                                    class="flex-shrink-0 bg-gray-dark hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Administración</button>
+                                <button
+                                    class="bg-gray-dark flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg col-span-2">Ing.
+                                    Informática y sistemas</button>
+                                <button
+                                    class="bg-gray-dark flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Ing.
+                                    Minas</button>
+                                <button
+                                    class="bg-gray-200 flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Ing.
+                                    Civil</button>
+                                <button
+                                    class="bg-gray-dark flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Educación
+                                    Inicial</button>
+                            </div>
+                        </div>
+
+                        <!-- Filtro por categorías -->
+                        <div class="space-y-2 relative mt-5">
+                            <h3 class="text-gray-800 font-semibold text-md">Categorías</h3>
+                            <select
+                                class="w-full border border-gray-300 rounded-lg py-2 px-3 cursor-pointer  text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-100 appearance-none">
+                                <option>Todas</option>
+                                <option>Proyectos</option>
+                                <option>Eventos</option>
+                                <option>Ofertas</option>
+                                <option>Noticias</option>
+                            </select>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                aria-hidden="true"
+                                class="absolute right-2 top-11 w-5 h-5 text-gray-500 pointer-events-none">
+                                <path fill-rule="evenodd"
+                                    d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+
+                      
+                          
+                    </div>
+                    <div class="rounded-xl p-4 border border-gray-200">
+                        <h2 class="text-lg font-semibold mb-4">📢 Publicaciones Recientes</h2>
+                        <div class="space-y-4">
+                            <div class="border-b border-gray-300 pb-4">
+                                <h3 class="text-lg font-medium">Título de la Publicación</h3>
+                                <p class="text-gray-500 text-sm mb-3">María Gracia • 6 horas</p>
+                                <a href="dd">
+                                    <p class="text-gray-700 text-sm">Esta es la descripción corta que estará limitada a
+                                        una cierta cantidad de caracteres.</p>
+                                </a>
+                            </div>
+                            <div class="border-b border-gray-300 pb-4">
+                                <h3 class="text-lg font-medium">Título de la Publicación</h3>
+                                <p class="text-gray-500 text-sm mb-3">Carlos Pérez • 3 horas</p>
+                                <p class="text-gray-700 text-sm">Otra descripción breve que encaja perfectamente dentro
+                                    de este espacio.</p>
+                            </div>
+                            <div class="border-b border-gray-300 pb-4">
+                                <h3 class="text-lg font-medium">Título de la Publicación</h3>
+                                <p class="text-gray-500 text-sm mb-3">Ana López • Hace 1 día</p>
+                                <p class="text-gray-700 text-sm">Descripción que ofrece un vistazo rápido al contenido
+                                    de esta publicación.</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-              
-                <!-- Filtro por carreras -->
-                <div class="space-y-3">
-                  <h3 class="text-gray-800 font-semibold text-lg">Carreras</h3>
-                  <div class="grid grid-cols-2 gap-2">
-                    <button class="bg-blue-700 text-white text-sm font-medium py-2 rounded-lg">Todas</button>
-                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg">Administración</button>
-                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg col-span-2">Ing. Informática y sistemas</button>
-                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg">Ing. Minas</button>
-                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg">Ing. Civil</button>
-                    <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 rounded-lg">Educación Inicial</button>
-                  </div>
-                </div>
-              
-                <!-- Filtro por categorías -->
-                <div class="space-y-2">
-                  <h3 class="text-gray-800 font-semibold text-lg">Categorías</h3>
-                  <select class="w-full border rounded-lg py-2 px-3 bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option>Todas</option>
-                    <option>Proyectos</option>
-                    <option>Eventos</option>
-                    <option>Ofertas</option>
-                    <option>Noticias</option>
-                  </select>
-                </div>
-              
-              </div>
-              </div>
+            </div>
         </div>
 
         <!-- Publicaciones -->
@@ -54,22 +100,45 @@
                     <div class="flex items-center gap-3">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
                             alt="Avatar" class="w-10 h-10 rounded-full">
-                        <div>
+
+                        <div class="flex-1">
                             <h3 class="text-sm font-semibold text-gray-800">Juan Pérez</h3>
-                            <p class="text-xs text-gray-500 truncate w-40">Ingeniería Informática</p>
+                            <div class="flex items-center gap-2">
+                                <p class="text-xs text-gray-500 truncate w-40">Ingeniería Informática</p>
+
+                                <div class="flex items-center gap-1 ml-auto">
+                                    <span
+                                        class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Diversión</span>
+                                    <span class="text-xs text-gray-400">• hace 11d</span>
+                                </div>
+                            </div>
                         </div>
-                        <span class="ml-auto text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Diversión</span>
-                        <span class="text-xs text-gray-400 ml-1">• hace 11d</span>
                     </div>
 
-                    <!-- Imágenes scroll horizontal -->
-                    <div class="flex overflow-x-auto gap-2">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
-                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
-                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
-                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
+                    <div class="w-full overflow-hidden">
+                        <div class="group relative h-[260px]" style="scrollbar-gutter: stable both-edges;">
+                            <div
+                                class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
+                                <figure class="shrink-0">
+                                    <div class="overflow-hidden rounded-md">
+                                        <img src="https://drive.google.com/thumbnail?authuser=0&sz=w1080&id=1E_uwc6Q-xg0R7HLAMX--cvj1vlzwf5Hi"
+                                            alt="Media 1" class="aspect-square h-54 w-54 object-cover" />
+                                    </div>
+                                </figure>
+                                <figure class="shrink-0">
+                                    <div class="overflow-hidden rounded-md">
+                                        <img src="https://drive.google.com/thumbnail?authuser=0&sz=w1080&id=1Qrq0MSgZETWNpNanD4M9AAQdUW4TeM8e"
+                                            alt="Media 2" class="aspect-square h-54 w-54 object-cover" />
+                                    </div>
+                                </figure>
+                                <figure class="shrink-0">
+                                    <div class="overflow-hidden rounded-md">
+                                        <img src="https://drive.google.com/thumbnail?authuser=0&sz=w1080&id=1ppEujoei9s1TVUHm7Dvy8nw8DTKbi9jX"
+                                            alt="Media 3" class="aspect-square h-54 w-54 object-cover" />
+                                    </div>
+                                </figure>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Contenido -->
@@ -99,10 +168,15 @@
                             <span>24</span>
                         </div>
                         <div class="flex items-center gap-1 ml-auto">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m-4 0H7a2 2 0 01-2-2v-2m5-4l-4 4m0 0l4 4m-4-4h12" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <g fill="none">
+                                    <path fill="currentColor"
+                                        d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1"
+                                        opacity="0.16" />
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1" />
+                                </g>
                             </svg>
                             <span>3</span>
                         </div>
@@ -111,49 +185,58 @@
                     <!-- Acciones -->
                     <div class="flex justify-between items-center pt-2 border-t border-gray-200 text-gray-500">
                         <button class="p-2 hover:text-blue-600">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
-                                viewBox="0 0 24 24">
-                                <path d="M5 15l7-7 7 7" stroke-linecap="round" stroke-linejoin="round" />
+                            <img src="/assets/icons/publication/feliz-gris.svg" alt="ddd" width="24px">
+                        </button>
+                        <button class="p-2 hover:text-blue-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.891 1 4.127L3 21l4.873-1c1.236.64 2.64 1 4.127 1" />
                             </svg>
                         </button>
                         <button class="p-2 hover:text-blue-600">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m-4 0H7a2 2 0 01-2-2v-2m5-4l-4 4m0 0l4 4m-4-4h12"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                        <button class="p-2 hover:text-blue-600">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
-                                viewBox="0 0 24 24">
-                                <path d="M4 12h16m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5"
+                                    d="m14 10l-3 3m9.288-9.969a.535.535 0 0 1 .68.681l-5.924 16.93a.535.535 0 0 1-.994.04l-3.219-7.242a.54.54 0 0 0-.271-.271l-7.242-3.22a.535.535 0 0 1 .04-.993z" />
                             </svg>
                         </button>
                     </div>
                 </div>
 
-                <!-- Publicación 1 -->
-                <div class="bg-white border rounded-xl shadow-sm p-4 space-y-4">
+                <!-- Publicación 2 -->
+                <div class="bg-white border-1 border-gray-300 rounded-xl shadow-sm p-4 space-y-4">
                     <div class="flex items-center gap-3">
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
                             alt="Avatar" class="w-10 h-10 rounded-full">
-                        <div>
+
+                        <div class="flex-1">
                             <h3 class="text-sm font-semibold text-gray-800">Juan Pérez</h3>
-                            <p class="text-xs text-gray-500 truncate w-40">Ingeniería Informática</p>
+                            <div class="flex items-center gap-2">
+                                <p class="text-xs text-gray-500 truncate w-40">Ingeniería Informática</p>
+
+                                <div class="flex items-center gap-1 ml-auto">
+                                    <span
+                                        class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Diversión</span>
+                                    <span class="text-xs text-gray-400">• hace 11d</span>
+                                </div>
+                            </div>
                         </div>
-                        <span class="ml-auto text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">Diversión</span>
-                        <span class="text-xs text-gray-400 ml-1">• hace 11d</span>
                     </div>
 
-                    <!-- Imágenes scroll horizontal -->
-                    <div class="flex overflow-x-auto gap-2">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
-                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
-                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Fqa1zGrADMg4kKba6B2OdEZZ-ZgBYbTw3g&s"
-                            class="rounded-md w-80 h-45 flex-shrink-0 object-cover" />
+                    <div class="w-full overflow-hidden">
+                        <div class="group relative h-[260px]" style="scrollbar-gutter: stable both-edges;">
+                            <div
+                                class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
+
+                                <figure class="shrink-0">
+                                    <div class="overflow-hidden rounded-md">
+                                        <img src="https://drive.google.com/thumbnail?authuser=0&sz=w1080&id=1ppEujoei9s1TVUHm7Dvy8nw8DTKbi9jX"
+                                            alt="Media 3" class="aspect-square h-54 w-54 object-cover" />
+                                    </div>
+                                </figure>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Contenido -->
@@ -183,10 +266,15 @@
                             <span>24</span>
                         </div>
                         <div class="flex items-center gap-1 ml-auto">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m-4 0H7a2 2 0 01-2-2v-2m5-4l-4 4m0 0l4 4m-4-4h12" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <g fill="none">
+                                    <path fill="currentColor"
+                                        d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1"
+                                        opacity="0.16" />
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1" />
+                                </g>
                             </svg>
                             <span>3</span>
                         </div>
@@ -201,23 +289,21 @@
                             </svg>
                         </button>
                         <button class="p-2 hover:text-blue-600">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m-4 0H7a2 2 0 01-2-2v-2m5-4l-4 4m0 0l4 4m-4-4h12"
-                                    stroke-linecap="round" stroke-linejoin="round" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.891 1 4.127L3 21l4.873-1c1.236.64 2.64 1 4.127 1" />
                             </svg>
                         </button>
                         <button class="p-2 hover:text-blue-600">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.5"
-                                viewBox="0 0 24 24">
-                                <path d="M4 12h16m-7-7l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.5"
+                                    d="m14 10l-3 3m9.288-9.969a.535.535 0 0 1 .68.681l-5.924 16.93a.535.535 0 0 1-.994.04l-3.219-7.242a.54.54 0 0 0-.271-.271l-7.242-3.22a.535.535 0 0 1 .04-.993z" />
                             </svg>
                         </button>
                     </div>
                 </div>
-
-              
 
             </div>
         </div>

@@ -65,19 +65,21 @@
           <img *ngIf="userProfile?.fotoPerfil" [src]="userProfile.fotoPerfil" alt="Foto de perfil"
             class="w-10 h-10 rounded-full" />
           <span class="font-medium">{{ userProfile?.nombre }} {{ userProfile?.apellidos }}</span>
-          <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" (click)="logOut()">
+          <button class="bg-red-500 text-white px-4 py-2 cursor-pointer rounded hover:bg-red-600" (click)="logOut()">
             Cerrar sesión
           </button>
         </div>
       </ng-container>
       <ng-template #guestButtons>
         <div>
-          <button class="px-4 py-2 rounded mr-2 hover:text-gray-200 cursor-pointer" (click)="navigateToLogin()">
+          <button class="px-4 py-2 rounded mr-2 hover:text-gray-300 cursor-pointer" (click)="navigateToLogin()">
             Iniciar sesión
           </button>
-          <button class="bg-white text-blue-500 font-semibold px-4 py-2 rounded hover:bg-gray-200 cursor-pointer" (click)="navigateToRegister()">
-            Registrarse
-          </button>
+          <button
+          class="button-scroll-animate text-[#2b7fff] px-4 py-2 cursor-pointer rounded hover:bg-gray-300"
+          (click)="navigateToRegister()">
+          Registrarse
+        </button>
         </div>
       </ng-template>
     </div>
@@ -143,9 +145,11 @@
             <button class="px-4 py-2 rounded mr-2 hover:bg-gray-200" (click)="navigateToLogin()">
               Iniciar sesión
             </button>
-            <button class="bg-white text-[#2b7fff] px-4 py-2 rounded hover:bg-gray-200" (click)="navigateToRegister()">
-              Registrarse
-            </button>
+            <button
+            class="button-scroll-animate text-[#2b7fff] px-4 py-2 rounded hover:bg-gray-200"
+            (click)="navigateToRegister()">
+            Registrarse
+          </button>
           </div>
         </ng-template>
       </div>
