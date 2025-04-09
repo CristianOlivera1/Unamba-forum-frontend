@@ -2,13 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { WelcomeComponent } from '../../../pages/home/components/welcome/welcome.component';
 import { TokenService } from '../../../core/services/oauth/token.service';
-import { ButtonModule } from 'primeng/button';
-
 
 @Component({
   selector: 'app-publication',
   standalone: true,
-  imports: [CommonModule,WelcomeComponent,ButtonModule],
+  imports: [CommonModule,WelcomeComponent],
   templateUrl: './publication.component.html',
   styleUrl: './publication.component.css'
 })

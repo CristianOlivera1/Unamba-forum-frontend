@@ -12,5 +12,4 @@ export const routes: Routes = [
     { path: 'carrera/:idCarrera', component: CareerComponent },
 
     { path: '**', redirectTo: '' }
-
 ];
