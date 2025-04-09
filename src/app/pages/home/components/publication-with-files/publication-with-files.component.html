@@ -1,0 +1,118 @@
+<!-- Publicaciones -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+
+  <!-- Publicación 1 -->
+  <div *ngFor="let publication of publications" class="border-1 border-gray-300 rounded-xl shadow-sm p-4 space-y-4">
+    <div class="flex items-center gap-3">
+      <img [src]="publication.avatar" alt="Avatar" class="w-10 h-10 rounded-full">
+
+      <div class="flex-1">
+        <h3 class="text-sm font-semibold text-gray-800">{{ publication.nombreCompleto }}</h3>
+        <div class="flex items-center gap-2">
+          <p class="text-xs text-gray-500 truncate w-40">{{ publication.nombreCarrera }}</p>
+          <div class="flex items-center gap-1 ml-auto">
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{{ publication.nombreCategoria
+              }}</span>
+            <span class="text-xs text-gray-400">• {{ getTimeElapsedWrapper(publication.fechaRegistro) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full overflow-hidden">
+      <div class="group relative h-[260px]" style="scrollbar-gutter: stable both-edges;">
+        <div
+          class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
+          
+          <!-- Condición para una sola imagen o video -->
+          <ng-container *ngIf="publication.archivos.length === 1">
+            <figure *ngFor="let archivo of publication.archivos" class="shrink-0 w-full">
+              <div class="overflow-hidden rounded-md">
+                <!-- Imágenes -->
+                <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media" class="aspect-square h-54 w-full object-cover" />
+                
+                <!-- Videos -->
+                <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-full object-cover">
+                  <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                  Tu navegador no soporta la etiqueta de video.
+                </video>
+              </div>
+            </figure>
+          </ng-container>
+    
+          <!-- Condición para múltiples archivos -->
+          <ng-container *ngIf="publication.archivos.length > 1">
+            <figure *ngFor="let archivo of publication.archivos" class="shrink-0">
+              <div class="overflow-hidden rounded-md">
+                <!-- Imágenes -->
+                <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media" class="aspect-square h-54 w-54 object-cover" />
+                
+                <!-- Videos -->
+                <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-54 object-cover">
+                  <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                  Tu navegador no soporta la etiqueta de video.
+                </video>
+              </div>
+            </figure>
+          </ng-container>
+    
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido -->
+    <div>
+      <h4 class="font-semibold text-gray-900 text-sm">{{ publication.titulo }}</h4>
+      <p class="text-gray-600 text-sm mt-1">{{ publication.contenido }}</p>
+    </div>
+
+    <!-- Reacciones -->
+    <div class="flex items-center gap-6 text-sm text-gray-500">
+      <div class="flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        <span>24</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.41 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.41 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+        <span>24</span>
+      </div>
+      <div class="flex items-center gap-1 ml-auto">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <g fill="none">
+            <path fill="currentColor"
+              d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1" opacity="0.16" />
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1" />
+          </g>
+        </svg>
+        <span>3</span>
+      </div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="flex justify-between items-center pt-2 border-t border-gray-200 text-gray-500">
+      <button class="p-2 hover:text-blue-600">
+        <img src="/assets/icons/publication/feliz-gris.svg" alt="ddd" width="24px">
+      </button>
+      <button class="p-2 hover:text-blue-600">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.891 1 4.127L3 21l4.873-1c1.236.64 2.64 1 4.127 1" />
+        </svg>
+      </button>
+      <button class="p-2 hover:text-blue-600">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="m14 10l-3 3m9.288-9.969a.535.535 0 0 1 .68.681l-5.924 16.93a.535.535 0 0 1-.994.04l-3.219-7.242a.54.54 0 0 0-.271-.271l-7.242-3.22a.535.535 0 0 1 .04-.993z" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+</div>

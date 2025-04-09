@@ -1,0 +1,21 @@
+<div class="rounded-xl p-4 border border-gray-200 space-y-3">
+    <h2 class="text-lg font-semibold">✨ Más Publicaciones!</h2>
+
+    <div #scrollPubli class="flex flex-row md:flex-col gap-4 overflow-x-auto md:overflow-visible whitespace-nowrap scrollbar-hide
+             cursor-grab active:cursor-grabbing select-none
+             md:cursor-default md:active:cursor-default -mx-4 px-4 md:mx-0 md:px-0"
+        (mousedown)="startDrag($event, 'publi')" (mouseup)="stopDrag('publi')" (mouseleave)="stopDrag('publi')"
+        (mousemove)="onDrag($event, 'publi')" (touchstart)="startDrag($event, 'publi')" (touchend)="stopDrag('publi')"
+        (touchmove)="onDrag($event, 'publi')">
+        <div *ngFor="let publication of publications"
+        class="flex-shrink-0 md:shrink md:w-full w-[85%] min-w-[280px] bg-white border border-gray-300 md:border-x-0 md:border-t-0 md:rounded-none md:border-b p-4">
+      <h3 class="text-lg font-medium truncate">{{ publication.titulo }}</h3>
+      <p class="text-gray-500 text-sm mb-3 truncate">
+        {{ publication.nombreCompleto }} • {{ getTimeElapsedWrapper(publication.fechaRegistro) }}
+      </p>
+      <p class="text-gray-700 text-sm overflow-hidden text-ellipsis max-h-[4.5rem]">
+        {{ publication.contenido }}
+      </p>
+    </div>
+    </div>
+</div>

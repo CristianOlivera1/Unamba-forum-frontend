@@ -1,4 +1,4 @@
-import { Component,PLATFORM_ID,Inject } from '@angular/core';
+import { Component,PLATFORM_ID,Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../core/services/oauth/login.service';
 import { TokenService } from '../../../core/services/oauth/token.service';
@@ -14,7 +14,7 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginData: any = {
     email: '',
     contrasenha: ''

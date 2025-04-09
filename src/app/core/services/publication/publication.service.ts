@@ -12,16 +12,12 @@ export class PublicationService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getAllPublicationwithFile(): Observable<any> {
-		return this.httpClient.get(`${this.apiPublication}/getall`);
-	}
+  public getPublicationsWithFilesPaginated(page: number = 0): Observable<any> {
+    return this.httpClient.get(`${this.apiPublication}/withfiles/paginated?page=${page}`);
+  }
 
   public getAllPublicationwithoutFile(): Observable<any> {
-		return this.httpClient.get(`${this.apiPublication}/getall`);
+		return this.httpClient.get(`${this.apiPublication}/withoutfiles/paginated`);
 	}
-
-  getProfileByUserId(userId: string): Observable<any> {
-    return this.httpClient.get(`${this.apiPublication}/getprofilebyuser/${userId}`);
-  }
   
 }

@@ -4,7 +4,9 @@
 
 @theme{
   --color-primary-blue:#2b5d9c;
+  --color-secondary-blue:#2b7fff;
   --color-gray-dark:#E2E8F0;
+
 }
 body {
     font-family: 'Open Sans', sans-serif;

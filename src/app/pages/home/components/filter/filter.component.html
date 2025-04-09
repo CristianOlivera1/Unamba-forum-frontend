@@ -1,0 +1,49 @@
+<div class="border border-gray-200 rounded-xl p-4 mb-4" >
+    <div class="space-y-3">
+        <h3 class="text-gray-800 font-semibold text-md">Carreras</h3>
+
+        <!-- Contenedor con referencia local -->
+        <div #scrollContainer class="flex md:grid md:grid-cols-2 gap-2 whitespace-nowrap overflow-x-auto scrollbar-hide -mx-4 px-4 
+       cursor-grab active:cursor-grabbing select-none 
+       md:cursor-default md:active:cursor-default" (mousedown)="startDrag($event)"
+            (mouseup)="stopDrag()" (mouseleave)="stopDrag()" (mousemove)="onDrag($event)"
+            (touchstart)="startDrag($event)" (touchend)="stopDrag()" (touchmove)="onDrag($event)">
+            <button
+                class="bg-primary-blue flex-shrink-0 text-white text-sm font-medium py-2 px-4 rounded-lg">Todas</button>
+            <button
+                class="flex-shrink-0 bg-gray-dark hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Administración</button>
+            <button
+                class="bg-gray-dark flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg col-span-2">Ing.
+                Informática y sistemas</button>
+            <button
+                class="bg-gray-dark flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Ing.
+                Minas</button>
+            <button
+                class="bg-gray-200 flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Ing.
+                Civil</button>
+            <button
+                class="bg-gray-dark flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Educación
+                Inicial</button>
+        </div>
+    </div>
+
+    <!-- Filtro por categorías -->
+    <div class="space-y-2 relative mt-5">
+        <h3 class="text-gray-800 font-semibold text-md">Categorías</h3>
+        <select
+            class="w-full border border-gray-300 rounded-lg py-2 px-3 cursor-pointer  text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-100 appearance-none">
+            <option>Todas</option>
+            <option>Proyectos</option>
+            <option>Eventos</option>
+            <option>Ofertas</option>
+            <option>Noticias</option>
+        </select>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+            aria-hidden="true"
+            class="absolute right-2 top-11 w-5 h-5 text-gray-500 pointer-events-none">
+            <path fill-rule="evenodd"
+                d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+                clip-rule="evenodd"></path>
+        </svg>
+    </div>
+</div>
