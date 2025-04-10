@@ -2,18 +2,19 @@ import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
 import { CommonModule } from '@angular/common';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
+import { ReactionComponent } from '../reaction/reaction.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-publication-with-files',
-  imports: [CommonModule],
+  imports: [CommonModule,ReactionComponent],
   templateUrl: './publication-with-files.component.html',
   styleUrl: './publication-with-files.component.css'
 })
 export class PublicationWithFilesComponent implements OnInit {
   publications: any[] = [];
 
-  constructor(private publicationService: PublicationService) {}
-
+  constructor(private publicationService: PublicationService,private router: Router) {}
   ngOnInit(): void {
     this.loadPublications();
   }
@@ -37,4 +38,16 @@ export class PublicationWithFilesComponent implements OnInit {
     });
   }
 
+ // Método para truncar texto
+ truncateText(text: string, maxLength: number): string {
+  if (text.length > maxLength) {
+    return text.substring(0, maxLength) + '...';
+  }
+  return text;
+}
+
+navigateToCareer(idPublication: string) {
+  this.router.navigate(['/publication', idPublication]);
+}
+  
 }

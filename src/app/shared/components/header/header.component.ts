@@ -17,10 +17,12 @@ export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
   userProfile: any = null;
   career: any[] = [];
+
+
   constructor(
     private tokenService: TokenService,
     private profileService: ProfileService,
-    private router: Router,private careerService: CareerService
+    private router: Router,private careerService: CareerService,
   ) {}
 
   ngOnInit(): void {
@@ -94,11 +96,9 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/']);
   }
   navigateToLogin(): void {
-    // Add your navigation logic here
     window.location.href = '/login';
   }
   navigateToRegister(): void {
-    // Add your navigation logic here
     window.location.href = '/register';
   }
 
@@ -106,22 +106,31 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/carrera', idCarrera]);
   }
 
+  showPopover=false;
+  @ViewChild('popoverMenu') popoverMenu!: ElementRef;
+  togglePopover(): void {
+    this.showPopover = !this.showPopover;
+  }
 
   menuAbierto = false;
-
   @ViewChild('menuMovil') menuMovil!: ElementRef;
-
   toggleMenu() {
     this.menuAbierto = !this.menuAbierto;
   }
+  
+// Detecta clics fuera del menú desplegable y del menú móvil
+@HostListener('document:click', ['$event'])
+onClickOutside(event: MouseEvent): void {
+  const target = event.target as HTMLElement;
 
-  // Detecta clics fuera del menú móvil
-  @HostListener('document:click', ['$event'])
-  detectarClickFuera(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-
-    if (this.menuAbierto && this.menuMovil && !this.menuMovil.nativeElement.contains(target)) {
-      this.menuAbierto = false;
-    }
+  // Cierra el popover si el clic ocurre fuera de él
+  if (this.showPopover && this.popoverMenu && !this.popoverMenu.nativeElement.contains(target)) {
+    this.showPopover = false;
   }
+
+  // Cierra el menú móvil si el clic ocurre fuera de él
+  if (this.menuAbierto && this.menuMovil && !this.menuMovil.nativeElement.contains(target)) {
+    this.menuAbierto = false;
+  }
+}
 }

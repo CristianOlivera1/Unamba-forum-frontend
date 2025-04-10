@@ -11,3 +11,6 @@
 body {
     font-family: 'Open Sans', sans-serif;
   }
+  a{
+    cursor:pointer;
+  }

@@ -142,6 +142,6 @@ export class RegisterComponent implements OnInit{
   }
 
   loginWithGoogle(): void {
-    this.googleAuthService.loginWithGoogle();
+    this.googleAuthService.registerWithGoogleOauth();
   }
 }

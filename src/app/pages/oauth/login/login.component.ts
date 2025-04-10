@@ -88,6 +88,6 @@ if (isPlatformBrowser(this.platformId)) {
   }
 
   initiateGoogleLogin(): void {
-    this.googleAuthService.loginWithGoogle();
+    this.googleAuthService. loginWithGoogleOauth();
   }
 }

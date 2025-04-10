@@ -20,4 +20,8 @@ export class PublicationService {
 		return this.httpClient.get(`${this.apiPublication}/withoutfiles/paginated`);
 	}
   
+  getPublicationById(idPublication: string): Observable<any> {
+    return this.httpClient.get(`${this.apiPublication}/details/${idPublication}`);
+  }
+  
 }

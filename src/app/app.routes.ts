@@ -3,6 +3,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/oauth/login/login.component';
 import { RegisterComponent } from './pages/oauth/register/register.component';
 import { CareerComponent } from './pages/career/career.component';
+import { DetailPublicationComponent } from './pages/detail-publication/detail-publication.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -10,6 +11,6 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent },
     { path: 'carrera/:idCarrera', component: CareerComponent },
-
+    { path: 'publication/:idPublicacion', component: DetailPublicationComponent },
     { path: '**', redirectTo: '' }
 ];

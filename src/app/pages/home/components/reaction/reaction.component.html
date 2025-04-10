@@ -1,0 +1,70 @@
+<div class="flex justify-between items-center pt-2 border-t border-gray-200 text-gray-500">
+  <div class="relative inline-block border-t-10 border-r-10 border-b-10 border-transparent"
+    (mouseenter)="mostrarPopover()" (mouseleave)="ocultarPopover()">
+    <!-- Botón principal -->
+    <button type="button" class="cursor-pointer">
+      <img src="/assets/icons/publication/feliz-gris.svg" alt="feliz-gris">
+    </button>
+    <div *ngIf="popoverVisible"
+      class="absolute z-50 bottom-full mb-2 flex justify-center items-center gap-1 p-2 rounded-md border border-gray-200 bg-white text-sm shadow-lg animate-in fade-in zoom-in"
+      (mouseenter)="mantenerPopoverVisible()" (mouseleave)="ocultarPopover()">
+      <!-- Emoji 1 -->
+      <div class="relative" (mouseenter)="mostrarTooltip('interesa')" (mouseleave)="ocultarTooltip()">
+        <button class="h-10 w-10 hover:bg-blue-50 rounded-md flex items-center justify-center transition">
+          <img src="/assets/icons/publication/me-interesa.png" alt="me-interesa">
+        </button>
+        <div *ngIf="tooltipActivo === 'interesa'"
+          class="absolute bg-black text-white text-xs rounded py-1 px-4 -right-4 bottom-full">
+          Me interesa
+          <svg class="absolute text-black h-2 w-full left-0 top-full" viewBox="0 0 255 255">
+            <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Emoji 2 -->
+      <div class="relative" (mouseenter)="mostrarTooltip('increible')" (mouseleave)="ocultarTooltip()">
+        <button class="h-10 w-10 hover:bg-red-50 rounded-md flex items-center justify-center transition">
+          <img src="/assets/icons/publication/es-increible.png" alt="es-increible">
+        </button>
+        <div *ngIf="tooltipActivo === 'increible'"
+          class="absolute bg-black text-white text-xs rounded py-1 px-4 -right-4 bottom-full">
+          Es increíble
+          <svg class="absolute text-black h-2 w-full left-0 top-full" viewBox="0 0 255 255">
+            <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Emoji 3 -->
+      <div class="relative" (mouseenter)="mostrarTooltip('divertido')" (mouseleave)="ocultarTooltip()">
+        <button class="h-10 w-10 hover:bg-yellow-50 rounded-md flex items-center justify-center transition">
+          <img src="/assets/icons/publication/que-divertido.png" alt="que-divertido">
+        </button>
+        <div *ngIf="tooltipActivo === 'divertido'"
+          class="absolute bg-black text-white  text-xs rounded py-1 px-4 -right-4 bottom-full">
+          Qué divertido
+          <svg class="absolute text-black h-2 w-full left-0 top-full" viewBox="0 0 255 255">
+            <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Otros botones -->
+  <button class="p-2 hover:text-blue-600">
+    <!-- Comentario -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.891 1 4.127L3 21l4.873-1c1.236.64 2.64 1 4.127 1" />
+    </svg>
+  </button>
+  <button class="p-2 hover:text-blue-600">
+    <!-- Compartir -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+        d="m14 10l-3 3m9.288-9.969a.535.535 0 0 1 .68.681l-5.924 16.93a.535.535 0 0 1-.994.04l-3.219-7.242a.54.54 0 0 0-.271-.271l-7.242-3.22a.535.535 0 0 1 .04-.993z" />
+    </svg>
+  </button>
+</div>
