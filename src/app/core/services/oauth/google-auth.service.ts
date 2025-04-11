@@ -27,7 +27,6 @@ export class GoogleAuthService  {
     const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${this.clientId}&redirect_uri=${this.redirectUriLogin}&response_type=${this.responseType}&scope=${this.scope}`;
     window.location.href = authUrl;
   }
-  
 
   handleGoogleCallback(): { idToken: string | null; accessToken: string | null } {
     const urlParams = new URLSearchParams(window.location.hash.substring(1));
