@@ -13,4 +13,6 @@ export class SummaryService {
   public getTotalCareerPublicationUser(): Observable<any> {
 		return this.httpClient.get(`${this.apiSummary}`);
 	}
+
+  
 }
