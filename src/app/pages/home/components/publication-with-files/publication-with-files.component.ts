@@ -4,18 +4,28 @@ import { CommonModule } from '@angular/common';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
 import { ReactionComponent } from '../reaction/reaction.component';
 import { Router } from '@angular/router';
+import { TokenService } from '../../../../core/services/oauth/token.service';
+import { TotalsReactionCommentComponent } from '../totals-reaction-comment/totals-reaction-comment.component';
+import { ModalService } from '../../../../core/services/modal/modal.service';
+import { LoginModalComponent } from '../login-modal/login-modal.component';
 
 @Component({
   selector: 'app-publication-with-files',
-  imports: [CommonModule,ReactionComponent],
+  imports: [CommonModule,ReactionComponent,TotalsReactionCommentComponent,LoginModalComponent],
   templateUrl: './publication-with-files.component.html',
   styleUrl: './publication-with-files.component.css'
 })
 export class PublicationWithFilesComponent implements OnInit {
   publications: any[] = [];
+  currentUserId: string | null = null;
+  isLoginModalVisible$: any;
 
-  constructor(private publicationService: PublicationService,private router: Router) {}
+  constructor(private publicationService: PublicationService,  private tokenService: TokenService,
+    private router: Router,private modalService: ModalService) {}
+    
   ngOnInit(): void {
+    this.currentUserId = this.tokenService.getUserId();
+    this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
     this.loadPublications();
   }
 
@@ -37,14 +47,6 @@ export class PublicationWithFilesComponent implements OnInit {
       }
     });
   }
-
- // Método para truncar texto
- truncateText(text: string, maxLength: number): string {
-  if (text.length > maxLength) {
-    return text.substring(0, maxLength) + '...';
-  }
-  return text;
-}
 
 navigateToCareer(idPublication: string) {
   this.router.navigate(['/publication', idPublication]);
