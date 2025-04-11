@@ -2,51 +2,49 @@
   <div class="relative inline-block border-t-10 border-r-10 border-b-10 border-transparent"
     (mouseenter)="mostrarPopover()" (mouseleave)="ocultarPopover()">
     <!-- Botón principal -->
-    <button type="button" class="cursor-pointer">
-      <img src="/assets/icons/publication/feliz-gris.svg" alt="feliz-gris">
+    <button type="button" class="cursor-pointer" (click)="removeReaction()">
+      <img
+        [src]="currentReaction ? '/assets/icons/publication/' + currentReaction + '.png' : '/assets/icons/publication/feliz-gris.svg'"
+        [alt]="currentReaction || 'feliz-gris'" class="h-6 w-6"/>
     </button>
+
+    <!-- Popover de reacciones -->
     <div *ngIf="popoverVisible"
-      class="absolute z-50 bottom-full mb-2 flex justify-center items-center gap-1 p-2 rounded-md border border-gray-200 bg-white text-sm shadow-lg animate-in fade-in zoom-in"
+      class="absolute z-50 bottom-full mb-2 flex justify-center items-center gap-1 p-2 rounded-md border border-gray-200 bg-white text-sm shadow-lg"
       (mouseenter)="mantenerPopoverVisible()" (mouseleave)="ocultarPopover()">
-      <!-- Emoji 1 -->
-      <div class="relative" (mouseenter)="mostrarTooltip('interesa')" (mouseleave)="ocultarTooltip()">
+      <!-- Emogi 1 -->
+      <div class="relative" (click)="addReaction('Me identifica')" (mouseenter)="mostrarTooltip('interesa')"
+        (mouseleave)="ocultarTooltip()">
         <button class="h-10 w-10 hover:bg-blue-50 rounded-md flex items-center justify-center transition">
-          <img src="/assets/icons/publication/me-interesa.png" alt="me-interesa">
+          <img src="/assets/icons/publication/Me identifica.png" class="h-6 w-6 md:w-7 md:h-7 lg:w-8 lg:h-8" alt="me-interesa" />
         </button>
         <div *ngIf="tooltipActivo === 'interesa'"
           class="absolute bg-black text-white text-xs rounded py-1 px-4 -right-4 bottom-full">
           Me interesa
-          <svg class="absolute text-black h-2 w-full left-0 top-full" viewBox="0 0 255 255">
-            <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
-          </svg>
         </div>
       </div>
 
-      <!-- Emoji 2 -->
-      <div class="relative" (mouseenter)="mostrarTooltip('increible')" (mouseleave)="ocultarTooltip()">
+      <!-- Emogi 2 -->
+      <div class="relative" (click)="addReaction('Es increíble')" (mouseenter)="mostrarTooltip('increible')"
+        (mouseleave)="ocultarTooltip()">
         <button class="h-10 w-10 hover:bg-red-50 rounded-md flex items-center justify-center transition">
-          <img src="/assets/icons/publication/es-increible.png" alt="es-increible">
+          <img src="/assets/icons/publication/Es increíble.png" class="h-6 w-6 md:w-7 md:h-7 lg:w-8 lg:h-8" alt="es-increible" />
         </button>
         <div *ngIf="tooltipActivo === 'increible'"
           class="absolute bg-black text-white text-xs rounded py-1 px-4 -right-4 bottom-full">
           Es increíble
-          <svg class="absolute text-black h-2 w-full left-0 top-full" viewBox="0 0 255 255">
-            <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
-          </svg>
         </div>
       </div>
 
-      <!-- Emoji 3 -->
-      <div class="relative" (mouseenter)="mostrarTooltip('divertido')" (mouseleave)="ocultarTooltip()">
+      <!-- Emogi 3 -->
+      <div class="relative" (click)="addReaction('Qué divertido')" (mouseenter)="mostrarTooltip('divertido')"
+        (mouseleave)="ocultarTooltip()">
         <button class="h-10 w-10 hover:bg-yellow-50 rounded-md flex items-center justify-center transition">
-          <img src="/assets/icons/publication/que-divertido.png" alt="que-divertido">
+          <img src="/assets/icons/publication/Qué divertido.png" class="h-6 w-6 md:w-7 md:h-7 lg:w-8 lg:h-8"alt="que-divertido" />
         </button>
         <div *ngIf="tooltipActivo === 'divertido'"
-          class="absolute bg-black text-white  text-xs rounded py-1 px-4 -right-4 bottom-full">
+          class="absolute bg-black text-white text-xs rounded py-1 px-4 -right-4 bottom-full">
           Qué divertido
-          <svg class="absolute text-black h-2 w-full left-0 top-full" viewBox="0 0 255 255">
-            <polygon class="fill-current" points="0,0 127.5,127.5 255,0" />
-          </svg>
         </div>
       </div>
     </div>
