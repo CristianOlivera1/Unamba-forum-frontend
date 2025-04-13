@@ -1,4 +1,4 @@
-import { Component,PLATFORM_ID,Inject, OnInit } from '@angular/core';
+import { Component, PLATFORM_ID, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../core/services/oauth/login.service';
 import { TokenService } from '../../../core/services/oauth/token.service';
@@ -10,7 +10,7 @@ import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -26,10 +26,11 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private tokenService: TokenService,
     private googleAuthService: GoogleAuthService,
-    private router: Router,@Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+    private router: Router, @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
+  
   ngOnInit(): void {
-if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId)) {
       const { idToken, accessToken } = this.googleAuthService.handleGoogleCallback();
       if (idToken && accessToken) {
         this.loginWithGoogle(idToken, accessToken);
@@ -88,6 +89,6 @@ if (isPlatformBrowser(this.platformId)) {
   }
 
   initiateGoogleLogin(): void {
-    this.googleAuthService. loginWithGoogleOauth();
+    this.googleAuthService.loginWithGoogleOauth();
   }
 }
