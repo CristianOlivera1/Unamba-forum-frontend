@@ -1,0 +1,99 @@
+<div class="fixed inset-0 bg-[rgba(0,0,0,0.3)] z-40" (click)="closeModal()"></div>
+
+<div class="fixed bottom-0 left-0 w-full h-[70vh] bg-white shadow-xl rounded-t-3xl p-3 sm:p-4 md:p-5 xl:p-7 overflow-auto z-50">
+
+  <!-- Alerta -->
+  <div *ngIf="alert" [ngClass]="{
+    'bg-green-50 text-green-800': alert.type === 'success',
+    'bg-red-50 text-red-800': alert.type === 'error',
+    'bg-yellow-50 text-yellow-800': alert.type === 'warning'
+  }" class="fixed top-5 left-5 right-5 flex items-center p-4 rounded-lg shadow-lg z-50" role="alert">
+<svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+  fill="currentColor" viewBox="0 0 20 20">
+  <path
+    d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
+</svg>
+<svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+  fill="currentColor" viewBox="0 0 20 20">
+  <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
+</svg>
+<span class="text-sm font-medium">{{ alert.message }}</span>
+</div>
+  <button (click)="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+
+  <!-- Contenido del formulario -->
+  <div class="max-w-xl mx-auto bg-white p-6 lg:p-7 xl:pt-10 mb-5 rounded-lg shadow-lg">
+    <h2 class="text-xl font-semibold text-center mb-6 xl:text-2xl">Completa tu información</h2>
+
+    <form (ngSubmit)="submitForm()">
+      <div class="relative z-0 w-full group mb-6">
+        <select name="carrera" [(ngModel)]="formData.carrera" required
+          class="block w-full py-3 px-2 text-sm text-[#1D242F] bg-transparent border-0 border-b-2 border-[#3F8BFF] focus:outline-none focus:ring-0 focus:border-[#2B7FFF] appearance-none">
+          <option value="" disabled selected>Selecciona tu carrera</option>
+          <option *ngFor="let career of careers" [value]="career.idCarrera">{{ career.nombre }}</option>
+        </select>
+        <label
+          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 left-0 origin-[0]">
+          Carrera
+        </label>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
+        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none">
+        <path fill-rule="evenodd"
+      d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+      clip-rule="evenodd"></path>
+      </svg>
+      </div>
+
+      <!-- Select de género-->
+      <div class="relative z-0 w-full group mb-6">
+        <select name="genero" [(ngModel)]="formData.genero" #genero="ngModel"
+          class="block w-full py-3 px-2 text-sm text-[#1D242F] bg-transparent border-0 border-b-2 border-[#3F8BFF] focus:outline-none focus:ring-0 focus:border-[#2B7FFF] appearance-none">
+          <option value="" disabled selected>Seleccione tu género</option>
+          <option [value]="1">Masculino</option>
+          <option [value]="0">Femenino</option>
+        </select>
+        <label
+          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 left-0 origin-[0]">
+          Género (opcional)
+        </label>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
+        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none">
+        <path fill-rule="evenodd"
+      d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+      clip-rule="evenodd"></path>
+      </svg>
+      </div>
+
+      <!-- Descripción (opcional) -->
+      <div class="relative z-0 w-full group mb-6">
+        <textarea name="descripcion" [(ngModel)]="formData.descripcion" rows="3"
+          class="w-full py-2 mt-6 px-3 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3F8BFF] focus:outline-none resize-none"
+          placeholder="Escribe una breve descripción..."></textarea>
+        <label
+          class="absolute text-sm text-gray-500 duration-300 transform mb-2 -translate-y-6 scale-75 top-4 left-0 origin-[0]">
+          Descripción (opcional)
+        </label>
+      </div>
+
+      <!-- Fecha de nacimiento (opcional) -->
+      <div class="relative z-0 w-full group mb-4">
+        <input type="date" name="fechaNacimiento" [(ngModel)]="formData.fechaNacimiento"
+          class="block py-2 px-0 w-full text-sm text-[#1D242F] bg-transparent border-0 border-b-2 border-[#3F8BFF] focus:outline-none focus:ring-0 focus:border-[#2B7FFF]" />
+        <label
+          class="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-2 left-0 origin-[0]">
+          Fecha de nacimiento (opcional)
+        </label>
+      </div>
+
+      <!-- Botón para continuar -->
+      <button type="submit"
+        class="w-full bg-secondary-blue text-white py-3 rounded-md hover:bg-[#256EDD] transition-colors duration-200 mt-2">
+        Guardar y continuar
+      </button>
+    </form>
+  </div>
+</div>
