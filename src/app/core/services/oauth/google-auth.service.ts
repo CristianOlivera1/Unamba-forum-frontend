@@ -13,6 +13,7 @@ export class GoogleAuthService  {
   private clientId = environment.clientId;
   private redirectUriRegister = environment.redirectUriRegister;
   private redirectUriLogin =environment.redirectUriLogin;
+  private redirectUriLoginModal =environment.redirectUriLoginModal;
   private scope = environment.scope;
   private responseType = 'token id_token';
 
@@ -25,6 +26,11 @@ export class GoogleAuthService  {
 
   loginWithGoogleOauth(): void {
     const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${this.clientId}&redirect_uri=${this.redirectUriLogin}&response_type=${this.responseType}&scope=${this.scope}`;
+    window.location.href = authUrl;
+  }
+
+  loginWithGoogleModalOauth(): void {
+    const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${this.clientId}&redirect_uri=${this.redirectUriLoginModal}&response_type=${this.responseType}&scope=${this.scope}`;
     window.location.href = authUrl;
   }
 
