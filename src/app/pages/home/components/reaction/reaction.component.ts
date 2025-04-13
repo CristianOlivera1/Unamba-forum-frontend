@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ReactionPublicationService } from '../../../../core/services/reaction/reaction-publication.service';
 import { TokenService } from '../../../../core/services/oauth/token.service';
-import { ModalService } from '../../../../core/services/modal/modal.service';
+import { ModalLoginService } from '../../../../core/services/modal/modalLogin.service';
+import { ModalInfoCompleteService } from '../../../../core/services/modal/modalCompleteInfo.service';
+import { ProfileService } from '../../../../core/services/profile/profile.service';
 
 @Component({
   selector: 'app-reaction',
@@ -21,7 +23,8 @@ export class ReactionComponent implements OnInit {
   isLoggedIn = false;
 
   
-  constructor(private reactionService: ReactionPublicationService,    private tokenService: TokenService,private modalService: ModalService
+  constructor(private reactionService: ReactionPublicationService,    private tokenService: TokenService,private modalService: ModalLoginService,    private modalInfoCompleteService: ModalInfoCompleteService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit(): void {
@@ -62,9 +65,18 @@ export class ReactionComponent implements OnInit {
       return;
     }
   
-    if (this.currentReaction) {
-      // Si ya existe una reacción, actualiza la reacción
-      this.reactionService.updateReaction(this.idUsuario, this.idPublicacion, tipo).subscribe({
+    // Verificar si el perfil del usuario tiene idCarrera
+    this.profileService.getProfileByUserId(this.idUsuario).subscribe({
+      next: (response: any) => {
+      if (response.type === 'success' && !response.data.idCarrera) {
+        // Mostrar el modal de completar información si idCarrera es null
+        this.modalInfoCompleteService.showInfoCompleteModal();
+        return;
+      }
+
+      if (this.currentReaction) {
+        // Si ya existe una reacción, actualiza la reacción
+        this.reactionService.updateReaction(this.idUsuario, this.idPublicacion, tipo).subscribe({
         next: () => {
           this.currentReaction = tipo;
           this.popoverVisible = false;
@@ -72,16 +84,16 @@ export class ReactionComponent implements OnInit {
         error: (err) => {
           console.error('Error al actualizar la reacción:', err);
         }
-      });
-    } else {
-      // Si no existe una reacción, inserta una nueva
-      const dtoReaction = {
+        });
+      } else {
+        // Si no existe una reacción, inserta una nueva
+        const dtoReaction = {
         idUsuario: this.idUsuario,
         idPublicacion: this.idPublicacion,
         tipo: tipo
-      };
-  
-      this.reactionService.addReaction(dtoReaction).subscribe({
+        };
+
+        this.reactionService.addReaction(dtoReaction).subscribe({
         next: () => {
           this.currentReaction = tipo;
           this.popoverVisible = false;
@@ -89,8 +101,14 @@ export class ReactionComponent implements OnInit {
         error: (err) => {
           console.error('Error al agregar la reacción:', err);
         }
-      });
-    }
+        });
+      }
+      },
+      error: (err) => {
+      console.error('Error al verificar el perfil del usuario:', err);
+      }
+    });
+
   }
 
   removeReaction(): void {
