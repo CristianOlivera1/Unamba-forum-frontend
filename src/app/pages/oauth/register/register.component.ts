@@ -9,6 +9,7 @@ import { TokenService } from '../../../core/services/oauth/token.service';
 import { CustomValidators } from '../../../Validators/CustomValidators';
 import { isPlatformBrowser } from '@angular/common';
 import { GoogleAuthService } from '../../../core/services/oauth/google-auth.service';
+import { ModalInfoCompleteService } from '../../../core/services/modal/modalCompleteInfo.service';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,7 @@ export class RegisterComponent implements OnInit{
   };
   alert: { type: string; message: string } | null = null;
 
-  constructor(private registerService: RegisterService, private careerService: CareerService, private router: Router,private http: HttpClient,private tokenService:TokenService,private customValidators: CustomValidators,@Inject(PLATFORM_ID) private platformId: Object,private googleAuthService:GoogleAuthService
+  constructor(private registerService: RegisterService, private careerService: CareerService, private router: Router,private http: HttpClient,private tokenService:TokenService,private customValidators: CustomValidators,@Inject(PLATFORM_ID) private platformId: Object,private googleAuthService:GoogleAuthService, private modalInfoCompleteService: ModalInfoCompleteService
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +45,6 @@ export class RegisterComponent implements OnInit{
       }
     }
   }
-
 
   showAlert(type: string, messages: string[]): void {
     const message = messages.join(', ');
@@ -130,6 +130,7 @@ export class RegisterComponent implements OnInit{
           this.tokenService.setToken(jwtToken);
           this.showAlert('success', response.listMessage);
           window.location.href = '/';
+      
         } else {
           this.showAlert('error', response.listMessage);
         }

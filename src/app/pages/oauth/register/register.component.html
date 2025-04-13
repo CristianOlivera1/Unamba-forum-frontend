@@ -22,12 +22,12 @@
   </div>
 
   <div class="bg-white p-12 pt-10 mt-5 mb-5 rounded-lg shadow-lg w-[30rem]">
-    <h2 class="text-2xl font-semibold text-center mb-4">Crear una cuenta</h2>
+    <h2 class="text-xl font-semibold text-center mb-6 xl:text-2xl">Crear una cuenta</h2>
 
     <form (ngSubmit)="register()">
       <div class="relative z-0 w-full mb-5 group">
         <input type="text" [(ngModel)]="registerData.nombre" name="nombre" id="nombre"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
           placeholder=" " required />
         <label for="nombre"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre</label>
@@ -35,7 +35,7 @@
 
       <div class="relative z-0 w-full mb-5 group">
         <input [(ngModel)]="registerData.apellidos" name="apellidos" id="apellidos"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
           placeholder=" " required />
         <label for="apellidos"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Apellidos</label>
@@ -43,7 +43,7 @@
 
       <div class="relative z-0 w-full mb-5 group">
         <select [(ngModel)]="registerData.idCarrera" name="idCarrera" id="idCarrera"
-          class="block p-2.5 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          class="block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
           required>
           <option value="" disabled selected hidden>Seleccione una carrera</option>
           <option *ngFor="let c of career" [value]="c.idCarrera">{{ c.nombre }}</option>
@@ -61,7 +61,7 @@
 
       <div class="relative z-0 w-full mb-5 group">
         <input type="email" [(ngModel)]="registerData.email" name="email" id="email"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
           placeholder=" " required />
         <label for="email"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
@@ -69,7 +69,7 @@
 
       <div class="relative z-0 w-full mb-5 group">
         <input type="password" [(ngModel)]="registerData.contrasenha" name="contrasenha" id="contrasenha"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
           placeholder=" " required />
         <label for="contrasenha"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
@@ -78,7 +78,7 @@
       <div class="relative z-0 w-full mb-5 group">
         <input type="password" [(ngModel)]="registerData.confirmarContrasenha" name="confirmarContrasenha"
           id="confirmarContrasenha"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
           placeholder=" " required />
         <label for="confirmarContrasenha"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirmar
