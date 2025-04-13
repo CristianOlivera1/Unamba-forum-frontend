@@ -1,43 +1,43 @@
 <div class="fixed inset-0 bg-[rgba(0,0,0,0.1)] z-40" (click)="closeModal()"></div>
-<div class="fixed bottom-0 left-0 w-full h-[65vh] bg-[#F1F6FF] shadow-xl rounded-t-3xl px-6 py-8 overflow-auto z-50">
+<div class="fixed bottom-0 left-0 w-full h-[65vh] bg-[url('/assets/img/oauth/backgroundLoginModal.svg')] bg-cover bg-no-repeat bg-center shadow-xl rounded-t-3xl px-6 py-8 overflow-auto z-50">
   <button (click)="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
     </svg>
   </button>
 
-  <div class="max-w-md mx-auto">
-    <h2 class="text-2xl font-bold text-[#1A4E9E] text-center mb-6">Iniciar sesión</h2>
+  <div class="max-w-xl mx-auto bg-white p-6 lg:p-7 xl:pt-10 rounded-lg shadow-lg">
+    <h2 class="text-xl font-semibold text-center mb-6 xl:text-2xl">Iniciar sesión</h2>
 
     <form (ngSubmit)="login()">
       <div class="relative z-0 w-full mb-5 group">
         <input type="email" [(ngModel)]="loginData.email" name="email" id="email"
-          class="block py-3 px-0 w-full text-sm text-[#1D242F] bg-transparent border-0 border-b-2 border-[#3F8BFF] appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
+          class="block py-3 px-0 w-full text-sm text-[#1D242F] bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
           placeholder=" " required />
         <label for="email"
-          class="peer-focus:font-medium absolute text-sm text-[#2F68BF] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
       </div>
 
       <div class="relative z-0 w-full mb-5 group">
         <input type="password" [(ngModel)]="loginData.contrasenha" name="contrasenha" id="contrasenha"
-          class="block py-3 px-0 w-full text-sm text-[#1D242F] bg-transparent border-0 border-b-2 border-[#3F8BFF] appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
+          class="block py-3 px-0 w-full text-sm text-[#1D242F] bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
           placeholder=" " required />
         <label for="contrasenha"
-          class="peer-focus:font-medium absolute text-sm text-[#2F68BF] duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
       </div>
 
-      <button class="w-full bg-[#2B7FFF] text-white py-3 rounded-md hover:bg-[#256EDD] transition-colors duration-200 mt-6">
+      <button class="w-full bg-secondary-blue text-white py-3 rounded-md hover:bg-[#256EDD] transition-colors duration-200 mt-6">
         Iniciar sesión
       </button>
     </form>
 
     <div class="text-center my-4 relative">
       <span class="absolute left-0 right-0 top-1/2 bg-[#D6E4FF] h-px"></span>
-      <span class="relative bg-[#F1F6FF] px-3 text-[#3F8BFF] text-sm">O continuar con</span>
+      <span class="relative bg-white px-3 text-gray-500 text-sm">O continuar con</span>
     </div>
 
     <button (click)="initiateGoogleLogin()"
-      class="w-full flex items-center justify-center gap-2 border py-3 border-[#3F8BFF] text-[#1A4E9E] bg-[#E6F0FF] hover:bg-[#D3E4FF] rounded-md transition">
+      class="w-full flex items-center justify-center gap-2 border py-3 border-gray-200 text-gray-600 bg-white hover:bg-[#D3E4FF] rounded-md transition">
       <img src="https://www.svgrepo.com/show/355037/google.svg" class="w-5 h-5"> Iniciar sesión con Google
     </button>
 

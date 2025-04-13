@@ -5,15 +5,15 @@ import { Router } from '@angular/router';
 import { GoogleAuthService } from '../../../../core/services/oauth/google-auth.service';
 import { TokenService } from '../../../../core/services/oauth/token.service';
 import { FormsModule } from '@angular/forms';
-import { ModalService } from '../../../../core/services/modal/modal.service';
+import { ModalLoginService } from '../../../../core/services/modal/modalLogin.service';
 
 @Component({
   selector: 'app-login-modal',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login-modal.component.html',
   styleUrl: './login-modal.component.css'
 })
-export class LoginModalComponent implements OnInit{
+export class LoginModalComponent implements OnInit {
   loginData: any = {
     email: '',
     contrasenha: ''
@@ -25,10 +25,11 @@ export class LoginModalComponent implements OnInit{
     private loginService: LoginService,
     private tokenService: TokenService,
     private googleAuthService: GoogleAuthService,
-    private router: Router,@Inject(PLATFORM_ID) private platformId: Object
-  ,private modalService: ModalService) {}
+    private router: Router, @Inject(PLATFORM_ID) private platformId: Object
+    , private modalLoginService: ModalLoginService) { }
+
   ngOnInit(): void {
-if (isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId)) {
       const { idToken, accessToken } = this.googleAuthService.handleGoogleCallback();
       if (idToken && accessToken) {
         this.loginWithGoogle(idToken, accessToken);
@@ -42,9 +43,11 @@ if (isPlatformBrowser(this.platformId)) {
       this.alert = null;
     }, 5000);
   }
+
   closeModal(): void {
-    this.modalService.hideLoginModal();
+    this.modalLoginService.hideLoginModal();
   }
+  
   login(): void {
     if (!this.loginData.email || !this.loginData.contrasenha) {
       this.showAlert('error', 'Todos los campos son obligatorios.');
@@ -57,7 +60,7 @@ if (isPlatformBrowser(this.platformId)) {
           const jwtToken = response.data.jwtToken;
           this.tokenService.setToken(jwtToken);
           this.showAlert('success', response.listMessage[0]);
-            window.location.reload();
+          window.location.reload();
         } else {
           this.showAlert('error', 'Credenciales incorrectas.');
         }
@@ -76,7 +79,7 @@ if (isPlatformBrowser(this.platformId)) {
           const jwtToken = response.data.jwtToken;
           this.tokenService.setToken(jwtToken);
           this.showAlert('success', response.listMessage[0]);
-          this.router.navigate(['/']);
+            window.location.reload();
         } else {
           this.showAlert('error', response.listMessage[0]);
         }
@@ -89,6 +92,6 @@ if (isPlatformBrowser(this.platformId)) {
   }
 
   initiateGoogleLogin(): void {
-    this.googleAuthService. loginWithGoogleOauth();
+    this.googleAuthService.loginWithGoogleModalOauth();
   }
 }
