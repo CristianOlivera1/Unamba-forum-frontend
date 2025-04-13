@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
 import { CommonModule } from '@angular/common';
 import {TimeUtils } from '../../../../Utils/TimeElapsed';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-publication-without-files',
   imports: [CommonModule],
@@ -12,7 +13,7 @@ export class PublicationWithoutFilesComponent implements OnInit {
 
   publications: any[] = [];
 
-  constructor(private publicationService: PublicationService) {}
+  constructor(private publicationService: PublicationService,private router: Router) {}
 
   ngOnInit(): void {
     this.loadPublications();
@@ -74,4 +75,9 @@ export class PublicationWithoutFilesComponent implements OnInit {
         return document.body;
     }
 }
+
+navigateToDetailPublication(idPublication: string) {
+  this.router.navigate(['/publication', idPublication]);
+}
+
 }

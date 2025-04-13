@@ -2,10 +2,13 @@
 
   <div *ngFor="let publication of publications" class="border-1 border-gray-300 rounded-xl shadow-sm p-4 space-y-4">
     <div class="flex items-center gap-3">
-      <img [src]="publication.avatar" alt="Avatar" class="w-10 h-10 rounded-full">
+      <img [src]="publication.avatar" alt="Avatar" class="w-10 h-10 rounded-full"
+        (mouseenter)="showHoverModal(publication.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
 
       <div class="flex-1">
-        <h3 class="text-sm font-semibold text-gray-800">{{ publication.nombreCompleto }}</h3>
+        <a (click)="navigateToProfileUser(publication.idUsuario)">
+          <h3 class="text-sm font-semibold text-gray-800">{{ publication.nombreCompleto }}</h3>
+        </a>
         <div class="flex items-center gap-2">
           <p class="text-xs text-gray-500 truncate w-40">{{ publication.nombreCarrera }}</p>
           <div class="flex items-center gap-1 ml-auto">
@@ -16,6 +19,9 @@
         </div>
       </div>
     </div>
+    <!-- Modal de hover-avatar -->
+    <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
+      (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
 
     <div class="w-full overflow-hidden">
       <div class="group relative h-[260px]" style="scrollbar-gutter: stable both-edges;">
@@ -55,25 +61,25 @@
               </div>
             </figure>
           </ng-container>
-
         </div>
       </div>
     </div>
 
     <!-- Contenido -->
     <div>
-      <a (click)="navigateToCareer(publication.idPublicacion)">
-      <h4 class="font-semibold truncate text-gray-900 text-sm">{{ publication.titulo }}</h4>
-      <p class="text-gray-600 text-sm mt-1 truncate" >{{ publication.contenido }}</p>
-    </a>
+      <a (click)="navigateToDetailPublication(publication.idPublicacion)">
+        <h4 class="font-semibold truncate text-gray-900 text-sm">{{ publication.titulo }}</h4>
+        <p class="text-gray-600 text-sm mt-1 truncate">{{ publication.contenido }}</p>
+      </a>
     </div>
-    
+
     <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"></app-totals-reaction-comment>
-    <app-reaction
-      [idUsuario]="currentUserId ?? ''"
-      [idPublicacion]="publication.idPublicacion"
-    ></app-reaction>
-    
+    <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
+
     <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
+
+    <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
+
+
   </div>
 </div>
