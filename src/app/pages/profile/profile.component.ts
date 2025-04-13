@@ -14,7 +14,7 @@ import { ProfileService } from '../../core/services/profile/profile.service';
 })
 export class ProfileComponent implements OnInit {
   userProfile: any = null;
-  userDetails: any = null; // Detalles del usuario
+  userDetails: any = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
     const idUsuario = this.route.snapshot.paramMap.get('idUsuario');
     if (idUsuario) {
       this.loadUserProfile(idUsuario);
-      this.loadUserDetails(idUsuario); // Cargar los detalles del usuario
+      this.loadUserDetails(idUsuario);
     }
   }
 
@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.getUserProfileHover(userId).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
-          this.userProfile = response.data; // Guardar la información del perfil
+          this.userProfile = response.data;
         } else {
           console.error('Error al cargar el perfil:', response.listMessage);
         }
@@ -48,7 +48,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.getUserProfileDetail(userId).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
-          this.userDetails = response.data; // Guardar los detalles del usuario
+          this.userDetails = response.data;
         } else {
           console.error('Error al cargar los detalles:', response.listMessage);
         }
