@@ -1,1 +1,87 @@
-<p>profile works!</p>
+<app-header></app-header>
+<div class="container mx-auto">
+
+  <!-- Fondo portada -->
+  <div class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl"
+    [style.backgroundImage]="'url(' + userProfile?.fotoPortada + ')'"
+    style="background-size: cover; background-position: center;">
+
+    <!-- Botón editar portada -->
+    <button
+      class="absolute top-28 right-8 bg-black-50 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 hover:bg-gray-700">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path
+          d="M15.232 5.232l3.536 3.536M9 11l6.536-6.536a2 2 0 112.828 2.828L11.828 13.828A4 4 0 019 15H5v-4a4 4 0 014-4z" />
+      </svg>
+      Editar portada
+    </button>
+  </div>
+
+  <!-- Tarjeta de perfil -->
+  <div
+    class="bg-white shadow-md rounded-xl p-10 -mt-23 mx-8 relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+
+    <!-- Info usuario -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+
+      <!-- Imagen perfil -->
+      <div class="relative shrink-0">
+        <img [src]="userProfile?.fotoPerfil" alt="Foto de perfil" class="w-24 h-24 rounded-full object-cover" />
+
+        <!-- Icono de cámara -->
+        <div class="absolute bottom-0 right-0 bg-black-50 bg-opacity-80 text-white rounded-full p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path
+              d="M15 10l4.553-2.276A2 2 0 0122 9.618v4.764a2 2 0 01-2.447 1.894L15 14m0 0l-4.553 2.276A2 2 0 018 15.382V10.618a2 2 0 011.447-1.894L15 10z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Nombre, descripción, seguidores -->
+      <div>
+        <h2 class="text-xl font-semibold text-subtitle">{{ userProfile?.nombreCompleto }}</h2>
+        <p class="text-sm text-gray-600 max-w-lg mt-1">{{ userProfile?.descripcion }}</p>
+
+
+        <!-- Seguidores y siguiendo -->
+        <div class="flex gap-6 mt-3 text-sm text-gray-700">
+          <span><strong>{{ userProfile?.totalFollowers }}</strong> Seguidores</span>
+          <span><strong>{{ userProfile?.totalFollowing }}</strong> Siguiendo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón editar perfil -->
+    <div class="self-start md:ml-auto">
+      <button
+        class="bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M12 20h9" />
+          <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" />
+        </svg>
+        Editar perfil
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 lg:flex lg:flex-row  gap-6 mt-15 mb-30 items-start mx-3 lg:mx-0 ">
+    <!-- Columna izquierda (Detalles) -->
+    <div class=" border border-gray-200 hover:shadow-sm rounded-xl p-5">
+      <h2 class="font-semibold text-lg mb-4 text-subtitle">Detalles</h2>
+      <ul class="space-y-3 text-sm text-gray-700">
+        <app-detail [userDetails]="userDetails"></app-detail>
+      </ul>
+    </div>
+    <!--Fin Columna izquierda (Detalles) -->
+
+    <!-- Columna derecha (Sugerencias para seguir) -->
+    <div class="border border-gray-200 rounded-xl p-5">
+      <h2 class="font-semibold text-lg mb-4 text-subtitle">Seguir sugerencias</h2>
+      <ul class="space-y-4">
+        <app-suggestion></app-suggestion>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
