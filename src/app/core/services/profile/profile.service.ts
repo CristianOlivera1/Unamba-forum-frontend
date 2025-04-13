@@ -15,4 +15,18 @@ export class ProfileService {
   getProfileByUserId(userId: string): Observable<any> {
     return this.httpClient.get(`${this.apiProfile}/getprofilebyuser/${userId}`);
   }
+
+  updateProfile(formData: FormData): Observable<any> {
+    const headers = new HttpHeaders();
+    return this.httpClient.put(`${this.apiProfile}/update`, formData, { headers });
+  }
+
+  getUserProfileHover(userId: string): Observable<any> {
+    return this.httpClient.get(`${this.apiProfile}/hover/${userId}`);
+  }
+
+  getUserProfileDetail(userId: string): Observable<any> {
+    return this.httpClient.get(`${this.apiProfile}/detail/${userId}`);
+  }
+  
 }
