@@ -20,7 +20,7 @@ export class LoginModalComponent implements OnInit {
   };
 
   alert: { type: string; message: string } | null = null;
-
+  isLoggingIn: boolean = false;
   constructor(
     private loginService: LoginService,
     private tokenService: TokenService,
@@ -53,7 +53,7 @@ export class LoginModalComponent implements OnInit {
       this.showAlert('error', 'Todos los campos son obligatorios.');
       return;
     }
-
+    this.isLoggingIn = true;
     this.loginService.login(this.loginData.email, this.loginData.contrasenha).subscribe(
       (response) => {
         if (response.type === 'success') {
@@ -61,14 +61,18 @@ export class LoginModalComponent implements OnInit {
           this.tokenService.setToken(jwtToken);
           this.showAlert('success', response.listMessage[0]);
             window.location.reload();
+          //this.router.navigate(['/']);
 
         } else {
           this.showAlert('error', 'Credenciales incorrectas.');
+          this.isLoggingIn = false;
         }
       },
       (error) => {
         console.error('Error al iniciar sesión:', error);
         this.showAlert('error', 'Error al iniciar sesión. Inténtalo de nuevo.');
+        this.isLoggingIn = false;
+
       }
     );
   }
