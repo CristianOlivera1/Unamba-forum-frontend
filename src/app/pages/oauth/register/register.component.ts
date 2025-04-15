@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit{
     idCarrera: ''
   };
   alert: { type: string; message: string } | null = null;
+  isRegistering: boolean = false;
 
   constructor(private registerService: RegisterService, private careerService: CareerService, private router: Router,private http: HttpClient,private tokenService:TokenService,private customValidators: CustomValidators,@Inject(PLATFORM_ID) private platformId: Object,private googleAuthService:GoogleAuthService, private modalInfoCompleteService: ModalInfoCompleteService
   ) {}
@@ -97,6 +98,7 @@ export class RegisterComponent implements OnInit{
     this.showAlert('error', errors);
     return;
   }
+  this.isRegistering = true;
 
     const formData = new FormData();
     formData.append('nombre', this.registerData.nombre);
@@ -111,14 +113,17 @@ export class RegisterComponent implements OnInit{
                const jwtToken = response.data.jwtToken;
           this.tokenService.setToken(jwtToken);
           this.showAlert('success', response.listMessage);
-            window.location.href = '/';
+            this.router.navigate(['/']);
         } else {
           this.showAlert('error', response.listMessage);
+          this.isRegistering = false; 
+
         }
       },
       (error) => {
         console.error('Error al registrar:', error);
         this.showAlert('error', ['Error al registrar el usuario.']);
+        this.isRegistering = false; 
       }
     );
   }
