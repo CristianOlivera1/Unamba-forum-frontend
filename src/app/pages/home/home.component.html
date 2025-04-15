@@ -1,5 +1,13 @@
 <app-header></app-header>
-<app-hero></app-hero>
-<app-summary></app-summary>
+<ng-container *ngIf="hasCheckedLogin">
+    <ng-container *ngIf="!isLoggedIn">
+      <app-hero></app-hero>
+      <app-summary></app-summary>
+    </ng-container>
+  </ng-container>
+  <ng-template #loading>
+    <div class="text-center py-10">Cargando...</div>
+  </ng-template>
+  
 <app-publication></app-publication>
 <app-footer></app-footer>
