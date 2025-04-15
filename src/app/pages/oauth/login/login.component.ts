@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   };
 
   alert: { type: string; message: string } | null = null;
+  isLoggingIn: boolean = false;
 
   constructor(
     private loginService: LoginService,
@@ -28,7 +29,7 @@ export class LoginComponent implements OnInit {
     private googleAuthService: GoogleAuthService,
     private router: Router, @Inject(PLATFORM_ID) private platformId: Object
   ) { }
-  
+
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       const { idToken, accessToken } = this.googleAuthService.handleGoogleCallback();
@@ -50,6 +51,7 @@ export class LoginComponent implements OnInit {
       this.showAlert('error', 'Todos los campos son obligatorios.');
       return;
     }
+    this.isLoggingIn = true;
 
     this.loginService.login(this.loginData.email, this.loginData.contrasenha).subscribe(
       (response) => {
@@ -60,11 +62,15 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/']);
         } else {
           this.showAlert('error', 'Credenciales incorrectas.');
+          this.isLoggingIn = false;
+
         }
       },
       (error) => {
         console.error('Error al iniciar sesión:', error);
         this.showAlert('error', 'Error al iniciar sesión. Inténtalo de nuevo.');
+        this.isLoggingIn = false;
+
       }
     );
   }
