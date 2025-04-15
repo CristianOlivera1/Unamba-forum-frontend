@@ -34,6 +34,11 @@ export class ProfileComponent implements OnInit {
   suggestedUsers: any[] = [];
   userId: string = '';
 
+  hoverProfileData: any = null;
+  hoverPosition = { top: 0, left: 0 };
+  isHoverModalVisible = false;
+  isHovering = false;
+
   constructor(
     private route: ActivatedRoute,
     private profileService: ProfileService,
@@ -124,11 +129,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  hoverProfileData: any = null;
-  hoverPosition = { top: 0, left: 0 };
-  isHoverModalVisible = false;
-  isHovering = false;
-
   showHoverModal(userId: string, event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (!target) {
@@ -166,6 +166,7 @@ export class ProfileComponent implements OnInit {
       }
     }, 200);
   }
+
   onModalMouseEnter(): void {
     this.isHovering = true;
   }
