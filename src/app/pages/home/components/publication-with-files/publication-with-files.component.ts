@@ -13,10 +13,11 @@ import { ModalInfoCompleteService } from '../../../../core/services/modal/modalC
 import { CompleteInfoRegisterGoogleComponent } from '../../../oauth/complete-info-register-google/complete-info-register-google.component';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 import { HoverAvatarComponent } from '../hover-avatar/hover-avatar.component';
+import { PhotoSliderComponent } from '../photo-slider/photo-slider.component';
 
 @Component({
   selector: 'app-publication-with-files',
-  imports: [CommonModule,ReactionComponent,TotalsReactionCommentComponent,LoginModalComponent, CompleteInfoRegisterGoogleComponent,HoverAvatarComponent],
+  imports: [CommonModule,ReactionComponent,TotalsReactionCommentComponent,LoginModalComponent, CompleteInfoRegisterGoogleComponent,HoverAvatarComponent,PhotoSliderComponent],
   templateUrl: './publication-with-files.component.html',
   styleUrl: './publication-with-files.component.css'
 })
@@ -31,6 +32,10 @@ export class PublicationWithFilesComponent implements OnInit {
   isHoverModalVisible = false;
   isHovering = false;
 
+  isPhotoSliderVisible = false; 
+  selectedPhotos: { tipo: string; rutaArchivo: string }[] = [];
+  selectedPhotoIndex: number = 0;
+  
   constructor(private publicationService: PublicationService,  private tokenService: TokenService,
     private router: Router,private modalService: ModalLoginService,private modalInfoCompleteService:ModalInfoCompleteService ,private profileService: ProfileService ) {}
     
@@ -67,6 +72,21 @@ navigateToDetailPublication(idPublication: string) {
 navigateToProfileUser(idUsuario: string) {
   this.router.navigate(['/profile', idUsuario]);
 }
+
+openPhotoSlider(archivos: { tipo: string; rutaArchivo: string }[], index: number): void {
+  this.selectedPhotos = archivos;
+  this.selectedPhotoIndex = index; // Establece el índice inicial
+
+  this.isPhotoSliderVisible = true;
+}
+
+closePhotoSlider(): void {
+  this.isPhotoSliderVisible = false;
+  this.selectedPhotos = [];
+  this.selectedPhotoIndex = 0; 
+
+}
+
 
 showHoverModal(userId: string, event: MouseEvent): void {
   const target = event.target as HTMLElement;

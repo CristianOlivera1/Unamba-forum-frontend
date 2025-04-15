@@ -1,12 +1,10 @@
 <app-header></app-header>
 <div class="container mx-auto">
 
-  <!-- Fondo portada -->
   <div class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl"
     [style.backgroundImage]="'url(' + userProfile?.fotoPortada + ')'"
     style="background-size: cover; background-position: center;">
 
-    <!-- Botón editar portada -->
     <button
       class="absolute top-28 right-8 bg-black-50 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 hover:bg-gray-700">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -17,18 +15,15 @@
     </button>
   </div>
 
-  <!-- Tarjeta de perfil -->
   <div
     class="bg-white shadow-md rounded-xl p-10 -mt-23 mx-8 relative flex flex-col md:flex-row md:items-center justify-between gap-6">
 
     <!-- Info usuario -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
 
-      <!-- Imagen perfil -->
       <div class="relative shrink-0">
         <img [src]="userProfile?.fotoPerfil" alt="Foto de perfil" class="w-24 h-24 rounded-full object-cover" />
 
-        <!-- Icono de cámara -->
         <div class="absolute bottom-0 right-0 bg-black-50 bg-opacity-80 text-white rounded-full p-1">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path
@@ -37,13 +32,11 @@
         </div>
       </div>
 
-      <!-- Nombre, descripción, seguidores -->
       <div>
         <h2 class="text-xl font-semibold text-subtitle">{{ userProfile?.nombreCompleto }}</h2>
         <p class="text-sm text-gray-600 max-w-lg mt-1">{{ userProfile?.descripcion }}</p>
 
 
-        <!-- Seguidores y siguiendo -->
         <div class="flex gap-6 mt-3 text-sm text-gray-700">
           <span><strong>{{ userProfile?.totalFollowers }}</strong> Seguidores</span>
           <span><strong>{{ userProfile?.totalFollowing }}</strong> Siguiendo</span>
@@ -51,7 +44,6 @@
       </div>
     </div>
 
-    <!-- Botón editar perfil -->
     <div class="self-start md:ml-auto">
       <button
         class="bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2">
@@ -64,24 +56,103 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 lg:flex lg:flex-row  gap-6 mt-15 mb-30 items-start mx-3 lg:mx-0 ">
-    <!-- Columna izquierda (Detalles) -->
-    <div class=" border border-gray-200 hover:shadow-sm rounded-xl p-5">
+  <!-- Contenedor de columnas -->
+  <div class="mt-15 mb-30 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr_1fr] gap-6 items-start">
+
+    <aside class="border border-gray-200 hover:shadow-md rounded-xl p-5">
       <h2 class="font-semibold text-lg mb-4 text-subtitle">Detalles</h2>
       <ul class="space-y-3 text-sm text-gray-700">
         <app-detail [userDetails]="userDetails"></app-detail>
       </ul>
-    </div>
-    <!--Fin Columna izquierda (Detalles) -->
+    </aside>
 
-    <!-- Columna derecha (Sugerencias para seguir) -->
-    <div class="border border-gray-200 rounded-xl p-5">
+    <main class="flex flex-col gap-4">
+      <div *ngFor="let publication of userPublications"
+        class="border border-gray-200 rounded-xl hover:shadow-md hover:bg-gradient-to-r from-gray-50 to-transparent p-4 space-y-4 hover:border-gray-300 transition-all duration-300 ease-in-out">
+
+        <div class="flex items-center gap-3">
+          <a (click)="navigateToProfileUser(publication.idUsuario)">
+            <img [src]="publication.avatar" alt="Avatar" class="w-10 h-10 rounded-full"
+              (mouseenter)="showHoverModal(publication.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
+          </a>
+          <div class="flex-1">
+            <a (click)="navigateToProfileUser(publication.idUsuario)">
+              <h3 class="text-sm font-semibold text-gray-800">{{ publication.nombreCompleto }}</h3>
+            </a>
+            <div class="flex items-center gap-2">
+              <p class="text-xs text-gray-500 truncate">{{ publication.nombreCarrera }}</p>
+              <div class="flex items-center gap-1 ml-auto">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{{ publication.nombreCategoria
+                  }}</span>
+                <span class="text-xs text-gray-400">• {{ getTimeElapsedWrapper(publication.fechaRegistro) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
+          (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
+
+        <div *ngIf="publication.archivos.length > 0" class="w-full overflow-hidden">
+          <div class="group relative h-[260px]">
+            <div
+              class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
+              <ng-container *ngIf="publication.archivos.length === 1">
+                <figure *ngFor="let archivo of publication.archivos" class="shrink-0 w-full">
+                  <div class="overflow-hidden rounded-md">
+                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo"
+                      class="aspect-square h-54 w-full object-cover" />
+                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-full object-cover">
+                      <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                      Tu navegador no soporta la etiqueta de video.
+                    </video>
+                  </div>
+                </figure>
+              </ng-container>
+
+              <ng-container *ngIf="publication.archivos.length > 1">
+                <figure *ngFor="let archivo of publication.archivos" class="shrink-0">
+                  <div class="overflow-hidden rounded-md">
+                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo"
+                      class="aspect-square h-54 w-54 object-cover" />
+                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-54 object-cover">
+                      <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                      Tu navegador no soporta la etiqueta de video.
+                    </video>
+                  </div>
+                </figure>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contenido publicación -->
+        <div>
+          <a (click)="navigateToDetailPublication(publication.idPublicacion)">
+            <h4 class="font-semibold truncate text-gray-900 text-sm">{{ publication.titulo }}</h4>
+            <p class="text-gray-600 text-sm mt-1 truncate w-150">
+              {{ publication.contenido }}
+            </p>
+          </a>
+        </div>
+        <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"></app-totals-reaction-comment>
+        <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
+
+      </div>
+    </main>
+
+    <!-- Columna derecha (Sugerencias) -->
+    <aside class="border border-gray-200 rounded-xl p-5">
       <h2 class="font-semibold text-lg mb-4 text-subtitle">Seguir sugerencias</h2>
       <ul class="space-y-4">
-        <app-suggestion></app-suggestion>
+        <app-suggestion [suggestedUsers]="suggestedUsers"></app-suggestion>
       </ul>
-    </div>
+    </aside>
+
   </div>
+
+  <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
+  <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
 </div>
 
 <app-footer></app-footer>

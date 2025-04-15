@@ -1,16 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
-
 @theme {
   --color-primary-blue: #2b5d9c;
   --color-secondary-blue: #2b7fff;
   --color-gray-dark: #E2E8F0;
   --color-hover-secondary-blue: #1555b6;
   --color-black-50: rgba(0, 0, 0, 0.5);
+  --color-black-40: rgba(0, 0, 0, 0.4);
+
   --color-hover-secondary-blue: #1555b6;
   --color-gray-200: #edf2f7;
   --color-subtitle: #1e2939;
+  --font-display: 'Playfair Display';
 
 }
 

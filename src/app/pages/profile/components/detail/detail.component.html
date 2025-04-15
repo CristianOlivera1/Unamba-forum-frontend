@@ -1,36 +1,81 @@
-<li class="flex items-center gap-2">
-    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path d="M12 8v4l3 3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+<li *ngIf="userDetails?.rol" class="flex items-center gap-2 mb-3">
+  <ng-container [ngSwitch]="userDetails.rol">
+    <svg *ngSwitchCase="'ESTUDIANTE'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256">
+      <g fill="currentColor">
+        <path d="m224 64l-96 32l-96-32l96-32Z" opacity="0.2" />
+        <path
+          d="m226.53 56.41l-96-32a8 8 0 0 0-5.06 0l-96 32a8 8 0 0 0-5.4 6.75A5 5 0 0 0 24 64v80a8 8 0 0 0 16 0V75.1l33.59 11.19a64 64 0 0 0 20.65 88.05c-18 7.06-33.56 19.83-44.94 37.29a8 8 0 1 0 13.4 8.74C77.77 197.25 101.57 184 128 184s50.23 13.25 65.3 36.37a8 8 0 0 0 13.4-8.74c-11.38-17.46-27-30.23-44.94-37.29a64 64 0 0 0 20.65-88l44.12-14.7a8 8 0 0 0 0-15.18ZM176 120a48 48 0 1 1-86.65-28.45l36.12 12a8 8 0 0 0 5.06 0l36.12-12A47.9 47.9 0 0 1 176 120m-48-32.43L57.3 64L128 40.43L198.7 64Z" />
+      </g>
     </svg>
-    {{ userDetails?.rol || 'Sin rol' }}
-  </li>
-  <li class="flex items-center gap-2">
-    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path d="M3 5h18M3 10h18M3 15h18M3 20h18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <svg *ngSwitchCase="'INVITADO'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <circle cx="12" cy="8" r="5" />
+        <path d="M20 21a8 8 0 0 0-16 0" />
+      </g>
     </svg>
-    {{ userDetails?.carrera || 'Sin carrera' }}
-  </li>
-  <li class="flex items-center gap-2">
-    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path
-        d="M20 21v-2a4 4 0 00-3-3.87"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-      <circle cx="12" cy="7" r="4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    <svg *ngSwitchCase="'ADMINISTRADOR'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+        <path d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8" />
+        <path d="M5 20v-1a7 7 0 0 1 10-6.326M21 22l1-6l-3.5 1.8L17 16l-1.5 1.8L12 16l1 6z" />
+      </g>
     </svg>
-    <span>Miembro desde <strong>{{ userDetails?.fechaRegistro | date: 'longDate':'':'es' }}</strong></span>
-  </li>
-  <li class="flex items-center gap-2">
-    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path d="M8 7V3m8 4V3m-9 8h10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </ng-container>
+  {{ userDetails?.rol | titlecase }}
+</li>
+
+<li *ngIf="userDetails?.carrera" class="flex items-center gap-2 mb-3">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+      d="M2 22h19.5M3 13v9m18-9v9M7.5 8v14m9-14v14M2 13h5m15 0h-5M6.5 8h11M12 8V4.982m0 0V2.97c0-.474 0-.711.146-.858c.46-.463 2.354.631 3.074 1.075c.608.374.78 1.122.78 1.795zM12 22v-2m-1.5-8v.5m3-.5v.5m-3 3.5v.5m3-.5v.5" />
+  </svg>
+  {{ userDetails?.carrera }}
+</li>
+
+<li *ngIf="userDetails?.fechaRegistro" class="flex items-center gap-2 mb-3">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <g fill="none">
+      <path stroke="currentColor" stroke-width="1.5"
+        d="M2 12c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14z" />
+      <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M7 4V2.5M17 4V2.5M2.5 9h19" />
+      <path fill="currentColor"
+        d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0" />
+    </g>
+  </svg>
+  <span>Miembro desde <strong>{{ userDetails?.fechaRegistro | date: 'longDate':'':'es' }}</strong></span>
+</li>
+
+<li *ngIf="userDetails?.fechNacimiento" class="flex items-center gap-2 mb-3">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
+    <g fill="none">
+      <path d="M8 40h32V24H8z" />
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+        d="M40 40H8m32 0H4h4m32 0h4m-4 0V24H8v16" />
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+        d="m40 34l-4-2l-4 2l-4-2l-4 2l-4-2l-4 2l-4-2l-4 2m24-10v-9m-8 9v-9m-8 9v-9m16-5V8m-8 2V8m-8 2V8M8 24v16m32-16v16" />
+    </g>
+  </svg>
+  <span>Cumpleaños <strong>{{ userDetails?.fechNacimiento | date: 'longDate':'':'es' }}</strong></span>
+</li>
+
+<li *ngIf="userDetails?.genero !== null" class="flex items-center gap-2 mb-3">
+  <ng-container [ngSwitch]="userDetails.genero">
+    <svg *ngSwitchCase="1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <g fill="none" fill-rule="evenodd">
+        <path
+          d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+        <path fill="currentColor"
+          d="M21 9a1 1 0 1 1-2 0V6.414l-3.537 3.537a7.5 7.5 0 1 1-1.414-1.414L17.586 5H15a1 1 0 1 1 0-2h4.75c.69 0 1.25.56 1.25 1.25zM9.5 9a5.5 5.5 0 1 0 0 11a5.5 5.5 0 0 0 0-11" />
+      </g>
     </svg>
-    <span>Cumpleaños <strong>{{ userDetails?.fechNacimiento | date: 'longDate':'':'es' }}</strong></span>
-  </li>
-  <li class="flex items-center gap-2">
-    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path d="M8 7V3m8 4V3m-9 8h10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+
+    <svg *ngSwitchCase="0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <g fill="none" fill-rule="evenodd">
+        <path
+          d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+        <path fill="currentColor"
+          d="M7 9.5a7.5 7.5 0 1 1 2.942 5.957l-1.788 1.787L9.58 18.67a1 1 0 1 1-1.414 1.414L6.74 18.659l-2.12 2.12a1 1 0 0 1-1.414-1.415l2.12-2.12l-1.403-1.403a1 1 0 1 1 1.414-1.414L6.74 15.83l1.79-1.79A7.47 7.47 0 0 1 7 9.5M14.5 4a5.5 5.5 0 1 0 0 11a5.5 5.5 0 0 0 0-11" />
+      </g>
     </svg>
-    {{ userDetails?.genero || 'No especificado' }}
-  </li>
+  </ng-container>
+  {{ userDetails?.genero === 1 ? 'Masculino' : 'Femenino' }}
+</li>

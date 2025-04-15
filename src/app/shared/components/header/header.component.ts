@@ -1,10 +1,11 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenService } from '../../../core/services/oauth/token.service';
 import { ProfileService } from '../../../core/services/profile/profile.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CareerService } from '../../../core/services/career/career.service';
+import { animate, svg, stagger } from 'animejs';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +23,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private tokenService: TokenService,
     private profileService: ProfileService,
-    private router: Router,private careerService: CareerService,
+    private router: Router,private careerService: CareerService,  @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +42,18 @@ export class HeaderComponent implements OnInit {
         } else {
           this.userProfile = null;
         }
+      });
+    }
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.isLoggedIn = !!this.tokenService.getToken();
+
+      animate(svg.createDrawable('.line'), {
+        draw: ['0 0', '0 1', '1 1'],
+        ease: 'inOutQuad',
+        duration: 3800,
+        delay: stagger(150),
+        loop: true
       });
     }
   }

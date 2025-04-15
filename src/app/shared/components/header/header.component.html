@@ -1,16 +1,63 @@
 <header (click)="onClickOutside($event)">
   <nav class="flex items-center justify-between p-6 md:px-8" aria-label="Global">
     <div class="flex md:flex-1">
-      <a href="#" class="-m-1.5 p-1.5">
-        <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-          alt="">
+
+      <a href="#" class="relative -m-1.5 p-1.5 md:flex">
+
+        <svg class="absolute opacity-30 -z-10" width="64" height="44" viewBox="0 0 64 44" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.03774 2.3999H43.5746C52.9851 2.3999 57.6903 2.3999 60.1045 5.46659C62.5187 8.53329 61.4141 13.107
+          59.2049 22.2544L57.3113 30.0951C55.8849 36.0014 55.1717 38.9546 52.9835 40.6772C50.7953 42.3999
+          47.7572 42.3999 41.6811 42.3999H18.6889C10.0002 42.3999 5.65575 42.3999 3.24994 39.6037C0.844136 36.8075
+          1.49255 32.5118 2.78937 23.9203L6.03774 2.3999Z" stroke="currentColor" stroke-width="1.8" />
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M39.7456 10.6449L38.633 24.2026C37.8012 31.603 31.4846 37.0577 24.1654 36.4571C16.7802 35.8511
+          11.2878 29.336 11.8976 21.9051L13.0017 8.45028L19.6877 8.99893L18.5835 22.4537C18.2787 26.1692
+          21.0248 29.4267 24.7175 29.7297C28.3456 30.0275 31.5126 27.3074 31.9599 23.4972L33.0596 10.0962
+          L39.7456 10.6449Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+
+          <path
+            d="M39.6041 14.0487C41.327 12.9001 45.9885 11.9583 48.2183 14.6228C48.5519 15.1334 49.0843 15.7245 49.3668 15.7716C52.8124 16.346 53.961 12.3263 52.8124 11.1774C51.6639 10.0285 51.6639 10.0288 51.6639 10.0288C46.8394 4.86026 38.4556 6.5832 33.0705 9.48908"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M45.857 20.6169C46.5115 20.6166 47.1519 20.8076 47.6993 21.1665C48.2467 21.5254 48.6772 22.0364 48.938 22.6367C49.1987 23.2371 49.2783 23.9006 49.1669 24.5455C49.0555 25.1905 48.758 25.7889 48.311 26.267C47.864 26.7451 47.287 27.0821 46.6509 27.2366C46.0149 27.3911 45.3476 27.3562 44.7311 27.1364C44.1146 26.9166 43.5758 26.5214 43.1809 25.9993C42.7861 25.4773 42.5525 24.8512 42.5089 24.1981V23.7502C42.6206 22.0045 44.0753 20.6169 45.857 20.6169Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M33.1111 9.97146L30.7795 36.8487L37.4614 37.4283L39.795 10.5294L33.113 9.94971" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <svg width="64" height="44" viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <path class="line"
+            d="M6.03774 2.3999H43.5746C52.9851 2.3999 57.6903 2.3999 60.1045 5.46659C62.5187 8.53329 61.4141 13.107 59.2049 22.2544L57.3113 30.0951C55.8849 36.0014 55.1717 38.9546 52.9835 40.6772C50.7953 42.3999 47.7572 42.3999 41.6811 42.3999H18.6889C10.0002 42.3999 5.65575 42.3999 3.24994 39.6037C0.844136 36.8075 1.49255 32.5118 2.78937 23.9203L6.03774 2.3999Z"
+            stroke="currentColor" stroke-width="1.8" />
+          <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+            d="M39.7456 10.6449L38.633 24.2026C37.8012 31.603 31.4846 37.0577 24.1654 36.4571C16.7802 35.8511 11.2878 29.336 11.8976 21.9051L13.0017 8.45028L19.6877 8.99893L18.5835 22.4537C18.2787 26.1692 21.0248 29.4267 24.7175 29.7297C28.3456 30.0275 31.5126 27.3074 31.9599 23.4972L33.0596 10.0962L39.7456 10.6449Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path class="line"
+            d="M39.6041 14.0487C41.327 12.9001 45.9885 11.9583 48.2183 14.6228C48.5519 15.1334 49.0843 15.7245 49.3668 15.7716C52.8124 16.346 53.961 12.3263 52.8124 11.1774C51.6639 10.0285 51.6639 10.0288 51.6639 10.0288C46.8394 4.86026 38.4556 6.5832 33.0705 9.48908"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+            d="M45.857 20.6169C46.5115 20.6166 47.1519 20.8076 47.6993 21.1665C48.2467 21.5254 48.6772 22.0364 48.938 22.6367C49.1987 23.2371 49.2783 23.9006 49.1669 24.5455C49.0555 25.1905 48.758 25.7889 48.311 26.267C47.864 26.7451 47.287 27.0821 46.6509 27.2366C46.0149 27.3911 45.3476 27.3562 44.7311 27.1364C44.1146 26.9166 43.5758 26.5214 43.1809 25.9993C42.7861 25.4773 42.5525 24.8512 42.5089 24.1981V23.7502C42.6206 22.0045 44.0753 20.6169 45.857 20.6169Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path class="line" d="M33.1111 9.97146L30.7795 36.8487L37.4614 37.4283L39.795 10.5294L33.113 9.94971"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <h1 class="font-display text-[1.70rem] font-black italic hidden md:flex my-1">
+          Unamba <span class="relative bg-white px-2 text-[#155FFC]" style="
+            clip-path: polygon(8% 15%, 100% 15%, 93% 90%, 0% 90%);
+            mask-image: radial-gradient(circle, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+          ">
+            forum
+          </span>
+        </h1>
       </a>
-      <h1 class="text-lg font-bold">Unamba Forum</h1>
     </div>
     <div class="hidden md:flex md:gap-x-12">
       <a href="#" class="text-sm font-semibold">Inicio</a>
-      <a href="#" class="text-sm font-semibold">Nuevo</a>
+      <ng-container *ngIf="isLoggedIn">
 
+        <a href="#" class="text-sm font-semibold">Nuevo</a>
+      </ng-container>
       <div class="relative group">
         <button type="button" class="flex items-center gap-x-1 text-sm font-semibold">
           Carreras
@@ -124,31 +171,33 @@
       </ng-container>
       <ng-template #guestButtons>
         <div>
-          <button class="px-4 py-2 rounded mr-2 hover:text-gray-400 cursor-pointer" (click)="navigateToLogin()">
+          <button class="px-4 py-2 rounded md:mr-2 hover:text-gray-400 cursor-pointer" (click)="navigateToLogin()">
             Iniciar sesión
           </button>
-          <button class="button-scroll-animate text-[#2b7fff] px-4 py-2 cursor-pointer rounded hover:bg-gray-300"
+          <button
+            class="button-scroll-animate text-[#2b7fff] px-2 py-1 md:px-4 md:py-2 cursor-pointer rounded hover:bg-gray-300"
             (click)="navigateToRegister()">
             Registrarse
           </button>
         </div>
       </ng-template>
     </div>
-       <!-- Botón Hamburguesa -->
-       <div class="flex md:hidden justify-end">
-        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"
-          (click)="toggleMenu()">
-          <span class="sr-only">Abrir menú</span>
-          <svg *ngIf="!menuAbierto" class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-          <svg *ngIf="menuAbierto" class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
+    <!-- Botón Hamburguesa -->
+    <div class="flex md:hidden justify-end">
+      <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"
+        (click)="toggleMenu()">
+        <span class="sr-only">Abrir menú</span>
+        <svg *ngIf="!menuAbierto" class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+
+        <svg *ngIf="menuAbierto" class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
   </nav>
 </header>
 <!-- Moviles -->
@@ -158,9 +207,31 @@
 <div *ngIf="menuAbierto"
   class="md:hidden fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white px-6 py-6 overflow-y-auto" #menuMovil>
   <div class="flex items-center justify-between">
-    <a href="#" class="-m-1.5 p-1.5">
-      <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-        alt="">
+    <a href="#" class="-m-1.5 p-1.5 flex">
+      <svg width="64" height="44" viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="line"
+          d="M6.03774 2.3999H43.5746C52.9851 2.3999 57.6903 2.3999 60.1045 5.46659C62.5187 8.53329 61.4141 13.107 59.2049 22.2544L57.3113 30.0951C55.8849 36.0014 55.1717 38.9546 52.9835 40.6772C50.7953 42.3999 47.7572 42.3999 41.6811 42.3999H18.6889C10.0002 42.3999 5.65575 42.3999 3.24994 39.6037C0.844136 36.8075 1.49255 32.5118 2.78937 23.9203L6.03774 2.3999Z"
+          stroke="currentColor" stroke-width="1.8" />
+        <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+          d="M39.7456 10.6449L38.633 24.2026C37.8012 31.603 31.4846 37.0577 24.1654 36.4571C16.7802 35.8511 11.2878 29.336 11.8976 21.9051L13.0017 8.45028L19.6877 8.99893L18.5835 22.4537C18.2787 26.1692 21.0248 29.4267 24.7175 29.7297C28.3456 30.0275 31.5126 27.3074 31.9599 23.4972L33.0596 10.0962L39.7456 10.6449Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="line"
+          d="M39.6041 14.0487C41.327 12.9001 45.9885 11.9583 48.2183 14.6228C48.5519 15.1334 49.0843 15.7245 49.3668 15.7716C52.8124 16.346 53.961 12.3263 52.8124 11.1774C51.6639 10.0285 51.6639 10.0288 51.6639 10.0288C46.8394 4.86026 38.4556 6.5832 33.0705 9.48908"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+          d="M45.857 20.6169C46.5115 20.6166 47.1519 20.8076 47.6993 21.1665C48.2467 21.5254 48.6772 22.0364 48.938 22.6367C49.1987 23.2371 49.2783 23.9006 49.1669 24.5455C49.0555 25.1905 48.758 25.7889 48.311 26.267C47.864 26.7451 47.287 27.0821 46.6509 27.2366C46.0149 27.3911 45.3476 27.3562 44.7311 27.1364C44.1146 26.9166 43.5758 26.5214 43.1809 25.9993C42.7861 25.4773 42.5525 24.8512 42.5089 24.1981V23.7502C42.6206 22.0045 44.0753 20.6169 45.857 20.6169Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="line" d="M33.1111 9.97146L30.7795 36.8487L37.4614 37.4283L39.795 10.5294L33.113 9.94971"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <h1 class="font-display text-[1.70rem] font-black italic my-1">
+        Unamba <span class="relative bg-white px-2 text-[#155FFC]" style="
+            clip-path: polygon(8% 15%, 100% 15%, 93% 90%, 0% 90%);
+            mask-image: radial-gradient(circle, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+          ">
+          forum
+        </span>
+      </h1>
     </a>
     <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" (click)="toggleMenu()">
       <span class="sr-only">Cerrar menú</span>
@@ -174,20 +245,22 @@
     <div class="-my-6 divide-y divide-gray-500/10">
       <div class="space-y-2 py-6">
         <ng-container *ngIf="!isLoggedIn">
-        <div class="flex flex-col items-center justify-center space-y-2">
-          <button class="px-4 py-2 rounded hover:text-blue-600 cursor-pointer w-full" (click)="navigateToLogin()">
-            Iniciar sesión
-          </button>
-          <button class="text-white bg-secondary-blue px-4 py-2 cursor-pointer rounded w-full hover:bg-gray-300"
-            (click)="navigateToRegister()">
-            Registrarse
-          </button>
-        </div>
+          <div class="flex flex-col items-center justify-center space-y-2">
+            <button class="px-4 py-2 rounded hover:text-blue-600 cursor-pointer w-full" (click)="navigateToLogin()">
+              Iniciar sesión
+            </button>
+            <button class="text-white bg-secondary-blue px-4 py-2 cursor-pointer rounded w-full hover:bg-gray-300"
+              (click)="navigateToRegister()">
+              Registrarse
+            </button>
+          </div>
         </ng-container>
         <a href="#"
           class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Inicio</a>
-        <a href="#"
-          class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Nuevo</a>
+        <ng-container *ngIf="isLoggedIn">
+          <a href="#"
+            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Nuevo</a>
+        </ng-container>
 
         <div class="-mx-3">
           <button type="button"

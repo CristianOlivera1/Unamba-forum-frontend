@@ -12,7 +12,7 @@ header {
 @keyframes header-blur-scroll {
   0% {
     backdrop-filter: blur(0px);
-    background: linear-gradient(90deg, rgba(21, 93, 252, 1) 0%, rgba(43, 93, 156, 1) 46%, rgba(43, 127, 255, 1) 100%);
+    background: linear-gradient(90deg, #155dfc 0%, rgba(43, 93, 156, 1) 46%, rgba(43, 127, 255, 1) 100%);
     border-bottom: 1px solid transparent;
     color: var(--color-gray-100);
   }
@@ -42,6 +42,3 @@ header {
   animation-range: 0 250px;
   transition: all 0.3s ease;
 }
-
-
-

@@ -60,7 +60,8 @@ export class LoginModalComponent implements OnInit {
           const jwtToken = response.data.jwtToken;
           this.tokenService.setToken(jwtToken);
           this.showAlert('success', response.listMessage[0]);
-          window.location.reload();
+            window.location.reload();
+
         } else {
           this.showAlert('error', 'Credenciales incorrectas.');
         }
@@ -79,6 +80,7 @@ export class LoginModalComponent implements OnInit {
           const jwtToken = response.data.jwtToken;
           this.tokenService.setToken(jwtToken);
           this.showAlert('success', response.listMessage[0]);
+
             window.location.reload();
         } else {
           this.showAlert('error', response.listMessage[0]);

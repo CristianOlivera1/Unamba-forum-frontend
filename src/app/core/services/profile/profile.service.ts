@@ -29,4 +29,5 @@ export class ProfileService {
     return this.httpClient.get(`${this.apiProfile}/detail/${userId}`);
   }
   
+  
 }

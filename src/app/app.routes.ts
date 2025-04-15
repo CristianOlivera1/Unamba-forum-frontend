@@ -8,6 +8,7 @@ import { LoginModalComponent } from './pages/home/components/login-modal/login-m
 import { CompleteInfoRegisterGoogleComponent } from './pages/oauth/complete-info-register-google/complete-info-register-google.component';
 import { HoverAvatarComponent } from './pages/home/components/hover-avatar/hover-avatar.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { PhotoSliderComponent } from './pages/home/components/photo-slider/photo-slider.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -21,6 +22,8 @@ export const routes: Routes = [
     { path: 'completeinfo', component: CompleteInfoRegisterGoogleComponent },
     { path: 'avatar', component: HoverAvatarComponent },
     { path: 'profile', component: ProfileComponent },
+    { path: 'photo', component: PhotoSliderComponent },
+    
 
     { path: '**', redirectTo: '' }
 ];

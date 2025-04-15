@@ -24,4 +24,8 @@ export class PublicationService {
     return this.httpClient.get(`${this.apiPublication}/details/${idPublication}`);
   }
   
+  getPublicationUser(idUser: string): Observable<any> {
+    return this.httpClient.get(`${this.apiPublication}/user/${idUser}`);
+  }
+  
 }
