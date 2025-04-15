@@ -1,12 +1,18 @@
-<li *ngFor="let user of suggestedUsers" class="flex items-center justify-between mb-5">
-  <div class="flex items-center gap-3">
-    <img [src]="user.fotoPerfil" class="w-10 h-10 rounded-full object-cover" alt="Foto de perfil">
-    <div class="text-sm">
-      <a (click)="navigateToProfileUser(user.idUsuario)">
-        <p class="font-medium leading-none mb-1">{{ user.nombre }} {{ user.apellidos }}</p>
-      </a>
-      <p class="text-gray-500 text-xs" title="{{ user.nombreCarrera }}">{{ user.nombreCarrera || 'Sin carrera' }}</p>
+<li *ngFor="let user of suggestedUsers"
+  class="flex items-center justify-between mb-2 hover:bg-gray-100 rounded-md py-2 px-1 cursor-pointer transition duration-200 ease-in-out">
+  <a (click)="navigateToProfileUser(user.idUsuario)">
+    <div class="flex items-center gap-3">
+      <img [src]="user.fotoPerfil" class="w-10 h-10 rounded-full object-cover" alt="Foto de perfil"
+        (mouseenter)="showHoverModal(user.idUsuario, $event)" (mouseleave)="hideHoverModal()">
+      <div class="text-sm">
+        <p class="font-medium leading-none mb-1 two-line xl:w-35 2xl:w-auto">{{ user.nombre }} {{ user.apellidos }}</p>
+        <p class="text-gray-500 text-xs" title="{{ user.nombreCarrera }}">{{ user.nombreCarrera || 'Sin carrera' }}</p>
+      </div>
     </div>
-  </div>
+  </a>
+
   <button class="bg-black text-white text-xs px-2 py-1 rounded-full">Seguir</button>
+
 </li>
+<app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
+  (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
