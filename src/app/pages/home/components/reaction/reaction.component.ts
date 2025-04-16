@@ -153,5 +153,4 @@ export class ReactionComponent implements OnInit {
     this.tooltipActivo = null;
   }
   
-  
 }

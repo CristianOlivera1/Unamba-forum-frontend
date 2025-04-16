@@ -1,11 +1,9 @@
-<div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
-    <!-- Mostrar reacciones dinámicamente -->
+<div class="flex items-center gap-3 text-sm text-gray-500 mb-3 mt-5">
     <div *ngFor="let reaccion of reacciones" class="flex items-center gap-1">
       <img [src]="'/assets/icons/publication/' + reaccion.tipo + '.png'" [alt]="reaccion.tipo" class="h-6 w-6 2xl:w-7 2xl:h-7">
       <span>{{ reaccion.cantidad }}</span>
     </div>
   
-    <!-- Total de comentarios -->
     <div *ngIf="totalComentarios > 0" class="flex items-center gap-1 ml-auto">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <g fill="none">

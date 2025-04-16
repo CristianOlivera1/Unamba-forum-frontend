@@ -40,7 +40,6 @@ export class PublicationWithoutFilesComponent implements OnInit {
   /*Scroll de publicaciones */
   dragState: { [key: string]: { isDragging: boolean; startX: number; scrollLeft: number } } = {
     publi: { isDragging: false, startX: 0, scrollLeft: 0 },
-    // puedes agregar más si tienes otros scroll independientes
   };
   
   @ViewChild('scrollPubli') scrollPubli!: ElementRef;

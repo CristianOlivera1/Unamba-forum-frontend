@@ -15,11 +15,11 @@
       <!-- Emogi 1 -->
       <div class="relative" (click)="addReaction('Me identifica')" (mouseenter)="mostrarTooltip('interesa')"
         (mouseleave)="ocultarTooltip()">
-        <button class="h-10 w-10 hover:bg-blue-50 rounded-md flex items-center justify-center transition">
+        <button class="h-10 w-10 hover:bg-blue-100 rounded-md flex items-center justify-center transition">
           <img src="/assets/icons/publication/Me identifica.png" class="h-6 w-6 md:w-7 md:h-7 lg:w-8 lg:h-8" alt="me-interesa" />
         </button>
         <div *ngIf="tooltipActivo === 'interesa'"
-          class="absolute bg-black text-white text-xs rounded py-1 px-4 -right-4 bottom-full">
+          class="absolute bg-black text-white text-xs rounded-full py-2 px-4 -right-7 bottom-full mb-2 w-25">
           Me interesa
         </div>
       </div>
@@ -27,11 +27,11 @@
       <!-- Emogi 2 -->
       <div class="relative" (click)="addReaction('Es increíble')" (mouseenter)="mostrarTooltip('increible')"
         (mouseleave)="ocultarTooltip()">
-        <button class="h-10 w-10 hover:bg-red-50 rounded-md flex items-center justify-center transition">
+        <button class="h-10 w-10 hover:bg-red-100 rounded-md flex items-center justify-center transition">
           <img src="/assets/icons/publication/Es increíble.png" class="h-6 w-6 md:w-7 md:h-7 lg:w-8 lg:h-8" alt="es-increible" />
         </button>
         <div *ngIf="tooltipActivo === 'increible'"
-          class="absolute bg-black text-white text-xs rounded py-1 px-4 -right-4 bottom-full">
+          class="absolute bg-black text-white text-xs rounded-full py-2 px-4 -right-7 bottom-full mb-2 w-25">
           Es increíble
         </div>
       </div>
@@ -39,11 +39,11 @@
       <!-- Emogi 3 -->
       <div class="relative" (click)="addReaction('Qué divertido')" (mouseenter)="mostrarTooltip('divertido')"
         (mouseleave)="ocultarTooltip()">
-        <button class="h-10 w-10 hover:bg-yellow-50 rounded-md flex items-center justify-center transition">
+        <button class="h-10 w-10 hover:bg-green-100 rounded-md flex items-center justify-center transition">
           <img src="/assets/icons/publication/Qué divertido.png" class="h-6 w-6 md:w-7 md:h-7 lg:w-8 lg:h-8"alt="que-divertido" />
         </button>
         <div *ngIf="tooltipActivo === 'divertido'"
-          class="absolute bg-black text-white text-xs rounded py-1 px-4 -right-4 bottom-full">
+          class="absolute bg-black text-white text-xs rounded-full py-2 px-4 -right-8 mb-2 bottom-full w-26">
           Qué divertido
         </div>
       </div>
