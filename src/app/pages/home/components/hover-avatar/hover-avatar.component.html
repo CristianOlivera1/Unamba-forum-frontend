@@ -9,7 +9,7 @@
 
     <div class="pt-12 pb-6 px-4 text-center">
         <button
-            class="absolute top-22 right-4 bg-secondary-blue text-white text-sm px-4 py-1 rounded-full hover:bg-hover-secondary-blue">
+            class="absolute top-22 right-4 bg-black text-white text-sm px-4 py-1 rounded-full hover:bg-gray-900 -secondary-blue">
             Seguir
         </button>
 
@@ -56,7 +56,7 @@
                         </g>
                     </svg>
                 </ng-container>
-                <span>{{ profileData.rol }}</span>
+                <span>{{ profileData.rol | titlecase }}</span>
             </div>
 
             <div class="flex items-center gap-2">

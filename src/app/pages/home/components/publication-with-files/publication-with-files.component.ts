@@ -14,6 +14,7 @@ import { CompleteInfoRegisterGoogleComponent } from '../../../oauth/complete-inf
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 import { HoverAvatarComponent } from '../hover-avatar/hover-avatar.component';
 import { PhotoSliderComponent } from '../photo-slider/photo-slider.component';
+import { RolService } from '../../../../core/services/rol/rol.service';
 
 @Component({
   selector: 'app-publication-with-files',
@@ -37,7 +38,7 @@ export class PublicationWithFilesComponent implements OnInit {
   selectedPhotoIndex: number = 0;
   
   constructor(private publicationService: PublicationService,  private tokenService: TokenService,
-    private router: Router,private modalService: ModalLoginService,private modalInfoCompleteService:ModalInfoCompleteService ,private profileService: ProfileService ) {}
+    private router: Router,private modalService: ModalLoginService,private modalInfoCompleteService:ModalInfoCompleteService ,private profileService: ProfileService,private rolService: RolService ) {}
     
   ngOnInit(): void {
     this.currentUserId = this.tokenService.getUserId();
@@ -55,6 +56,20 @@ export class PublicationWithFilesComponent implements OnInit {
       next: (response: any) => {
         if (response.type === 'success') {
           this.publications = response.data;
+
+          // Obtener el rol de cada usuario en las publicaciones
+        this.publications.forEach((publication) => {
+          this.rolService.getRolByUserId(publication.idUsuario).subscribe({
+            next: (rolResponse: any) => {
+              if (rolResponse.type === 'success') {
+                publication.tipoRol = rolResponse.data.tipo; // Agregar el tipo de rol a la publicación
+              }
+            },
+            error: (error) => {
+              console.error('Error al obtener el rol del usuario:', error);
+            }
+          });
+        });
         } else {
           console.error('Error al cargar las publicaciones:', response.listMessage);
         }
@@ -75,7 +90,7 @@ navigateToProfileUser(idUsuario: string) {
 
 openPhotoSlider(archivos: { tipo: string; rutaArchivo: string }[], index: number): void {
   this.selectedPhotos = archivos;
-  this.selectedPhotoIndex = index; // Establece el índice inicial
+  this.selectedPhotoIndex = index; 
 
   this.isPhotoSliderVisible = true;
 }

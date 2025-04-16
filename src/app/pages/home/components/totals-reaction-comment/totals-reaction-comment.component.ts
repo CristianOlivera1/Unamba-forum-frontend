@@ -24,7 +24,7 @@ export class TotalsReactionCommentComponent implements OnInit {
     this.reactionService.getReactionAndCommentSummary(this.idPublicacion).subscribe({
       next: (response) => {
         if (response.type === 'success') {
-          this.reacciones = response.data.reacciones.filter((r: any) => r.cantidad > 0); // Filtrar reacciones con cantidad > 0
+          this.reacciones = response.data.reacciones.filter((r: any) => r.cantidad > 0);
           this.totalComentarios = response.data.totalComentarios;
         } else {
           console.error('Error al obtener el resumen de reacciones:', response.listMessage);

@@ -26,11 +26,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.tokenService.isLoggedIn$.subscribe(status => {
-        console.log('¿Está logueado?', status);
-
         this.isLoggedIn = status;
-        this.hasCheckedLogin = true; // Ya evaluó el login
-
+        this.hasCheckedLogin = true;
       });
     }
   }
