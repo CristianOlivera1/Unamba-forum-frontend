@@ -14,14 +14,17 @@ import { CommonModule } from '@angular/common';
 export class EditFrontPageComponent {
   @Input() photoFrontPageUrl: string = ''; 
   @Output() close = new EventEmitter<void>(); 
-
+  @Output() success = new EventEmitter<string>();
+  
   private apiProfile = environment.apiProfile;
   private dropzoneInstance: Dropzone | null = null;
 
-  constructor(private profileService: ProfileService, private tokenService: TokenService) {}
+  isUpdateFrontPageInProgress: boolean = false;
 
   private isDefaultPhoto: boolean = false;
   alert: { type: string; message: string } | null = null; 
+
+  constructor(private profileService: ProfileService, private tokenService: TokenService) {}
 
   showAlert(type: string, message: string): void {
     this.alert = { type, message };
@@ -106,17 +109,18 @@ export class EditFrontPageComponent {
           formData.append('fotoPortada', file, file.name);
         });
   
-        this.on('success', (file, response) => {
+        dropzoneInstance.on('success', (file, response) => {
+          (document.getElementById('dropzone') as any).componentRef.isUpdateFrontPageInProgress = true;
           const responseObject = typeof response === 'string' ? JSON.parse(response) : response;
-          (document.getElementById('dropzone') as any).componentRef.photoFrontPageUrl = responseObject.data.fotoPortada;
-          (document.getElementById('dropzone') as any).componentRef.showAlert('success', 'Imagen de portada actualizada correctamente.');
-          
+          (document.getElementById('dropzone') as any).componentRef.photoUrl = responseObject.data.fotoPerfil;
+
+          (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de portada actualizada correctamente, actualiza la página para ver los cambios.');
+
           (document.getElementById('dropzone') as any).componentRef.close.emit();
-          
         });
         
         this.on('error', function (file, errorMessage) {
-
+          (document.getElementById('dropzone') as any).componentRef.isUpdateFrontPageInProgress = false;
         });
       }
     });
@@ -146,12 +150,14 @@ export class EditFrontPageComponent {
 
           this.profileService.updateProfile(formData).subscribe({
             next: (res) => {
-              this.showAlert('success', 'Imagen de portada actualizada correctamente.');
+              this.isUpdateFrontPageInProgress = true;
+              (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de portada actualizada correctamente, actualiza la página para ver los cambios.');
               this.close.emit();
             },
             error: (err) => {
               this.showAlert('error', 'Error al actualizar la imagen de portada.');
               console.error(err);
+              this.isUpdateFrontPageInProgress = false;
             }
           });
         });

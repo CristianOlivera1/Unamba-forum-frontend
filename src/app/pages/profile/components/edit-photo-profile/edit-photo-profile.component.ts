@@ -13,15 +13,18 @@ import { CommonModule } from '@angular/common';
 })
 export class EditPhotoProfileComponent {
   @Input() photoUrl: string = '';
-  @Output() close = new EventEmitter<void>(); 
+  @Output() close = new EventEmitter<void>();
+  @Output() success = new EventEmitter<string>(); 
 
   private apiProfile = environment.apiProfile;
   private dropzoneInstance: Dropzone | null = null;
 
-  constructor(private profileService: ProfileService, private tokenService: TokenService) {}
+  isUpdateProfileInProgress: boolean = false;
 
-  private isDefaultPhoto: boolean = false; 
-  alert: { type: string; message: string } | null = null; 
+  private isDefaultPhoto: boolean = false;
+  alert: { type: string; message: string } | null = null;
+
+  constructor(private profileService: ProfileService, private tokenService: TokenService) { }
 
   showAlert(type: string, message: string): void {
     this.alert = { type, message };
@@ -33,46 +36,46 @@ export class EditPhotoProfileComponent {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.initializeDropzone();
-    }, 100); // Retraso corto para asegurar que el DOM esté listo
+    }, 100);
   }
-  
+
   initializeDropzone(): void {
     this.dropzoneInstance = new Dropzone('#dropzone', {
-      url: this.apiProfile + '/update', 
-      method: 'put', 
-      maxFiles: 1, 
+      url: this.apiProfile + '/update',
+      method: 'put',
+      maxFiles: 1,
       acceptedFiles: 'image/*',
-      maxFilesize: 2, 
+      maxFilesize: 2,
       autoProcessQueue: false,
-  
+
       init: function () {
         const dropzoneInstance = this as Dropzone;
         dropzoneInstance.on('thumbnail', function (file) {
           const previews = document.querySelectorAll('.dz-preview img') as NodeListOf<HTMLImageElement>;
           previews.forEach(img => {
-            img.style.maxWidth = '200px'; 
+            img.style.maxWidth = '200px';
             img.style.maxHeight = '200px';
-            img.style.objectFit = 'contain'; 
+            img.style.objectFit = 'contain';
           });
         });
 
         dropzoneInstance.on('addedfile', function (file) {
-         // Eliminar cualquier archivo previamente cargado
-         if (dropzoneInstance.files.length > 1) {
-          dropzoneInstance.files.forEach((f, index) => {
-            if (index < dropzoneInstance.files.length - 1) {
-              dropzoneInstance.removeFile(f); // Eliminar todos los archivos excepto el actual
-            }
-          });
-        }
+          // Eliminar cualquier archivo previamente cargado
+          if (dropzoneInstance.files.length > 1) {
+            dropzoneInstance.files.forEach((f, index) => {
+              if (index < dropzoneInstance.files.length - 1) {
+                dropzoneInstance.removeFile(f);
+              }
+            });
+          }
 
           const errorMark = file.previewElement?.querySelector('.dz-error-mark');
           const successMark = file.previewElement?.querySelector('.dz-success-mark');
-        
+
           if (errorMark) errorMark.remove();
           if (successMark) successMark.remove();
-          
-          
+
+
           const allowedExtensions = ['png', 'jpg', 'jpeg', 'webp'];
           const fileExtension = file.name.split('.').pop()?.toLowerCase();
           if (!allowedExtensions.includes(fileExtension ?? '')) {
@@ -86,7 +89,7 @@ export class EditPhotoProfileComponent {
             (document.getElementById('dropzone') as any).componentRef.showAlert('error', 'El tamaño máximo permitido es de 2MB.');
             return;
           }
-  
+
           // Leer el archivo y actualizar la imagen actual
           const reader = new FileReader();
           reader.onload = (e: any) => {
@@ -102,29 +105,34 @@ export class EditPhotoProfileComponent {
             console.error('El idUsuario no está disponible en el token.');
             return;
           }
-  
+
           formData.append('idUsuario', idUsuario);
           formData.append('fotoPerfil', file, file.name);
         });
-  
-        this.on('success', (file, response) => {
+
+        dropzoneInstance.on('success', (file, response) => {
+          (document.getElementById('dropzone') as any).componentRef.isUpdateProfileInProgress = true;
+
           const responseObject = typeof response === 'string' ? JSON.parse(response) : response;
           (document.getElementById('dropzone') as any).componentRef.photoUrl = responseObject.data.fotoPerfil;
-          (document.getElementById('dropzone') as any).componentRef.showAlert('success', 'Imagen de perfil actualizada correctamente.');
-          
+
+          // Emitir el mensaje de éxito al componente padre
+          (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de perfil actualizada correctamente, actualiza la página para ver los cambios.');
+
+          // Cerrar el modal
           (document.getElementById('dropzone') as any).componentRef.close.emit();
-          
         });
-        
+
         this.on('error', function (file, errorMessage) {
+          (document.getElementById('dropzone') as any).componentRef.isUpdateProfileInProgress = false;
 
         });
       }
     });
-  
+
     (document.getElementById('dropzone') as any).componentRef = this;
-  } 
-  
+  }
+
   updateProfile(): void {
     if (!this.dropzoneInstance) return;
 
@@ -147,12 +155,14 @@ export class EditPhotoProfileComponent {
 
           this.profileService.updateProfile(formData).subscribe({
             next: (res) => {
-              this.showAlert('success', 'Imagen de perfil actualizada correctamente.');
+              (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de perfil actualizada correctamente, actualiza la página para ver los cambios.');
+              this.isUpdateProfileInProgress = true;
               this.close.emit();
             },
             error: (err) => {
-              this.showAlert('error', 'Error al actualizar la imagen de perfil.');
+              this.showAlert('error', 'Error al actualizar la foto de perfil.');
               console.error(err);
+              this.isUpdateProfileInProgress = false;
             }
           });
         });
@@ -172,10 +182,12 @@ export class EditPhotoProfileComponent {
       this.showAlert('warning', 'No se realizaron cambios en la imagen de perfil.');
     }
   }
+
   deletePhoto(): void {
     this.photoUrl = '/assets/img/profile/sin-foto-perfil.webp';
     this.isDefaultPhoto = true;
   }
+
   closeModal(): void {
     this.close.emit();
   }
