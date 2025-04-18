@@ -1,10 +1,12 @@
 <app-header></app-header>
-<div class="container mx-auto">
 
-  <div (click)="openPhotoSlider([{ tipo: 'imagen', rutaArchivo: userProfile?.fotoPortada }], 0)" class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl cursor-pointer"
+
+<div class="container mx-auto">
+  <div (click)="openPhotoSlider([{ tipo: 'imagen', rutaArchivo: userProfile?.fotoPortada }], 0)"
+    class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl cursor-pointer"
     [style.backgroundImage]="'url(' + userProfile?.fotoPortada + ')'"
     style="background-size: cover; background-position: center;">
-    <button (click)="openEditPhotoFrontPageModal(); $event.stopPropagation()"
+    <button *ngIf="currentUserId === userId"  (click)="openEditPhotoFrontPageModal(); $event.stopPropagation()"
       class="absolute top-28 right-8 bg-black-50 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 hover:bg-gray-700">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path
@@ -22,30 +24,31 @@
         <img [src]="userProfile?.fotoPerfil" alt="Foto de perfil"
           class="w-24 h-24 rounded-full object-cover cursor-pointer"
           (click)="openPhotoSlider([{ tipo: 'imagen', rutaArchivo: userProfile?.fotoPerfil }], 0)" />
-        <div *ngIf="currentUserId">
-          <div class="absolute bottom-0 right-0 bg-black-50 bg-opacity-80 text-white rounded-full p-1">
-
-            <button (click)="openEditPhotoModal()">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path
-                  d="M15 10l4.553-2.276A2 2 0 0122 9.618v4.764a2 2 0 01-2.447 1.894L15 14m0 0l-4.553 2.276A2 2 0 018 15.382V10.618a2 2 0 011.447-1.894L15 10z" />
-              </svg>
-            </button>
+          <div *ngIf="currentUserId === userId" >
+            <div class="absolute bottom-0 right-0 bg-black bg-opacity-80 text-white rounded-full p-1">
+              <button 
+                (click)="openEditPhotoModal()" 
+                class="w-7 h-7 flex items-center justify-center rounded-full bg-black hover:bg-black/70 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M15 10l4.553-2.276A2 2 0 0122 9.618v4.764a2 2 0 01-2.447 1.894L15 14m0 0l-4.553 2.276A2 2 0 018 15.382V10.618a2 2 0 011.447-1.894L15 10z" />
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
       </div>
 
       <div>
         <h2 class="text-xl font-semibold text-subtitle">{{ userProfile?.nombreCompleto }}</h2>
         <p class="text-sm text-gray-600 max-w-lg mt-1">{{ userProfile?.descripcion }}</p>
         <div class="flex gap-6 mt-3 text-sm text-gray-700">
-          <span class="cursor-pointer" (click)="openFollowerModal()"><strong>{{ userProfile?.totalFollowers }}</strong> Seguidores</span>
-          <span><strong>{{ userProfile?.totalFollowing }}</strong> Siguiendo</span>
+          <span class="cursor-pointer" (click)="openFollowerModal()"><strong>{{ userProfile?.totalFollowers }}</strong>
+            Seguidores</span>
+          <span class="cursor-pointer" (click)="openFollowingModal()"><strong>{{ userProfile?.totalFollowing }}</strong> Siguiendo</span>
         </div>
       </div>
     </div>
 
-    <div class="self-start md:ml-auto">
+    <div *ngIf="currentUserId === userId" class="self-start md:ml-auto">
       <button
         class="bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -59,7 +62,7 @@
 
   <!-- Contenedor de columnas -->
   <div class="mt-15 mb-30 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr_1fr] gap-6 items-start">
-    <aside class="border border-gray-200 hover:shadow-md rounded-xl p-5 sticky top-29">
+    <aside class="border border-gray-200 hover:border-gray-300 transition-all duration-300 ease-in-out rounded-xl p-5 sticky top-29">
       <h2 class="font-semibold text-lg mb-4 text-subtitle">Detalles</h2>
       <ul class="space-y-3 text-sm text-gray-700">
         <app-detail [userDetails]="userDetails"></app-detail>
@@ -152,23 +155,37 @@
     </aside>
   </div>
 
-  <app-modal-follower
-  *ngIf="isFollowerModalVisible"
-  [followers]="followers"
-  (close)="closeFollowerModal()">
-</app-modal-follower>
+  <div *ngIf="alert" [ngClass]="{
+    'bg-green-50 text-green-800': alert.type === 'success'
+  }" class="fixed top-5 right-5 z-50 flex items-center p-4 rounded-lg shadow-lg" role="alert">
+    <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <path
+        d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
+    </svg>
+    <span class="text-sm font-medium">{{ alert.message }}</span>
+  </div>
+
+  <app-modal-follower *ngIf="isFollowerModalVisible" [followers]="followers" (close)="closeFollowerModal()">
+  </app-modal-follower>
+
+  <app-modal-following *ngIf="isFollowingModalVisible" [followings]="followings" (close)="closeFollowingModal()">
+  </app-modal-following>
 
   <app-edit-photo-profile *ngIf="isEditPhotoModalVisible" [photoUrl]="userProfile?.fotoPerfil"
-    (close)="closeEditPhotoModal()">
+    (close)="closeEditPhotoModal()" (success)="handlePhotoUpdateSuccess($event)">
   </app-edit-photo-profile>
 
   <app-edit-front-page *ngIf="isEditPhotoFrontPageModalVisible" [photoFrontPageUrl]="userProfile?.fotoPortada"
-    (close)="closeEditPhotoFrontPageModal()">
+    (close)="closeEditPhotoFrontPageModal()" (success)="handlePhotoUpdateSuccess($event)">
   </app-edit-front-page>
 
   <app-photo-slider *ngIf="isPhotoSliderVisible" [photos]="selectedPhotos" (close)="closePhotoSlider()"
     [initialIndex]="selectedPhotoIndex"></app-photo-slider>
+
   <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
+  
   <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
+
 </div>
 <app-footer></app-footer>

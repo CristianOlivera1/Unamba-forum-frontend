@@ -22,10 +22,11 @@ import { EditPhotoProfileComponent } from './components/edit-photo-profile/edit-
 import { EditFrontPageComponent } from './components/edit-front-page/edit-front-page.component';
 import { FollowService } from '../../core/services/follow/follow.service';
 import { ModalFollowerComponent } from './components/modal-follower/modal-follower.component';
+import { ModalFollowingComponent } from './components/modal-following/modal-following.component';
 
 @Component({
   selector: 'app-profile',
-  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent, PhotoSliderComponent,EditPhotoProfileComponent,EditFrontPageComponent,ModalFollowerComponent],
+  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent, PhotoSliderComponent,EditPhotoProfileComponent,EditFrontPageComponent,ModalFollowerComponent,ModalFollowingComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -54,6 +55,11 @@ export class ProfileComponent implements OnInit {
 
   isFollowerModalVisible: boolean = false;
   followers: any[] = []; 
+
+  isFollowingModalVisible: boolean = false;
+  followings: any[] = []; 
+
+  alert: { type: string; message: string } | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,7 +95,18 @@ export class ProfileComponent implements OnInit {
     this.loadUserDetails(this.userId);
     this.loadUserPublications(this.userId);
   }
+  showAlert(type: string, message: string): void {
+    this.alert = { type, message };
+    setTimeout(() => {
+      this.alert = null;
+    }, 5000);
+  }
 
+  // Método para manejar el evento de éxito del modal
+  handlePhotoUpdateSuccess(message: string): void {
+    this.showAlert('success', message);
+  }
+  
   loadSuggestedUsers(): void {
     this.userService.getSuggestedUsers(this.userId).subscribe(response => {
       if (response.type === 'success') {
@@ -201,11 +218,36 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  // Método para cerrar el modal de seguidores
   closeFollowerModal(): void {
     this.isFollowerModalVisible = false;
-    this.followers = []; // Limpia los datos de los seguidores
+    this.followers = []; 
   }
+
+  
+  openFollowingModal(): void {
+    if (!this.userId) return;
+
+    this.followService.getFollowingsByUserId(this.userId).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.followings = response.data;
+          this.isFollowingModalVisible = true;
+        } else {
+          console.error('Error al cargar los seguidores:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de seguidores:', error);
+      }
+    });
+  }
+
+  closeFollowingModal(): void {
+    this.isFollowingModalVisible = false;
+    this.followings = []; 
+  }
+
+  
 
   onModalMouseEnter(): void {
     this.isHovering = true;
