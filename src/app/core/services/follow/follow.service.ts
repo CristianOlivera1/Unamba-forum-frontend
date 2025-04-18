@@ -8,5 +8,11 @@ import { environment } from '../../../../environments/environment';
 })
 export class FollowService {
 
-  
+  private apiFollow = environment.apiFollow;
+
+  constructor(private httpClient: HttpClient) {}
+
+  getFollowersByUserId(userId: string): Observable<any> {
+    return this.httpClient.get(`${this.apiFollow}/followers/${userId}`);
+  }
 }
