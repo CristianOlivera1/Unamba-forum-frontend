@@ -25,7 +25,7 @@ export class PhotoSliderComponent implements OnInit {
   isDragging = false;
   startX = 0;
   currentX = 0;
-  dragThreshold = 100; // Umbral de píxeles para cambiar de imagen
+  dragThreshold = 100; 
   isZoomed = false;
 
   ngOnInit(): void {
