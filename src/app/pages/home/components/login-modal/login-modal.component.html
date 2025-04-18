@@ -2,9 +2,7 @@
 <div
   class="fixed bottom-0 left-0 w-full h-[65vh] bg-[url('/assets/img/oauth/backgroundLoginModal.svg')] bg-cover bg-no-repeat bg-center shadow-xl rounded-t-3xl px-6 py-8 overflow-auto z-50">
   <button (click)="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-    </svg>
+    ✕
   </button>
 
   <div *ngIf="alert" [ngClass]="{
@@ -25,7 +23,7 @@
   </div>
 
   <div class="max-w-xl mx-auto bg-white p-6 lg:p-7 xl:pt-10 rounded-lg shadow-lg">
-    
+
     <h2 class="text-xl font-semibold text-center mb-6 xl:text-2xl">Iniciar sesión</h2>
 
     <form (ngSubmit)="login()">
@@ -46,14 +44,20 @@
       </div>
 
       <button
-      class="w-full bg-secondary-blue mt-6 text-white py-3 rounded hover:bg-hover-secondary-blue flex items-center justify-center gap-2"
-      [disabled]="isLoggingIn">
-      <ng-container *ngIf="!isLoggingIn">Iniciar sesión</ng-container>
-      <ng-container *ngIf="isLoggingIn">
-        Iniciando sesión...
-        <svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z"><animateTransform attributeName="transform" type="rotate" dur="0.75s" values="0 12 12;360 12 12" repeatCount="indefinite"/></path></svg>
-      </ng-container>
-    </button>
+        class="w-full bg-secondary-blue mt-6 text-white py-3 rounded hover:bg-hover-secondary-blue flex items-center justify-center gap-2"
+        [disabled]="isLoggingIn">
+        <ng-container *ngIf="!isLoggingIn">Iniciar sesión</ng-container>
+        <ng-container *ngIf="isLoggingIn">
+          Iniciando sesión...
+          <svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
+              <animateTransform attributeName="transform" type="rotate" dur="0.75s" values="0 12 12;360 12 12"
+                repeatCount="indefinite" />
+            </path>
+          </svg>
+        </ng-container>
+      </button>
     </form>
 
     <div class="text-center my-4 relative">
