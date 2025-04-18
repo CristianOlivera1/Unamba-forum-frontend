@@ -1,11 +1,10 @@
 <app-header></app-header>
 <div class="container mx-auto">
 
-  <div class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl"
+  <div (click)="openPhotoSlider([{ tipo: 'imagen', rutaArchivo: userProfile?.fotoPortada }], 0)" class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl cursor-pointer"
     [style.backgroundImage]="'url(' + userProfile?.fotoPortada + ')'"
     style="background-size: cover; background-position: center;">
-
-    <button
+    <button (click)="openEditPhotoFrontPageModal(); $event.stopPropagation()"
       class="absolute top-28 right-8 bg-black-50 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 hover:bg-gray-700">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path
@@ -17,18 +16,22 @@
 
   <div
     class="bg-white shadow-md rounded-xl p-10 -mt-23 mx-8 relative flex flex-col md:flex-row md:items-center justify-between gap-6">
-
     <!-- Info usuario -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-
       <div class="relative shrink-0">
-        <img [src]="userProfile?.fotoPerfil" alt="Foto de perfil" class="w-24 h-24 rounded-full object-cover" />
+        <img [src]="userProfile?.fotoPerfil" alt="Foto de perfil"
+          class="w-24 h-24 rounded-full object-cover cursor-pointer"
+          (click)="openPhotoSlider([{ tipo: 'imagen', rutaArchivo: userProfile?.fotoPerfil }], 0)" />
+        <div *ngIf="currentUserId">
+          <div class="absolute bottom-0 right-0 bg-black-50 bg-opacity-80 text-white rounded-full p-1">
 
-        <div class="absolute bottom-0 right-0 bg-black-50 bg-opacity-80 text-white rounded-full p-1">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path
-              d="M15 10l4.553-2.276A2 2 0 0122 9.618v4.764a2 2 0 01-2.447 1.894L15 14m0 0l-4.553 2.276A2 2 0 018 15.382V10.618a2 2 0 011.447-1.894L15 10z" />
-          </svg>
+            <button (click)="openEditPhotoModal()">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path
+                  d="M15 10l4.553-2.276A2 2 0 0122 9.618v4.764a2 2 0 01-2.447 1.894L15 14m0 0l-4.553 2.276A2 2 0 018 15.382V10.618a2 2 0 011.447-1.894L15 10z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -36,7 +39,7 @@
         <h2 class="text-xl font-semibold text-subtitle">{{ userProfile?.nombreCompleto }}</h2>
         <p class="text-sm text-gray-600 max-w-lg mt-1">{{ userProfile?.descripcion }}</p>
         <div class="flex gap-6 mt-3 text-sm text-gray-700">
-          <span><strong>{{ userProfile?.totalFollowers }}</strong> Seguidores</span>
+          <span class="cursor-pointer" (click)="openFollowerModal()"><strong>{{ userProfile?.totalFollowers }}</strong> Seguidores</span>
           <span><strong>{{ userProfile?.totalFollowing }}</strong> Siguiendo</span>
         </div>
       </div>
@@ -56,8 +59,7 @@
 
   <!-- Contenedor de columnas -->
   <div class="mt-15 mb-30 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr_1fr] gap-6 items-start">
-
-    <aside class="border border-gray-200 hover:shadow-md rounded-xl p-5">
+    <aside class="border border-gray-200 hover:shadow-md rounded-xl p-5 sticky top-29">
       <h2 class="font-semibold text-lg mb-4 text-subtitle">Detalles</h2>
       <ul class="space-y-3 text-sm text-gray-700">
         <app-detail [userDetails]="userDetails"></app-detail>
@@ -96,11 +98,13 @@
             <div
               class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
               <ng-container *ngIf="publication.archivos.length === 1">
-                <figure *ngFor="let archivo of publication.archivos" class="shrink-0 w-full">
+                <figure *ngFor="let archivo of publication.archivos ; let i = index" class="shrink-0 w-full">
                   <div class="overflow-hidden rounded-md">
-                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo"
-                      class="aspect-square h-54 w-full object-cover" />
-                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-full object-cover">
+                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
+                      class="aspect-square h-54 w-full object-cover"
+                      (click)="openPhotoSlider(publication.archivos,i)" />
+                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-full object-cover"
+                      (click)="openPhotoSlider(publication.archivos,i)">
                       <source [src]="archivo.rutaArchivo" type="video/mp4" />
                       Tu navegador no soporta la etiqueta de video.
                     </video>
@@ -109,11 +113,12 @@
               </ng-container>
 
               <ng-container *ngIf="publication.archivos.length > 1">
-                <figure *ngFor="let archivo of publication.archivos" class="shrink-0">
+                <figure *ngFor="let archivo of publication.archivos; let i= index" class="shrink-0">
                   <div class="overflow-hidden rounded-md">
-                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo"
-                      class="aspect-square h-54 w-54 object-cover" />
-                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-54 object-cover">
+                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="media"
+                      class="aspect-square h-54 w-54 object-cover" (click)="openPhotoSlider(publication.archivos,i)" />
+                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-54 object-cover"
+                      (click)="openPhotoSlider(publication.archivos,i)">
                       <source [src]="archivo.rutaArchivo" type="video/mp4" />
                       Tu navegador no soporta la etiqueta de video.
                     </video>
@@ -128,29 +133,42 @@
         <div>
           <a (click)="navigateToDetailPublication(publication.idPublicacion)">
             <h4 class="font-semibold truncate text-gray-900 text-sm">{{ publication.titulo }}</h4>
-            <p class="text-gray-600 text-sm mt-1 truncate w-150">
+            <p class="text-gray-600 text-sm mt-1 truncate w-80 sm:w-120 xl:w-100">
               {{ publication.contenido }}
             </p>
           </a>
         </div>
         <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"></app-totals-reaction-comment>
         <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
-
       </div>
     </main>
 
     <!-- Columna derecha (Sugerencias) -->
-    <aside class="border border-gray-200 rounded-xl p-5">
+    <aside class="border border-gray-200 rounded-xl p-5 sticky top-29">
       <h2 class="font-semibold text-lg mb-4 text-subtitle">Seguir sugerencias</h2>
       <ul>
         <app-suggestion [suggestedUsers]="suggestedUsers"></app-suggestion>
       </ul>
     </aside>
-
   </div>
 
+  <app-modal-follower
+  *ngIf="isFollowerModalVisible"
+  [followers]="followers"
+  (close)="closeFollowerModal()">
+</app-modal-follower>
+
+  <app-edit-photo-profile *ngIf="isEditPhotoModalVisible" [photoUrl]="userProfile?.fotoPerfil"
+    (close)="closeEditPhotoModal()">
+  </app-edit-photo-profile>
+
+  <app-edit-front-page *ngIf="isEditPhotoFrontPageModalVisible" [photoFrontPageUrl]="userProfile?.fotoPortada"
+    (close)="closeEditPhotoFrontPageModal()">
+  </app-edit-front-page>
+
+  <app-photo-slider *ngIf="isPhotoSliderVisible" [photos]="selectedPhotos" (close)="closePhotoSlider()"
+    [initialIndex]="selectedPhotoIndex"></app-photo-slider>
   <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
   <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
 </div>
-
 <app-footer></app-footer>

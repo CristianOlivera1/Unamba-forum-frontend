@@ -17,13 +17,19 @@ import { ModalLoginService } from '../../core/services/modal/modalLogin.service'
 import { ReactionComponent } from '../home/components/reaction/reaction.component';
 import { ModalInfoCompleteService } from '../../core/services/modal/modalCompleteInfo.service';
 import { UserService } from '../../core/services/user/user.service';
+import { PhotoSliderComponent } from '../home/components/photo-slider/photo-slider.component';
+import { EditPhotoProfileComponent } from './components/edit-photo-profile/edit-photo-profile.component';
+import { EditFrontPageComponent } from './components/edit-front-page/edit-front-page.component';
+import { FollowService } from '../../core/services/follow/follow.service';
+import { ModalFollowerComponent } from './components/modal-follower/modal-follower.component';
 
 @Component({
   selector: 'app-profile',
-  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent],
+  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent, PhotoSliderComponent,EditPhotoProfileComponent,EditFrontPageComponent,ModalFollowerComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
+
 export class ProfileComponent implements OnInit {
   userProfile: any = null;
   userDetails: any = null;
@@ -39,10 +45,20 @@ export class ProfileComponent implements OnInit {
   isHoverModalVisible = false;
   isHovering = false;
 
+  isPhotoSliderVisible = false;
+  selectedPhotos: { tipo: string; rutaArchivo: string }[] = [];
+  selectedPhotoIndex: number = 0;
+
+  isEditPhotoModalVisible: boolean = false;
+  isEditPhotoFrontPageModalVisible: boolean = false;
+
+  isFollowerModalVisible: boolean = false;
+  followers: any[] = []; 
+
   constructor(
     private route: ActivatedRoute,
-    private profileService: ProfileService,
-    private publicationService: PublicationService, private router: Router, private tokenService: TokenService, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private userService: UserService
+    private profileService: ProfileService, private followService: FollowService,
+    private publicationService: PublicationService, private router: Router, private tokenService: TokenService, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private userService: UserService,
 
   ) { }
 
@@ -167,6 +183,30 @@ export class ProfileComponent implements OnInit {
     }, 200);
   }
 
+  openFollowerModal(): void {
+    if (!this.userId) return;
+
+    this.followService.getFollowersByUserId(this.userId).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.followers = response.data;
+          this.isFollowerModalVisible = true;
+        } else {
+          console.error('Error al cargar los seguidores:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de seguidores:', error);
+      }
+    });
+  }
+
+  // Método para cerrar el modal de seguidores
+  closeFollowerModal(): void {
+    this.isFollowerModalVisible = false;
+    this.followers = []; // Limpia los datos de los seguidores
+  }
+
   onModalMouseEnter(): void {
     this.isHovering = true;
   }
@@ -179,6 +219,34 @@ export class ProfileComponent implements OnInit {
         this.hoverProfileData = null;
       }
     }, 200);
+  }
+
+  openPhotoSlider(archivos: { tipo: string; rutaArchivo: string }[], index: number): void {
+    this.selectedPhotos = archivos;
+    this.selectedPhotoIndex = index;
+    this.isPhotoSliderVisible = true;
+  }
+
+  closePhotoSlider(): void {
+    this.isPhotoSliderVisible = false;
+    this.selectedPhotos = [];
+    this.selectedPhotoIndex = 0;
+  }
+
+  openEditPhotoModal(): void {
+    this.isEditPhotoModalVisible = true; 
+  }
+
+  closeEditPhotoModal(): void {
+    this.isEditPhotoModalVisible = false; 
+  }
+
+  openEditPhotoFrontPageModal(): void {
+    this.isEditPhotoFrontPageModalVisible = true; 
+  }
+
+  closeEditPhotoFrontPageModal(): void {
+    this.isEditPhotoFrontPageModalVisible = false; 
   }
 
   getTimeElapsedWrapper(fechaRegistro: string): string {
