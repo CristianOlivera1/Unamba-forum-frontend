@@ -1,1 +1,41 @@
-<p>modal-following works!</p>
+<div class="fixed inset-0 bg-[rgba(0,0,0,0.1)] z-50" (click)="closeModal()"></div>
+
+<div
+  class="fixed bottom-0 left-0 w-full max-h-[90vh] bg-white rounded-t-3xl shadow-2xl px-6 py-6 z-50 overflow-y-auto"
+  (click)="$event.stopPropagation()">
+
+  <button (click)="closeModal()"
+    class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 text-3xl font-light transition-transform duration-200 hover:scale-110">
+    &times;
+  </button>
+
+  <div class="mx-auto h-1.5 w-14 rounded-full bg-gray-300 mb-6"></div>
+
+  <div class="mx-auto w-full max-w-md space-y-4">
+
+    <div class="text-center sm:text-left px-2">
+      <h2 class="text-xl font-bold leading-none tracking-tight text-gray-900 mb-1">Siguiendo</h2>
+      <p class="text-sm text-gray-500">Personas que{{ followings[0]?.nombreSeguidor }} sigue</p>
+    </div>
+    <br>
+    <div class="relative overflow-hidden h-[70vh]">
+      <div class="h-full w-full overflow-y-auto rounded-md no-scrollbar pr-1.5 space-y-5">
+
+        <div *ngFor="let following of followings" class="flex items-center gap-4 px-2">
+          <a (click)="navigateToProfileUser(following.idSeguido)" class="flex-shrink-0">
+            <span class="relative flex overflow-hidden rounded-full w-12 h-12 border-2 border-gray-200 shadow-sm">
+             <img class="object-cover w-full h-full" [src]="following.avatarSeguido" alt="{{ following.nombreSeguido }}">
+            </span>
+          </a>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1">
+              <a (click)="navigateToProfileUser(following.idSeguido)"  class="font-medium text-gray-900 truncate">{{ following.nombreSeguido }}</a>
+            </div>
+              <p class="text-sm text-gray-500">{{ following.carreraSeguido }}</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
