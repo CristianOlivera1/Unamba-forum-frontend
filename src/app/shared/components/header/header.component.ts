@@ -57,7 +57,10 @@ export class HeaderComponent implements OnInit {
       });
     }
   }
-
+  navigateToProfileUser(idUsuario: string) {
+    this.router.navigate(['/profile', idUsuario]);
+  }
+  
   loadCareers(): void {
     this.careerService.getAllCareer().subscribe({
       next: (response: any) => {
