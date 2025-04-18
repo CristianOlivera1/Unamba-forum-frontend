@@ -1,0 +1,42 @@
+<div class="fixed inset-0 bg-[rgba(0,0,0,0.1)] z-50" (click)="closeModal()"></div>
+<div
+  class="fixed bottom-0 left-0 w-full max-h-[90vh] bg-white dark:bg-slate-900 rounded-t-3xl shadow-2xl px-6 py-6 z-50 overflow-y-auto" (click)="$event.stopPropagation()">
+
+  <button (click)="closeModal()"
+    class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white text-3xl font-light transition-transform duration-200 hover:scale-110">
+    &times;
+  </button>
+
+  <div class="mx-auto h-1.5 w-14 rounded-full bg-gray-300 dark:bg-gray-600 mb-6"></div>
+
+  <div class="mx-auto w-full max-w-md space-y-4">
+
+    <div class="text-center sm:text-left px-2">
+      <h2 class="text-xl font-bold leading-none tracking-tight text-gray-900 dark:text-white">Seguidores</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400">Personas que siguen a {{ followers[0]?.nombreSeguido }}</p>
+    </div>
+    <br>
+    <div class="relative overflow-hidden h-[70vh] ">
+      <div class="h-full w-full overflow-y-auto rounded-md no-scrollbar pr-1.5 space-y-5">
+
+        <div *ngFor="let follower of followers" class="flex items-center gap-4 px-2">
+          <a class="flex-shrink-0">
+            <span
+              class="relative flex overflow-hidden rounded-full w-12 h-12 border-2 border-gray-200 dark:border-gray-700 shadow-sm">
+              <img class="object-cover w-full h-full" [src]="follower.avatarSeguidor" alt="{{ follower.nombreSeguidor }}">
+            </span>
+          </a>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1">
+              <a class="font-medium text-gray-900 dark:text-white truncate">{{ follower.nombreSeguidor }}</a>
+            </div>
+            <a>
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{ follower.carreraSeguidor }}</p>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
