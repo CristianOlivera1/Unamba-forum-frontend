@@ -62,7 +62,7 @@ export class PublicationWithFilesComponent implements OnInit {
           this.rolService.getRolByUserId(publication.idUsuario).subscribe({
             next: (rolResponse: any) => {
               if (rolResponse.type === 'success') {
-                publication.tipoRol = rolResponse.data.tipo; // Agregar el tipo de rol a la publicación
+                publication.tipoRol = rolResponse.data.tipo;
               }
             },
             error: (error) => {
@@ -91,7 +91,6 @@ navigateToProfileUser(idUsuario: string) {
 openPhotoSlider(archivos: { tipo: string; rutaArchivo: string }[], index: number): void {
   this.selectedPhotos = archivos;
   this.selectedPhotoIndex = index; 
-
   this.isPhotoSliderVisible = true;
 }
 
@@ -99,9 +98,7 @@ closePhotoSlider(): void {
   this.isPhotoSliderVisible = false;
   this.selectedPhotos = [];
   this.selectedPhotoIndex = 0; 
-
 }
-
 
 showHoverModal(userId: string, event: MouseEvent): void {
   const target = event.target as HTMLElement;
