@@ -6,7 +6,8 @@
     class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl cursor-pointer"
     [style.backgroundImage]="'url(' + userProfile?.fotoPortada + ')'"
     style="background-size: cover; background-position: center;">
-    <button *ngIf="currentUserId === userId"  (click)="openEditPhotoFrontPageModal(); $event.stopPropagation()"
+    <button *ngIf="currentUserId === userId" (click)="openEditPhotoFrontPageModal(); $event.stopPropagation()"
+      title="Editar foto de portada"
       class="absolute top-28 right-8 bg-black-50 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 hover:bg-gray-700">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path
@@ -22,35 +23,40 @@
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
       <div class="relative shrink-0">
         <img [src]="userProfile?.fotoPerfil" alt="Foto de perfil"
-          class="w-24 h-24 rounded-full object-cover cursor-pointer"
+          class="w-24 h-24 rounded-full object-cover cursor-pointer transition-opacity hover:opacity-90"
           (click)="openPhotoSlider([{ tipo: 'imagen', rutaArchivo: userProfile?.fotoPerfil }], 0)" />
-          <div *ngIf="currentUserId === userId" >
-            <div class="absolute bottom-0 right-0 bg-black bg-opacity-80 text-white rounded-full p-1">
-              <button 
-                (click)="openEditPhotoModal()" 
-                class="w-7 h-7 flex items-center justify-center rounded-full bg-black hover:bg-black/70 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path d="M15 10l4.553-2.276A2 2 0 0122 9.618v4.764a2 2 0 01-2.447 1.894L15 14m0 0l-4.553 2.276A2 2 0 018 15.382V10.618a2 2 0 011.447-1.894L15 10z" />
-                </svg>
-              </button>
-            </div>
+
+        <div *ngIf="currentUserId === userId">
+          <div class="absolute bottom-0 right-0 bg-black bg-opacity-80 text-white rounded-full p-1">
+            <button (click)="openEditPhotoModal()"
+              class="w-7 h-7 flex items-center justify-center rounded-full bg-black hover:bg-black/70 transition"
+              title="Editar foto de perfil">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path
+                  d="M15 10l4.553-2.276A2 2 0 0122 9.618v4.764a2 2 0 01-2.447 1.894L15 14m0 0l-4.553 2.276A2 2 0 018 15.382V10.618a2 2 0 011.447-1.894L15 10z" />
+              </svg>
+            </button>
           </div>
+        </div>
       </div>
 
       <div>
         <h2 class="text-xl font-semibold text-subtitle">{{ userProfile?.nombreCompleto }}</h2>
         <p class="text-sm text-gray-600 max-w-lg mt-1">{{ userProfile?.descripcion }}</p>
         <div class="flex gap-6 mt-3 text-sm text-gray-700">
-          <span class="cursor-pointer" (click)="openFollowerModal()"><strong>{{ userProfile?.totalFollowers }}</strong>
+          <span class="cursor-pointer hover:text-black transition-all duration-300"
+            (click)="openFollowerModal()"><strong>{{ userProfile?.totalFollowers }}</strong>
             Seguidores</span>
-          <span class="cursor-pointer" (click)="openFollowingModal()"><strong>{{ userProfile?.totalFollowing }}</strong> Siguiendo</span>
+          <span class="cursor-pointer hover:text-black transition-all duration-300"
+            (click)="openFollowingModal()"><strong>{{ userProfile?.totalFollowing }}</strong> Siguiendo</span>
         </div>
       </div>
     </div>
 
     <div *ngIf="currentUserId === userId" class="self-start md:ml-auto">
       <button
-        class="bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2">
+        class="bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2"
+        title="Editar perfil">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M12 20h9" />
           <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z" />
@@ -62,7 +68,8 @@
 
   <!-- Contenedor de columnas -->
   <div class="mt-15 mb-30 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr_1fr] gap-6 items-start">
-    <aside class="border border-gray-200 hover:border-gray-300 transition-all duration-300 ease-in-out rounded-xl p-5 sticky top-29">
+    <aside
+      class="border border-gray-200 hover:border-gray-300 transition-all duration-300 ease-in-out rounded-xl p-5 lg:sticky lg:top-28">
       <h2 class="font-semibold text-lg mb-4 text-subtitle">Detalles</h2>
       <ul class="space-y-3 text-sm text-gray-700">
         <app-detail [userDetails]="userDetails"></app-detail>
@@ -75,12 +82,14 @@
 
         <div class="flex items-center gap-3">
           <a (click)="navigateToProfileUser(publication.idUsuario)">
-            <img [src]="publication.avatar" alt="Avatar" class="w-10 h-10 rounded-full"
+            <img [src]="publication.avatar" alt="Avatar"
+              class="w-10 h-10 rounded-full transition-opacity hover:opacity-90"
               (mouseenter)="showHoverModal(publication.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
           </a>
           <div class="flex-1">
             <a (click)="navigateToProfileUser(publication.idUsuario)">
-              <h3 class="text-sm font-semibold text-gray-800">{{ publication.nombreCompleto }}</h3>
+              <h3 class="text-sm font-semibold text-gray-800 hover:underline transition-all duration-300">{{
+                publication.nombreCompleto }}</h3>
             </a>
             <div class="flex items-center gap-2">
               <p class="text-xs text-gray-500 truncate">{{ publication.nombreCarrera }}</p>
@@ -134,20 +143,36 @@
 
         <!-- Contenido publicación -->
         <div>
-          <a (click)="navigateToDetailPublication(publication.idPublicacion)">
+          <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
             <h4 class="font-semibold truncate text-gray-900 text-sm">{{ publication.titulo }}</h4>
             <p class="text-gray-600 text-sm mt-1 truncate w-80 sm:w-120 xl:w-100">
               {{ publication.contenido }}
             </p>
           </a>
         </div>
-        <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"></app-totals-reaction-comment>
+        <app-modal-users-by-reaction-type *ngIf="publication.isReactionModalVisible"
+        [reactionType]="publication.reactionType" [users]="publication.reactionUsers"
+        [position]="publication.hoverPosition" (mouseenter)="onModalMouseEnter()"
+        (mouseleave)="onModalMouseLeaveReaction(publication)">
+      </app-modal-users-by-reaction-type>
+  
+      <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
+        [totalComentarios]="publication.totalComentarios" (hoverReaction)="openReactionHover($event, publication)"
+        (leaveReaction)="closeReactionHover(publication)" (hoverComments)="openCommentHover($event, publication)"
+        (leaveComments)="closeCommentHover(publication)">
+      </app-totals-reaction-comment>
+  
+      <app-modal-user-comment-publication *ngIf="publication.isCommentModalVisible"
+        [usersComment]="publication.usersComment" [position]="publication.commentHoverPosition"
+        (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveComment(publication)">
+      </app-modal-user-comment-publication>
+
         <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
       </div>
     </main>
 
     <!-- Columna derecha (Sugerencias) -->
-    <aside class="border border-gray-200 rounded-xl p-5 sticky top-29">
+    <aside class="border border-gray-200 rounded-xl p-5 lg:sticky lg:top-28">
       <h2 class="font-semibold text-lg mb-4 text-subtitle">Seguir sugerencias</h2>
       <ul>
         <app-suggestion [suggestedUsers]="suggestedUsers"></app-suggestion>
@@ -184,7 +209,7 @@
     [initialIndex]="selectedPhotoIndex"></app-photo-slider>
 
   <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
-  
+
   <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
 
 </div>
