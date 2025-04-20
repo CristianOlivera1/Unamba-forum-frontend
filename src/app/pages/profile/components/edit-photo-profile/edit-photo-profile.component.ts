@@ -75,7 +75,6 @@ export class EditPhotoProfileComponent {
           if (errorMark) errorMark.remove();
           if (successMark) successMark.remove();
 
-
           const allowedExtensions = ['png', 'jpg', 'jpeg', 'webp'];
           const fileExtension = file.name.split('.').pop()?.toLowerCase();
           if (!allowedExtensions.includes(fileExtension ?? '')) {
@@ -111,20 +110,21 @@ export class EditPhotoProfileComponent {
         });
 
         dropzoneInstance.on('success', (file, response) => {
-          (document.getElementById('dropzone') as any).componentRef.isUpdateProfileInProgress = true;
-
+          const componentRef = (document.getElementById('dropzone') as any).componentRef;
+          componentRef.isUpdateProfileInProgress = false;
+  
           const responseObject = typeof response === 'string' ? JSON.parse(response) : response;
-          (document.getElementById('dropzone') as any).componentRef.photoUrl = responseObject.data.fotoPerfil;
-
-          // Emitir el mensaje de éxito al componente padre
-          (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de perfil actualizada correctamente, actualiza la página para ver los cambios.');
-
+          componentRef.photoUrl = responseObject.data.fotoPerfil;
+  
+          componentRef.success.emit('Foto de perfil actualizada correctamente, actualiza la página para ver los cambios.');
+  
           // Cerrar el modal
-          (document.getElementById('dropzone') as any).componentRef.close.emit();
+          componentRef.close.emit();
         });
 
         this.on('error', function (file, errorMessage) {
-          (document.getElementById('dropzone') as any).componentRef.isUpdateProfileInProgress = false;
+          const componentRef = (document.getElementById('dropzone') as any).componentRef;
+          componentRef.isUpdateProfileInProgress = false;
 
         });
       }
@@ -152,17 +152,18 @@ export class EditPhotoProfileComponent {
         .then(blob => {
           const file = new File([blob], 'sin-foto-perfil.webp', { type: 'image/webp' });
           formData.append('fotoPerfil', file);
+          this.isUpdateProfileInProgress = true; 
 
           this.profileService.updateProfile(formData).subscribe({
             next: (res) => {
+              this.isUpdateProfileInProgress = false;
               (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de perfil actualizada correctamente, actualiza la página para ver los cambios.');
-              this.isUpdateProfileInProgress = true;
               this.close.emit();
             },
             error: (err) => {
+              this.isUpdateProfileInProgress = false;
               this.showAlert('error', 'Error al actualizar la foto de perfil.');
               console.error(err);
-              this.isUpdateProfileInProgress = false;
             }
           });
         });
@@ -176,7 +177,7 @@ export class EditPhotoProfileComponent {
         this.showAlert('error', 'La imagen supera los 2MB permitidos.');
         return;
       }
-
+      this.isUpdateProfileInProgress = true; 
       this.dropzoneInstance.processQueue();
     } else {
       this.showAlert('warning', 'No se realizaron cambios en la imagen de perfil.');

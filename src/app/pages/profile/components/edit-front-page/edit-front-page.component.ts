@@ -110,9 +110,12 @@ export class EditFrontPageComponent {
         });
   
         dropzoneInstance.on('success', (file, response) => {
-          (document.getElementById('dropzone') as any).componentRef.isUpdateFrontPageInProgress = true;
+          const componentRef = (document.getElementById('dropzone') as any).componentRef;
+          componentRef.isUpdateFrontPageInProgress = false;
+
           const responseObject = typeof response === 'string' ? JSON.parse(response) : response;
-          (document.getElementById('dropzone') as any).componentRef.photoUrl = responseObject.data.fotoPerfil;
+
+          (document.getElementById('dropzone') as any).componentRef.photoUrl = responseObject.data.fotoPortada;
 
           (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de portada actualizada correctamente, actualiza la página para ver los cambios.');
 
@@ -147,17 +150,17 @@ export class EditFrontPageComponent {
         .then(blob => {
           const file = new File([blob], 'defaul_cover.webp', { type: 'image/webp' });
           formData.append('fotoPortada', file);
-
+          this.isUpdateFrontPageInProgress = true; 
           this.profileService.updateProfile(formData).subscribe({
             next: (res) => {
-              this.isUpdateFrontPageInProgress = true;
+              this.isUpdateFrontPageInProgress = false;
               (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de portada actualizada correctamente, actualiza la página para ver los cambios.');
               this.close.emit();
             },
             error: (err) => {
+              this.isUpdateFrontPageInProgress = false;
               this.showAlert('error', 'Error al actualizar la imagen de portada.');
               console.error(err);
-              this.isUpdateFrontPageInProgress = false;
             }
           });
         });
@@ -171,6 +174,7 @@ export class EditFrontPageComponent {
         this.showAlert('error', 'La imagen supera los 2MB permitidos.');
         return;
       }
+      this.isUpdateFrontPageInProgress = true;
       this.dropzoneInstance.processQueue();
     } else {
       this.showAlert('warning', 'No se realizaron cambios en la imagen de portada.');
