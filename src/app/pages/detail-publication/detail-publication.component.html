@@ -1,9 +1,82 @@
-<div class="welcome-message">
-    <p>¡Bienvenido a esta carrera!</p>
-    <p>Career works!</p>
+<app-header></app-header>
+<div class="container mx-auto mt-10">
+  <div class="grid grid-cols-1 md:grid-cols-3 grid-rows-5 gap-4">
+    <div class="col-span-2 row-span-5">
+      <!-- Publicación detalles-->
+      <button class="mb-4 px-4 py-2 border border-gray-200 font-semibold text-gray-800 text-sm rounded hover:bg-gray-200 transition">
+        Volver
+      </button>
+      <div class="bg-white rounded-xl overflow-hidden">
+        <!-- Imagen de la publicación -->
+        <img src="https://i.ytimg.com/vi/Uo9Jme8IwlM/maxresdefault.jpg" alt="Imagen destacada"
+          class="w-full h-80 object-cover">
+
+        <!-- Contenido de la publicación -->
+        <div class="p-5 border border-gray-200">
+          <!-- Info del usuario -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <img src="https://i.pravatar.cc/50" alt="Avatar" class="w-10 h-10 rounded-full border border-gray-200">
+              <div>
+                <p class="font-semibold text-gray-800 text-sm">Juan Pérez</p>
+                <p class="text-xs text-gray-500">Ingeniería de Sistemas · 6d</p>
+              </div>
+            </div>
+            <span class="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full">Desarrollo</span>
+          </div>
+
+          <h2 class="mt-4 text-xl font-bold text-gray-900">Introducción a React Hooks</h2>
+
+          <p class="mt-2 text-sm text-gray-700">
+            Los hooks son una característica introducida en React 16.8 que permite usar estado y otras características
+            de React sin escribir una clase.
+          </p>
+          <p class="mt-1 text-sm text-gray-700">
+            Los hooks son una característica introducida en React 16.8 que permite usar estado y otras características
+            de React sin escribir una clase.
+          </p>
+
+          <!-- Reacciones -->
+          <div class="flex items-center justify-between mt-4 px-1">
+            <div class="flex items-center gap-4 text-sm text-gray-600">
+              <div class="flex items-center gap-1">
+                <i class="fa-regular fa-thumbs-up text-blue-500"></i>
+                <span>24</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <i class="fa-regular fa-heart text-red-500"></i>
+                <span>24</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <i class="fa-regular fa-face-laugh-squint text-yellow-400"></i>
+                <span>24</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 text-sm text-gray-600">
+              <i class="fa-regular fa-comment"></i>
+              <span>5</span>
+            </div>
+          </div>
+
+          <!-- Acciones -->
+          <div class="flex justify-between mt-5 pt-3 border-t border-gray-200 text-sm text-gray-600">
+            <button class="flex items-center gap-2 hover:text-blue-600 transition">
+              <i class="fa-regular fa-thumbs-up"></i> Reaccionar
+            </button>
+            <button class="flex items-center gap-2 hover:text-blue-600 transition">
+              <i class="fa-regular fa-comment"></i> Comentar
+            </button>
+            <button class="flex items-center gap-2 hover:text-blue-600 transition">
+              <i class="fa-regular fa-share-from-square"></i> Compartir
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="row-span-5 col-start-3">
+      <!-- esta columna aun no lo toques -->
+    </div>
   </div>
-  <div *ngIf="publication">
-    <h1>{{ publication.titulo }}</h1>
-    <p>{{ publication.contenido }}</p>
-  </div>
-  
+<app-footer></app-footer>

@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from '../../core/services/publication/publication.service';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { FooterComponent } from '../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-detail-publication',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,HeaderComponent,FooterComponent],
   templateUrl: './detail-publication.component.html',
   styleUrl: './detail-publication.component.css'
 })
