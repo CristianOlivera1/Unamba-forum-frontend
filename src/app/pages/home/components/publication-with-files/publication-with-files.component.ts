@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
 import { CommonModule } from '@angular/common';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
@@ -21,6 +21,7 @@ import { ReactionService } from '../../../../core/services/reaction/reaction-com
 import { ReactionPublicationService } from '../../../../core/services/reaction/reaction-publication.service';
 import { CommentPublicationService } from '../../../../core/services/CommentPublication/comment-publication.service';
 import { ModalUserCommentPublicationComponent } from '../modal-user-comment-publication/modal-user-comment-publication.component';
+import { Publication } from '../../../../core/interfaces/publication';
 
 @Component({
   selector: 'app-publication-with-files',
@@ -29,7 +30,7 @@ import { ModalUserCommentPublicationComponent } from '../modal-user-comment-publ
   styleUrl: './publication-with-files.component.css'
 })
 export class PublicationWithFilesComponent implements OnInit {
-  publications: any[] = [];
+  publications: Publication[] = [];
   currentUserId: string | null = null;
   currentPublicationId: string | null = null;
 
@@ -49,6 +50,11 @@ export class PublicationWithFilesComponent implements OnInit {
   reactionUsers: any[] = [];
   reactionType: string = '';
 
+
+  currentPage: number = 0;
+  isLoading: boolean = false;
+  hasMorePublications: boolean = true;
+
   constructor(private publicationService: PublicationService, private tokenService: TokenService, private commentPublicationService: CommentPublicationService,
     private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private profileService: ProfileService, private rolService: RolService, private reactionPublicationService: ReactionPublicationService) { }
 
@@ -64,19 +70,32 @@ export class PublicationWithFilesComponent implements OnInit {
   }
 
   loadPublications(page: number = 0): void {
+    if (this.isLoading || !this.hasMorePublications) {
+      return; // Evita múltiples solicitudes simultáneas o cargar si no hay más publicaciones
+    }
+  
+    this.isLoading = true;
+  
     this.publicationService.getPublicationsWithFilesPaginated(page).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
-          this.publications = response.data.map((publication: any) => ({
+          const newPublications: Publication[] = response.data.map((publication: any) => ({
             ...publication,
             isReactionModalVisible: false,
             reactionUsers: [],
             reactionType: '',
             hoverPosition: { top: 0, left: 0 }
           }));
-
+  
+          if (newPublications.length === 0) {
+            this.hasMorePublications = false; // No hay más publicaciones para cargar
+          } else {
+            this.publications = [...this.publications, ...newPublications];
+            this.currentPage++;
+          }
+  
           // Obtener el rol de cada usuario en las publicaciones
-          this.publications.forEach((publication) => {
+          newPublications.forEach((publication: Publication) => {
             this.rolService.getRolByUserId(publication.idUsuario).subscribe({
               next: (rolResponse: any) => {
                 if (rolResponse.type === 'success') {
@@ -91,11 +110,23 @@ export class PublicationWithFilesComponent implements OnInit {
         } else {
           console.error('Error al cargar las publicaciones:', response.listMessage);
         }
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error en la solicitud:', error);
+        this.isLoading = false;
       }
     });
+  }
+  
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.body.offsetHeight - 100;
+  
+    if (scrollPosition >= threshold) {
+      this.loadPublications(this.currentPage);
+    }
   }
 
   navigateToDetailPublication(idPublication: string) {
@@ -130,8 +161,8 @@ export class PublicationWithFilesComponent implements OnInit {
     this.isHovering = true;
 
     this.hoverPosition = {
-      top: rect.top + window.scrollY + rect.height + 5,
-      left: rect.left + window.scrollX + rect.width / 2 - 160
+      top: rect.top + window.scrollY + rect.height - 40,
+      left: rect.left + window.scrollX + rect.width / 2 +30
     };
 
     this.profileService.getUserProfileHover(userId).subscribe({

@@ -178,8 +178,8 @@ export class ProfileComponent implements OnInit {
     this.isHovering = true;
 
     this.hoverPosition = {
-      top: rect.top + window.scrollY + rect.height + 5,
-      left: rect.left + window.scrollX + rect.width / 2 - 160
+      top: rect.top + window.scrollY + rect.height - 40,
+      left: rect.left + window.scrollX + rect.width / 2 +30
     };
 
     this.profileService.getUserProfileHover(userId).subscribe({

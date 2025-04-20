@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
+    <app-hover-avatar  *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
       (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
 
     <div class="w-full overflow-hidden">
@@ -40,7 +40,7 @@
 
           <!-- Condición para una sola imagen o video -->
           <ng-container *ngIf="publication.archivos.length === 1">
-            <figure *ngFor="let archivo of publication.archivos;let i = index" class="shrink-0 w-full">
+            <figure *ngFor="let archivo of publication.archivos;let i = index" class="shrink-0 w-full scroll-touch">
               <div class="overflow-hidden rounded-md">
                 <!-- Imágenes -->
                 <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
@@ -57,25 +57,28 @@
               </div>
             </figure>
           </ng-container>
-
           <!-- Condición para múltiples archivos -->
           <ng-container *ngIf="publication.archivos.length > 1">
-            <figure *ngFor="let archivo of publication.archivos; let i = index" class="shrink-0">
-              <div class="overflow-hidden rounded-md">
-                <!-- Imágenes -->
-                <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
-                  class="aspect-square h-54 w-54 object-cover cursor-pointer"
-                  (click)="openPhotoSlider(publication.archivos, i)" />
-                <!-- Videos -->
-                <video *ngIf="archivo.tipo === 'video'" controls
-                  class="aspect-square h-54 w-54 object-cover cursor-pointer"
-                  (click)="openPhotoSlider(publication.archivos,i)">
-                  <source [src]="archivo.rutaArchivo" type="video/mp4" />
-                  Tu navegador no soporta la etiqueta de video.
-                </video>
-              </div>
-            </figure>
+            <div class="flex sm:overflow-visible overflow-x-auto gap-4 px-1">
+
+              <figure *ngFor="let archivo of publication.archivos; let i = index" class="shrink-0">
+                <div class="overflow-hidden rounded-md">
+                  <!-- Imágenes -->
+                  <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
+                    class="aspect-square h-54 w-54 object-cover cursor-pointer"
+                    (click)="openPhotoSlider(publication.archivos, i)" />
+                  <!-- Videos -->
+                  <video *ngIf="archivo.tipo === 'video'" controls
+                    class="aspect-square h-54 w-54 object-cover cursor-pointer"
+                    (click)="openPhotoSlider(publication.archivos,i)">
+                    <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                    Tu navegador no soporta la etiqueta de video.
+                  </video>
+                </div>
+              </figure>
+            </div>
           </ng-container>
+
         </div>
       </div>
     </div>
@@ -88,31 +91,42 @@
           publication.contenido }}</p>
       </a>
     </div>
+
     <app-photo-slider *ngIf="isPhotoSliderVisible" [photos]="selectedPhotos" (close)="closePhotoSlider()"
       [initialIndex]="selectedPhotoIndex"></app-photo-slider>
 
-      <app-modal-users-by-reaction-type *ngIf="publication.isReactionModalVisible"
+    <app-modal-users-by-reaction-type *ngIf="publication.isReactionModalVisible"
       [reactionType]="publication.reactionType" [users]="publication.reactionUsers"
       [position]="publication.hoverPosition" (mouseenter)="onModalMouseEnter()"
       (mouseleave)="onModalMouseLeaveReaction(publication)">
     </app-modal-users-by-reaction-type>
 
     <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
-      [totalComentarios]="publication.totalComentarios" (hoverReaction)="openReactionHover($event, publication)"
+      [totalComentarios]="publication.totalComentarios ?? 0" (hoverReaction)="openReactionHover($event, publication)"
       (leaveReaction)="closeReactionHover(publication)" (hoverComments)="openCommentHover($event, publication)"
       (leaveComments)="closeCommentHover(publication)">
     </app-totals-reaction-comment>
 
     <app-modal-user-comment-publication *ngIf="publication.isCommentModalVisible"
-      [usersComment]="publication.usersComment" [position]="publication.commentHoverPosition"
+      [usersComment]="publication.usersComment ?? []" [position]="publication.commentHoverPosition ?? null"
       (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveComment(publication)">
     </app-modal-user-comment-publication>
 
     <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
 
     <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
-    
+
     <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
 
+  </div>
+
+  <div *ngIf="isLoading" class="flex justify-center items-center mt-4">
+    <svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
+        <animateTransform attributeName="transform" type="rotate" dur="0.75s" values="0 12 12;360 12 12"
+          repeatCount="indefinite" />
+      </path>
+    </svg>
   </div>
 </div>
