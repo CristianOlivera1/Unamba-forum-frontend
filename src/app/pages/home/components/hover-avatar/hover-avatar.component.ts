@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-hover-avatar',
@@ -10,4 +11,10 @@ import { Component, Input } from '@angular/core';
 export class HoverAvatarComponent {
   @Input() profileData: any; 
   @Input() position?: { top: number; left: number }; 
+  constructor(private router:Router){}
+
+  navigateToProfileUser(idPerfil: string) {
+    this.router.navigate(['/profile', idPerfil]);
+  }
+
 }
