@@ -1,82 +1,114 @@
 <app-header></app-header>
 <div class="container mx-auto mt-10">
-  <div class="grid grid-cols-1 md:grid-cols-3 grid-rows-5 gap-4">
-    <div class="col-span-2 row-span-5">
-      <!-- Publicación detalles-->
-      <button class="mb-4 px-4 py-2 border border-gray-200 font-semibold text-gray-800 text-sm rounded hover:bg-gray-200 transition">
-        Volver
-      </button>
+  <div *ngIf="publication" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <!-- Columna principal -->
+    <div class="col-span-2">
+      <div class="p-4 pt-0">
+        <button
+          class="px-4 py-2 border border-gray-200 font-semibold text-gray-800 text-sm rounded hover:bg-gray-200 transition"
+          (click)="goBack()">
+          Volver
+        </button>
+      </div>
       <div class="bg-white rounded-xl overflow-hidden">
-        <!-- Imagen de la publicación -->
-        <img src="https://i.ytimg.com/vi/Uo9Jme8IwlM/maxresdefault.jpg" alt="Imagen destacada"
-          class="w-full h-80 object-cover">
+        <!-- Archivos de la publicación -->
+        <section *ngIf="publication.archivos?.length > 0"
+          class="p-4 pb-0 h-40[vh] min-h-[380px] sm:h-[70vh] sm:min-h-[440px] overflow-x-auto scroll-touch sm:overflow-visible"
+          [ngClass]="{
+    'flex gap-4 overflow-x-auto sm:grid sm:gap-4': publication.archivos.length > 1,
+    'grid grid-cols-1': publication.archivos.length === 1,
+    'sm:grid-cols-2': publication.archivos.length === 2,
+    'sm:grid-cols-2 sm:grid-rows-2': publication.archivos.length === 3
+  }">
+          <ng-container *ngFor="let archivo of publication.archivos; let i = index">
+            <div
+              class="min-w-[80%] sm:min-w-0 card relative rounded-lg shadow-lg overflow-hidden cursor-pointer shrink-0"
+              [ngClass]="{
+        'w-3/4 min-w-[250px] sm:w-auto': publication.archivos.length > 1,
+        'w-full': publication.archivos.length === 1,
+        'col-span-1 row-span-1': publication.archivos.length === 1,
+        'sm:col-span-1 sm:row-span-1': publication.archivos.length > 1 && i < 2,
+        'sm:col-start-1 sm:row-start-2': publication.archivos.length === 3 && i === 1,
+        'sm:row-span-2 sm:col-start-2 sm:row-start-1': publication.archivos.length === 3 && i === 2
+      }" (click)="openPhotoSlider(publication.archivos, i)">
+              <!-- Imágenes -->
+              <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Imagen"
+                class="w-full h-full object-cover" />
 
+              <!-- Videos -->
+              <video *ngIf="archivo.tipo === 'video'" controls class="w-full h-full object-cover">
+                <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                Tu navegador no soporta la etiqueta de video.
+              </video>
+            </div>
+          </ng-container>
+        </section>
+
+        <div *ngIf="!publication.archivos?.length" class="p-4 text-center text-gray-500">
+          <p>No hay archivos adjuntos en esta publicación.</p>
+        </div>
+        <div class="border -my-2 border-t-0 mx-4 border-gray-200 rounded-b-xl">
         <!-- Contenido de la publicación -->
-        <div class="p-5 border border-gray-200">
-          <!-- Info del usuario -->
-          <div class="flex items-center justify-between">
+        <div class="p-6">
+          <div class="flex items-center justify-between mt-3">
             <div class="flex items-center gap-3">
-              <img src="https://i.pravatar.cc/50" alt="Avatar" class="w-10 h-10 rounded-full border border-gray-200">
+              <img [src]="publication.avatar" alt="Avatar" class="w-10 h-10 rounded-full border border-gray-200"
+                (mouseenter)="showHoverModal(publication.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
               <div>
-                <p class="font-semibold text-gray-800 text-sm">Juan Pérez</p>
-                <p class="text-xs text-gray-500">Ingeniería de Sistemas · 6d</p>
+                <p class="font-semibold text-gray-800 text-sm">{{ publication.nombreCompleto }}</p>
+                <p class="text-xs text-gray-500">{{ publication.nombreCarrera }} · {{ publication.fechaPublicacion }}
+                </p>
               </div>
             </div>
-            <span class="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full">Desarrollo</span>
+            <span class="bg-gray-200 text-gray-600 text-xs px-3 py-1 rounded-full">{{ publication.nombreCategoria
+              }}</span>
           </div>
 
-          <h2 class="mt-4 text-xl font-bold text-gray-900">Introducción a React Hooks</h2>
+          <h2 class="mt-4 text-xl font-bold text-gray-900">{{ publication.titulo }}</h2>
+          <p class="mt-2 text-sm text-gray-700 break-words">{{ publication.contenido }}</p>
+        </div>
 
-          <p class="mt-2 text-sm text-gray-700">
-            Los hooks son una característica introducida en React 16.8 que permite usar estado y otras características
-            de React sin escribir una clase.
-          </p>
-          <p class="mt-1 text-sm text-gray-700">
-            Los hooks son una característica introducida en React 16.8 que permite usar estado y otras características
-            de React sin escribir una clase.
-          </p>
+        <!-- Totales de reacciones -->
+        <div class="p-6 pt-0 ">
+          <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
+            [totalComentarios]="publication.totalComentarios" (hoverReaction)="openReactionHover($event, publication)"
+            (leaveReaction)="closeReactionHover(publication)" (hoverComments)="openCommentHover($event, publication)"
+            (leaveComments)="closeCommentHover(publication)">
+          </app-totals-reaction-comment>
+        </div>
 
-          <!-- Reacciones -->
-          <div class="flex items-center justify-between mt-4 px-1">
-            <div class="flex items-center gap-4 text-sm text-gray-600">
-              <div class="flex items-center gap-1">
-                <i class="fa-regular fa-thumbs-up text-blue-500"></i>
-                <span>24</span>
-              </div>
-              <div class="flex items-center gap-1">
-                <i class="fa-regular fa-heart text-red-500"></i>
-                <span>24</span>
-              </div>
-              <div class="flex items-center gap-1">
-                <i class="fa-regular fa-face-laugh-squint text-yellow-400"></i>
-                <span>24</span>
-              </div>
-            </div>
-            <div class="flex items-center gap-1 text-sm text-gray-600">
-              <i class="fa-regular fa-comment"></i>
-              <span>5</span>
-            </div>
-          </div>
-
-          <!-- Acciones -->
-          <div class="flex justify-between mt-5 pt-3 border-t border-gray-200 text-sm text-gray-600">
-            <button class="flex items-center gap-2 hover:text-blue-600 transition">
-              <i class="fa-regular fa-thumbs-up"></i> Reaccionar
-            </button>
-            <button class="flex items-center gap-2 hover:text-blue-600 transition">
-              <i class="fa-regular fa-comment"></i> Comentar
-            </button>
-            <button class="flex items-center gap-2 hover:text-blue-600 transition">
-              <i class="fa-regular fa-share-from-square"></i> Compartir
-            </button>
-          </div>
-
+        <!-- Acciones para reaccionar -->
+        <div class="p-6 pt-0">
+          <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
         </div>
       </div>
-
+      </div>
     </div>
-    <div class="row-span-5 col-start-3">
-      <!-- esta columna aun no lo toques -->
+
+    <!-- Columna secundaria -->
+    <div class="col-span-1">
+      <!-- Aquí puedes agregar contenido adicional -->
     </div>
   </div>
+
+  <!-- Modales -->
+  <app-photo-slider *ngIf="isPhotoSliderVisible" [photos]="selectedPhotos" [initialIndex]="selectedPhotoIndex"
+    (close)="closePhotoSlider()"></app-photo-slider>
+
+  <app-modal-users-by-reaction-type *ngIf="publication?.isReactionModalVisible"
+    [reactionType]="publication.reactionType" [users]="publication.reactionUsers" [position]="publication.hoverPosition"
+    (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveReaction(publication)">
+  </app-modal-users-by-reaction-type>
+
+  <app-modal-user-comment-publication *ngIf="publication?.isCommentModalVisible"
+    [usersComment]="publication.usersComment" [position]="publication.commentHoverPosition"
+    (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveComment(publication)">
+  </app-modal-user-comment-publication>
+
+  <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
+    (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
+
+  <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
+  <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
+</div>
 <app-footer></app-footer>
