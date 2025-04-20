@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ReactionPublicationService } from '../../../../core/services/reaction/reaction-publication.service';
 import { CommonModule } from '@angular/common';
 
@@ -10,9 +10,14 @@ import { CommonModule } from '@angular/common';
 })
 export class TotalsReactionCommentComponent implements OnInit {
   @Input() idPublicacion!: string;
+  @Output() hoverReaction = new EventEmitter<{ tipo: string; event: MouseEvent }>();
+  @Output() leaveReaction = new EventEmitter<void>();
+
+  @Output() hoverComments = new EventEmitter<{ event: MouseEvent }>();
+  @Output() leaveComments = new EventEmitter<void>();
+  @Input() totalComentarios!: number;
 
   reacciones: { tipo: string; cantidad: number }[] = [];
-  totalComentarios: number = 0;
 
   constructor(private reactionService: ReactionPublicationService) {}
 
@@ -34,5 +39,21 @@ export class TotalsReactionCommentComponent implements OnInit {
         console.error('Error en la solicitud:', err);
       }
     });
+  }
+
+  onHoverReaction(tipo: string, event: MouseEvent): void {
+    this.hoverReaction.emit({ tipo, event });
+  }
+
+  onLeaveReaction(): void {
+    this.leaveReaction.emit();
+  }
+
+  onHoverComments(event: MouseEvent): void {
+    this.hoverComments.emit({ event }); // Emitir el evento MouseEvent envuelto en un objeto
+  }
+
+  onLeaveComments(): void {
+    this.leaveComments.emit();
   }
 }
