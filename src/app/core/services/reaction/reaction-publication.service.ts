@@ -46,4 +46,9 @@ export class ReactionPublicationService {
     return this.httpClient.get<any>(url, { params });
   }
 
+  getUsersByReactionType(idPublicacion: string, tipo: string): Observable<any> {
+    const url = `${this.apiReactionPublication}/reactionuser`;
+    const params = { idPublicacion, tipo };
+    return this.httpClient.get<any>(url, { params });
+  }
 }
