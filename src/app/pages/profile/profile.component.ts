@@ -23,10 +23,14 @@ import { EditFrontPageComponent } from './components/edit-front-page/edit-front-
 import { FollowService } from '../../core/services/follow/follow.service';
 import { ModalFollowerComponent } from './components/modal-follower/modal-follower.component';
 import { ModalFollowingComponent } from './components/modal-following/modal-following.component';
+import { ModalUserCommentPublicationComponent } from '../home/components/modal-user-comment-publication/modal-user-comment-publication.component';
+import { ModalUsersByReactionTypeComponent } from '../home/components/modal-users-by-reaction-type/modal-users-by-reaction-type.component';
+import { ReactionPublicationService } from '../../core/services/reaction/reaction-publication.service';
+import { CommentPublicationService } from '../../core/services/CommentPublication/comment-publication.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent, PhotoSliderComponent,EditPhotoProfileComponent,EditFrontPageComponent,ModalFollowerComponent,ModalFollowingComponent],
+  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent, PhotoSliderComponent,EditPhotoProfileComponent,EditFrontPageComponent,ModalFollowerComponent,ModalFollowingComponent,ModalUserCommentPublicationComponent,ModalUsersByReactionTypeComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -64,7 +68,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private profileService: ProfileService, private followService: FollowService,
-    private publicationService: PublicationService, private router: Router, private tokenService: TokenService, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private userService: UserService,
+    private publicationService: PublicationService, private router: Router, private tokenService: TokenService, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private userService: UserService,private reactionPublicationService:ReactionPublicationService, private commentPublicationService:CommentPublicationService
 
   ) { }
 
@@ -261,6 +265,87 @@ export class ProfileComponent implements OnInit {
         this.hoverProfileData = null;
       }
     }, 200);
+  }
+
+  openReactionHover(data: { event: MouseEvent; tipo: string }, publication: any): void {
+    const target = data.event.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+
+    publication.reactionType = data.tipo;
+    publication.isReactionModalVisible = true;
+
+    publication.hoverPosition = {
+      top: rect.top + window.scrollY - 5,
+      left: rect.left + window.scrollX + rect.width / 2 + 20
+    };
+
+    // Cargar los usuarios que reaccionaron
+    this.reactionPublicationService.getUsersByReactionType(publication.idPublicacion, data.tipo).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          publication.reactionUsers = response.data;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar los usuarios por tipo de reacción:', error);
+      }
+    });
+  }
+
+  closeReactionHover(publication: any): void {
+    setTimeout(() => {
+      if (!this.isHovering) {
+        publication.isReactionModalVisible = false;
+        publication.reactionUsers = [];
+        publication.reactionType = '';
+      }
+    }, 200);
+  }
+  openCommentHover(data: { event: MouseEvent }, publication: any): void {
+    const target = data.event.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const modalWidth = 200;
+    const screenWidth = window.innerWidth;
+    const fitsOnRight = rect.left + rect.width / 2 + modalWidth / 2 <= screenWidth;
+
+    publication.isCommentModalVisible = true;
+    publication.commentHoverPosition = {
+      top: rect.top + window.scrollY + rect.height + 5,
+      left: fitsOnRight
+        ? rect.left + window.scrollX + rect.width / 2 - modalWidth / 2
+        : rect.left + window.scrollX - modalWidth / 2
+    };
+
+    this.commentPublicationService.getUsersWhoCommented(publication.idPublicacion).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          publication.usersComment = response.data;
+        } else {
+          console.error('API response error:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar los usuarios que comentaron:', error);
+      }
+    });
+  }
+
+  closeCommentHover(publication: any): void {
+    setTimeout(() => {
+      if (!this.isHovering) {
+        publication.isCommentModalVisible = false;
+        publication.usersComment = [];
+      }
+    }, 200);
+  }
+
+  onModalMouseLeaveComment(publication: any): void {
+    this.isHovering = false;
+    this.closeCommentHover(publication);
+  }
+  onModalMouseLeaveReaction(publication: any): void {
+    this.isHovering = false;
+    this.closeReactionHover(publication);
   }
 
   openPhotoSlider(archivos: { tipo: string; rutaArchivo: string }[], index: number): void {
