@@ -1,19 +1,21 @@
-<div class="flex items-center gap-3 text-sm text-gray-500 mb-3 mt-5">
-    <div *ngFor="let reaccion of reacciones" class="flex items-center gap-1">
-      <img [src]="'/assets/icons/publication/' + reaccion.tipo + '.png'" [alt]="reaccion.tipo" class="h-6 w-6 2xl:w-7 2xl:h-7">
-      <span>{{ reaccion.cantidad }}</span>
-    </div>
-  
-    <div *ngIf="totalComentarios > 0" class="flex items-center gap-1 ml-auto">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <g fill="none">
-            <path fill="currentColor"
-              d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1"
-              opacity="0.16" />
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1" />
-          </g>
-        </svg>
-        <span>{{ totalComentarios }}</span>
-      </div>
+<div class="flex items-center gap-2 lg:gap-3 text-sm text-gray-500 mb-3 mt-5">
+  <div *ngFor="let reaccion of reacciones"
+    class="flex items-center gap-1 hover:bg-gray-200 hover:rounded-md transition-transform duration-300 transform hover:scale-110 cursor-pointer"
+    (mouseenter)="onHoverReaction(reaccion.tipo, $event)" (mouseleave)="onLeaveReaction()">
+    <img [src]="'/assets/icons/publication/' + reaccion.tipo + '.png'" [alt]="reaccion.tipo" class="w-5 h-5 lg:h-6 lg:w-6">
+    <span>{{ reaccion.cantidad }}</span>
   </div>
+
+  <div *ngIf="totalComentarios > 0" class="flex items-center gap-1 ml-auto cursor-pointer" (mouseenter)="onHoverComments($event)"
+    (mouseleave)="onLeaveComments()">
+    <svg class="w-5 h-5 lg:h-6 lg:w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <g fill="none">
+        <path fill="currentColor" d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1"
+          opacity="0.16" />
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1" />
+      </g>
+    </svg>
+    <span>{{ totalComentarios }}</span>
+  </div>
+</div>
