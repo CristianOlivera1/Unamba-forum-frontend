@@ -27,6 +27,6 @@ export const routes: Routes = [
     { path: 'photo', component: PhotoSliderComponent },
     { path: 'editphoto', component: EditPhotoProfileComponent },
     { path: 'follow', component: ModalFollowerComponent },
-
+    { path: 'publication', component: DetailPublicationComponent },
     { path: '**', redirectTo: '' }
 ];
