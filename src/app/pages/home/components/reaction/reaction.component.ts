@@ -54,13 +54,12 @@ export class ReactionComponent implements OnInit {
 
   addReaction(tipo: string): void {
     if (!this.tokenService.isLoggedIn()) {
-      // Mostrar el modal de inicio de sesión si el usuario no está autenticado
+
       this.modalService.showLoginModal();
       return;
     }
 
     if (this.currentReaction === tipo) {
-      // Si el usuario hace clic en el mismo emoji, elimina la reacción
       this.removeReaction();
       return;
     }
@@ -69,7 +68,6 @@ export class ReactionComponent implements OnInit {
     this.profileService.getProfileByUserId(this.idUsuario).subscribe({
       next: (response: any) => {
       if (response.type === 'success' && !response.data.idCarrera) {
-        // Mostrar el modal de completar información si idCarrera es null
         this.modalInfoCompleteService.showInfoCompleteModal();
         return;
       }
@@ -108,7 +106,6 @@ export class ReactionComponent implements OnInit {
       console.error('Error al verificar el perfil del usuario:', err);
       }
     });
-
   }
 
   removeReaction(): void {
