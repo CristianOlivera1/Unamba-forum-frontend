@@ -26,7 +26,7 @@ import { ModalFollowingComponent } from './components/modal-following/modal-foll
 import { ModalUserCommentPublicationComponent } from '../home/components/modal-user-comment-publication/modal-user-comment-publication.component';
 import { ModalUsersByReactionTypeComponent } from '../home/components/modal-users-by-reaction-type/modal-users-by-reaction-type.component';
 import { ReactionPublicationService } from '../../core/services/reaction/reaction-publication.service';
-import { CommentPublicationService } from '../../core/services/CommentPublication/comment-publication.service';
+import { CommentPublicationService } from '../../core/services/commentPublication/comment-publication.service';
 
 @Component({
   selector: 'app-profile',
@@ -250,8 +250,6 @@ export class ProfileComponent implements OnInit {
     this.isFollowingModalVisible = false;
     this.followings = []; 
   }
-
-  
 
   onModalMouseEnter(): void {
     this.isHovering = true;
