@@ -1,0 +1,69 @@
+<!-- Formulario de nuevo comentario -->
+<div *ngIf="isLoggedIn" class="flex gap-4 mt-5">
+  <div class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+    <img class="w-full h-full object-cover rounded-full"
+      [src]="userProfile?.fotoPerfil || 'https://default-avatar-url.com/avatar.png'" alt="avatar usuario logueado" />
+  </div>
+
+  <div class="flex-1 flex flex-col gap-2">
+    <textarea [(ngModel)]="newCommentContent" placeholder="Escribe un comentario..."
+      class="w-full border border-gray-300 rounded-lg p-4 min-h-24 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500"></textarea>
+
+    <div class="flex justify-end">
+      <button (click)="addComment()"
+        class="bg-blue-500 text-white hover:bg-blue-400 px-4 py-2 rounded-md text-sm font-medium"
+        aria-label="Publicar comentario">
+        Comentar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Lista de comentarios -->
+<div class="space-y-6 mt-10">
+  <div *ngFor="let comment of comments" class="flex gap-1 xl:gap-4 pb-4 border-b border-gray-200 last:border-0">
+    <div class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+      <img class="w-full h-full object-cover rounded-full" [src]="comment.avatar" alt="avatar del que comentó" />
+    </div>
+    <div class="flex-1">
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-sm font-semibold hover:underline">{{ comment.nombreCompleto }}</span>
+        <span class="text-xs text-gray-500">{{ comment.fechaRegistro | date: 'short' }}</span>
+      </div>
+      <p class="text-xs mb-2 text-black break-all whitespace-normal w-full overflow-hidden">
+        {{ comment.contenido }}
+      </p>
+      
+
+      <div class="flex items-center gap-0.5 text-xs text-gray-500">
+        <!-- Mostrar reacciones -->
+        <div *ngFor="let tipoReaccion of tiposReacciones"
+          class="flex items-center hover:bg-gray-200 rounded-md transition-transform duration-300 transform hover:scale-110 cursor-pointer p-0.5 gap-0.5"
+          [ngClass]="{
+          'bg-blue-200': isUserReaction(comment, tipoReaccion),
+          'hover:bg-gray-200': !isUserReaction(comment, tipoReaccion)
+        }" (click)="handleReaction(tipoReaccion, comment)">
+          <img [src]="'/assets/icons/publication/' + tipoReaccion + '.png'" [alt]="tipoReaccion"
+            class="w-5 h-5 2xl:h-7 2xl:w-7" />
+          <span *ngIf="getCantidadReaccion(comment.reacciones, tipoReaccion) > 0">{{
+            getCantidadReaccion(comment.reacciones, tipoReaccion) }}</span>
+        </div>
+        <div class="flex items-center text-xs text-gray-500">
+          <!-- Botón para responder -->
+          <button class="hover:text-foreground flex items-center ml-4" (click)="handleReply(comment.idComentario)">
+            Responder
+          </button>
+        </div>
+        <!-- Mostrar número de respuestas -->
+        <div *ngIf="comment.numeroRespuestas > 0" class="flex items-center ml-5 gap-1 font-semibold underline">
+          <span class="text-blue-600">Respuestas {{ comment.numeroRespuestas }}</span>
+        </div>
+      </div>
+
+      <!-- Mostrar el componente de respuestas si el comentario está seleccionado -->
+      <app-responses-comment *ngIf="selectedCommentId === comment.idComentario" [idComentario]="comment.idComentario"
+        [idUsuario]="userProfile?.idUsuario" (close)="selectedCommentId = null">
+      </app-responses-comment>
+    </div>
+  </div>
+</div>
