@@ -1,6 +1,6 @@
-import { Component, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
 import { ReactionComponent } from '../reaction/reaction.component';
 import { Router } from '@angular/router';
@@ -16,12 +16,11 @@ import { HoverAvatarComponent } from '../hover-avatar/hover-avatar.component';
 import { PhotoSliderComponent } from '../photo-slider/photo-slider.component';
 import { RolService } from '../../../../core/services/rol/rol.service';
 import { ModalUsersByReactionTypeComponent } from '../modal-users-by-reaction-type/modal-users-by-reaction-type.component';
-import { FollowService } from '../../../../core/services/follow/follow.service';
-import { ReactionService } from '../../../../core/services/reaction/reaction-comments.service';
 import { ReactionPublicationService } from '../../../../core/services/reaction/reaction-publication.service';
-import { CommentPublicationService } from '../../../../core/services/CommentPublication/comment-publication.service';
+import { CommentPublicationService } from '../../../../core/services/commentPublication/comment-publication.service';
 import { ModalUserCommentPublicationComponent } from '../modal-user-comment-publication/modal-user-comment-publication.component';
 import { Publication } from '../../../../core/interfaces/publication';
+import { debounceTime, fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-publication-with-files',
@@ -50,28 +49,32 @@ export class PublicationWithFilesComponent implements OnInit {
   reactionUsers: any[] = [];
   reactionType: string = '';
 
-
   currentPage: number = 0;
   isLoading: boolean = false;
   hasMorePublications: boolean = true;
 
   constructor(private publicationService: PublicationService, private tokenService: TokenService, private commentPublicationService: CommentPublicationService,
-    private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private profileService: ProfileService, private rolService: RolService, private reactionPublicationService: ReactionPublicationService) { }
+    private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private profileService: ProfileService, private rolService: RolService, private reactionPublicationService: ReactionPublicationService,@Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit(): void {
     this.currentUserId = this.tokenService.getUserId();
     this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
     this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
+    if (isPlatformBrowser(this.platformId)) {
+      fromEvent(window, 'scroll')
+        .pipe(debounceTime(300))
+        .subscribe(() => this.onScroll());
+    }
     this.loadPublications();
   }
-
+  
   getTimeElapsedWrapper(fechaRegistro: string): string {
     return TimeUtils.getTimeElapsed(fechaRegistro);
   }
 
   loadPublications(page: number = 0): void {
     if (this.isLoading || !this.hasMorePublications) {
-      return; // Evita múltiples solicitudes simultáneas o cargar si no hay más publicaciones
+      return; 
     }
   
     this.isLoading = true;
@@ -88,7 +91,7 @@ export class PublicationWithFilesComponent implements OnInit {
           }));
   
           if (newPublications.length === 0) {
-            this.hasMorePublications = false; // No hay más publicaciones para cargar
+            this.hasMorePublications = false;
           } else {
             this.publications = [...this.publications, ...newPublications];
             this.currentPage++;
@@ -122,7 +125,7 @@ export class PublicationWithFilesComponent implements OnInit {
   @HostListener('window:scroll', [])
   onScroll(): void {
     const scrollPosition = window.innerHeight + window.scrollY;
-    const threshold = document.body.offsetHeight - 100;
+    const threshold = document.body.offsetHeight - 250;
   
     if (scrollPosition >= threshold) {
       this.loadPublications(this.currentPage);
