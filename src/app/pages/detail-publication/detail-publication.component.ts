@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from '../../core/services/publication/publication.service';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
-import { CommentPublicationService } from '../../core/services/CommentPublication/comment-publication.service';
+import { CommentPublicationService } from '../../core/services/commentPublication/comment-publication.service';
 import { TokenService } from '../../core/services/oauth/token.service';
 import { ProfileService } from '../../core/services/profile/profile.service';
 import { ReactionPublicationService } from '../../core/services/reaction/reaction-publication.service';
@@ -22,10 +22,12 @@ import { CompleteInfoRegisterGoogleComponent } from '../oauth/complete-info-regi
 import { ModalLoginService } from '../../core/services/modal/modalLogin.service';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
+import { CommentComponent } from './components/comment/comment.component';
+import { TimeUtils } from '../../Utils/TimeElapsed';
 
 @Component({
   selector: 'app-detail-publication',
-  imports: [CommonModule,FormsModule,HeaderComponent,FooterComponent,PhotoSliderComponent,ModalUserCommentPublicationComponent,ModalUserCommentPublicationComponent,ModalUsersByReactionTypeComponent,LoginModalComponent,HoverAvatarComponent,TotalsReactionCommentComponent,ReactionComponent,CompleteInfoRegisterGoogleComponent],
+  imports: [CommonModule,FormsModule,HeaderComponent,FooterComponent,PhotoSliderComponent,ModalUserCommentPublicationComponent,ModalUserCommentPublicationComponent,ModalUsersByReactionTypeComponent,LoginModalComponent,HoverAvatarComponent,TotalsReactionCommentComponent,ReactionComponent,CompleteInfoRegisterGoogleComponent,CommentComponent],
   templateUrl: './detail-publication.component.html',
   styleUrl: './detail-publication.component.css'
 })
@@ -63,6 +65,8 @@ export class DetailPublicationComponent implements OnInit{
     this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
     this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
     this.loadPublicationById();
+    this.loadCommentsByPublication(); 
+
   }
 
   loadPublicationById(): void {
@@ -81,6 +85,25 @@ export class DetailPublicationComponent implements OnInit{
     }
   }
 
+  loadCommentsByPublication(): void {
+    const idPublicacion = this.route.snapshot.paramMap.get('idPublicacion');
+    if (idPublicacion) {
+      this.commentPublicationService.getCommentsByPublication(idPublicacion).subscribe({
+        next: (response: any) => {
+          if (response.type === 'success') {
+            this.publication.comments = response.data; // Almacena los comentarios en la publicación
+          } else {
+            console.error('Error al cargar los comentarios:', response.listMessage);
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener los comentarios:', err);
+        }
+      });
+    } else {
+      console.error('idPublicacion es null');
+    }
+  }
 
   openPhotoSlider(archivos: { tipo: string; rutaArchivo: string }[], index: number): void {
     this.selectedPhotos = archivos;
@@ -233,4 +256,7 @@ export class DetailPublicationComponent implements OnInit{
   goBack(): void {
     this.router.navigate(['/']);
   }
+    getTimeElapsedWrapper(fechaPublicacion: string): string {
+      return TimeUtils.getTimeElapsed(fechaPublicacion);
+    }
 }

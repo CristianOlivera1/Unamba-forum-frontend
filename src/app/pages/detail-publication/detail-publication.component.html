@@ -17,7 +17,7 @@
           [ngClass]="{
     'flex gap-4 overflow-x-auto sm:grid sm:gap-4': publication.archivos.length > 1,
     'grid grid-cols-1': publication.archivos.length === 1,
-    'sm:grid-cols-2': publication.archivos.length === 2,
+    'grid-cols-2': publication.archivos.length === 2,
     'sm:grid-cols-2 sm:grid-rows-2': publication.archivos.length === 3
   }">
           <ng-container *ngFor="let archivo of publication.archivos; let i = index">
@@ -47,7 +47,7 @@
         <div *ngIf="!publication.archivos?.length" class="p-4 text-center text-gray-500">
           <p>No hay archivos adjuntos en esta publicación.</p>
         </div>
-        <div class="border -my-2 border-t-0 mx-4 border-gray-200 rounded-b-xl">
+        <div class="border border-t-0 mx-4 border-gray-200 rounded-b-xl">
         <!-- Contenido de la publicación -->
         <div class="p-6">
           <div class="flex items-center justify-between mt-3">
@@ -56,7 +56,7 @@
                 (mouseenter)="showHoverModal(publication.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
               <div>
                 <p class="font-semibold text-gray-800 text-sm">{{ publication.nombreCompleto }}</p>
-                <p class="text-xs text-gray-500">{{ publication.nombreCarrera }} · {{ publication.fechaPublicacion }}
+                <p class="text-xs text-gray-500">{{ publication.nombreCarrera }} • {{ getTimeElapsedWrapper(publication.fechaPublicacion) }}
                 </p>
               </div>
             </div>
@@ -78,11 +78,13 @@
         </div>
 
         <!-- Acciones para reaccionar -->
-        <div class="p-6 pt-0">
+        <div class="p-6 pt-0 pb-2">
           <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
         </div>
       </div>
       </div>
+      <div class="border p-2 xl:p-6 mt-5 xl:mx-4 border-gray-200 rounded-xl">
+      <app-comment [idPublicacion]="publication.idPublicacion"></app-comment>
     </div>
 
     <!-- Columna secundaria -->
