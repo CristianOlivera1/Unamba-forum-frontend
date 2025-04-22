@@ -19,7 +19,6 @@ export class HeaderComponent implements OnInit {
   userProfile: any = null;
   career: any[] = [];
 
-
   constructor(
     private tokenService: TokenService,
     private profileService: ProfileService,
