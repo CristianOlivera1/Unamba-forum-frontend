@@ -6,22 +6,46 @@ import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ReactionService {
+export class ReactionCommentAndResponse {
 
-  private apiPublication = environment.apiPublication;
+  private apiReactionCommentAndResponse = environment.apiReactionCommentAndResponse;
 
   constructor(private httpClient: HttpClient) {}
 
-  public getPublicationsWithFilesPaginated(page: number = 0): Observable<any> {
-    return this.httpClient.get(`${this.apiPublication}/withfiles/paginated?page=${page}`);
+  addReactionToCommentOrResponse(dtoReaction: any): Observable<any> {
+    const url = `${this.apiReactionCommentAndResponse}/insert`;
+    const formData = new FormData();
+    formData.append('idUsuario', dtoReaction.idUsuario);
+    formData.append('idComentario', dtoReaction.idComentario || '');
+    if (dtoReaction.idRespuesta) {
+      formData.append('idRespuesta', dtoReaction.idRespuesta);
+    }
+    formData.append('tipo', dtoReaction.tipo);
+  
+    return this.httpClient.post<any>(url, formData);
+  }
+  updateReactionCommentOrResponse(
+    idReaccion: string,
+    dtoReaction: { idUsuario: string; idComentario?: string; idRespuesta?: string; nuevoTipo: string }
+  ): Observable<any> {
+    const url = `${this.apiReactionCommentAndResponse}/update`;
+    const params = {
+      idUsuario: dtoReaction.idUsuario,
+      idComentario: dtoReaction.idComentario || '',
+      idRespuesta: dtoReaction.idRespuesta || '',
+      nuevoTipo: dtoReaction.nuevoTipo,
+    };
+    return this.httpClient.put<any>(url, null, { params });
   }
 
-  public getAllPublicationwithoutFile(): Observable<any> {
-		return this.httpClient.get(`${this.apiPublication}/withoutfiles/paginated`);
-	}
-  
-  getPublicationById(idPublication: string): Observable<any> {
-    return this.httpClient.get(`${this.apiPublication}/details/${idPublication}`);
+  removeReactionCommentOrResponse(idReaction: string): Observable<any> {
+    const url = `${this.apiReactionCommentAndResponse}/remove/${idReaction}`;
+    return this.httpClient.delete<any>(url);
   }
   
+  getUserReactionsToComments(idUsuario: string, idPublicacion: string): Observable<any> {
+    const url = `${this.apiReactionCommentAndResponse}/userreactions`;
+    const params = { idUsuario, idPublicacion };
+    return this.httpClient.get<any>(url, { params });
+  }
 }
