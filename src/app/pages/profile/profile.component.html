@@ -1,6 +1,4 @@
 <app-header></app-header>
-
-
 <div class="container mx-auto">
   <div (click)="openPhotoSlider([{ tipo: 'imagen', rutaArchivo: userProfile?.fotoPortada }], 0)"
     class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl cursor-pointer"
@@ -76,7 +74,7 @@
       </ul>
     </aside>
 
-    <main class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4">
       <div *ngFor="let publication of userPublications"
         class="border border-gray-200 rounded-xl hover:shadow-md hover:bg-gradient-to-r from-gray-50 to-transparent p-4 space-y-4 hover:border-gray-300 transition-all duration-300 ease-in-out">
 
@@ -151,25 +149,25 @@
           </a>
         </div>
         <app-modal-users-by-reaction-type *ngIf="publication.isReactionModalVisible"
-        [reactionType]="publication.reactionType" [users]="publication.reactionUsers"
-        [position]="publication.hoverPosition" (mouseenter)="onModalMouseEnter()"
-        (mouseleave)="onModalMouseLeaveReaction(publication)">
-      </app-modal-users-by-reaction-type>
-  
-      <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
-        [totalComentarios]="publication.totalComentarios" (hoverReaction)="openReactionHover($event, publication)"
-        (leaveReaction)="closeReactionHover(publication)" (hoverComments)="openCommentHover($event, publication)"
-        (leaveComments)="closeCommentHover(publication)">
-      </app-totals-reaction-comment>
-  
-      <app-modal-user-comment-publication *ngIf="publication.isCommentModalVisible"
-        [usersComment]="publication.usersComment" [position]="publication.commentHoverPosition"
-        (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveComment(publication)">
-      </app-modal-user-comment-publication>
+          [reactionType]="publication.reactionType" [users]="publication.reactionUsers"
+          [position]="publication.hoverPosition" (mouseenter)="onModalMouseEnter()"
+          (mouseleave)="onModalMouseLeaveReaction(publication)">
+        </app-modal-users-by-reaction-type>
+
+        <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
+          [totalComentarios]="publication.totalComentarios" (hoverReaction)="openReactionHover($event, publication)"
+          (leaveReaction)="closeReactionHover(publication)" (hoverComments)="openCommentHover($event, publication)"
+          (leaveComments)="closeCommentHover(publication)">
+        </app-totals-reaction-comment>
+
+        <app-modal-user-comment-publication *ngIf="publication.isCommentModalVisible"
+          [usersComment]="publication.usersComment" [position]="publication.commentHoverPosition"
+          (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveComment(publication)">
+        </app-modal-user-comment-publication>
 
         <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
       </div>
-    </main>
+    </div>
 
     <!-- Columna derecha (Sugerencias) -->
     <aside class="border border-gray-200 rounded-xl p-5 lg:sticky lg:top-28">
@@ -211,6 +209,6 @@
   <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
 
   <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
-
+  
 </div>
 <app-footer></app-footer>
