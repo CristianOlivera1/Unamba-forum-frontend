@@ -1,0 +1,61 @@
+<div class="flex gap-2 mt-4 xl:ml-4">
+  <span class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+    <img src="https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_640.png"
+      alt="avatar-usuario-logueado(que va a responder)">
+  </span>
+
+  <!-- Contenedor del comentario -->
+  <div class="flex-1 flex flex-col gap-2">
+    <textarea [(ngModel)]="newResponseContent"
+      class="w-full border border-gray-300 rounded-lg p-4 min-h-15 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500"
+      placeholder="Escribe una respuesta..."></textarea>
+
+    <!-- Botones de acción -->
+    <div class="flex gap-2 justify-end">
+      <button class="rounded-md px-3 border border-gray-200" type="button" (click)="closeResponses()">
+        Cancelar
+      </button>
+
+      <button class="h-9 rounded-md px-3 text-white bg-blue-600" type="button" (click)="addResponse()">
+        Responder
+      </button>
+    </div>
+
+    <!-- Contenedor de respuestas registradas(si no las hay no se muestra)-->
+    <div class="mt-1 border-t border-gray-300 pt-1" *ngFor="let response of responses">
+      <div class="flex gap-2 mt-2">
+        <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
+          <img [src]="response.avatar" alt="avatar" class="w-full h-full object-cover rounded-full" />
+        </span>
+
+        <div class="flex-1">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold hover:underline">{{ response.nombreCompleto }}</span>
+            <span class="text-xs text-gray-500">{{ response.fechaRegistro | date: 'short' }}</span>
+          </div>
+          <p class="text-xs text-black break-words">{{ response.contenido }}</p>
+          <!-- Botón para responder a una respuesta -->
+
+          <button class="text-blue-500 text-xs hover:underline" (click)="handleReplyToResponse(response.idRespuesta)">
+            Responder
+          </button>
+
+          <div *ngIf="selectedResponseId === response.idRespuesta" class="mt-4">
+            <textarea [(ngModel)]="responseContents[response.idRespuesta]"
+              class="w-full border border-gray-300 rounded-lg p-4 min-h-15 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500"
+              placeholder="Escribe una respuesta..."></textarea>
+
+            <div class="flex gap-2 justify-end mt-2">
+              <button class="rounded-md px-3 border border-gray-200" type="button" (click)="selectedResponseId = null">
+                Cancelar
+              </button>
+              <button class="h-9 rounded-md px-3 text-white bg-blue-600" type="button" (click)="addResponse(response.idRespuesta)">
+                Responder
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
