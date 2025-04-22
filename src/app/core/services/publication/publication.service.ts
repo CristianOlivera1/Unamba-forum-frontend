@@ -23,9 +23,7 @@ export class PublicationService {
   getPublicationById(idPublication: string): Observable<any> {
     return this.httpClient.get(`${this.apiPublication}/details/${idPublication}`);
   }
-  
-  getPublicationUser(idUser: string): Observable<any> {
-    return this.httpClient.get(`${this.apiPublication}/user/${idUser}`);
+  getPublicationUser(idUser: string, page: number = 0): Observable<any> {
+    return this.httpClient.get(`${this.apiPublication}/user/${idUser}?page=${page}`);
   }
-  
 }
