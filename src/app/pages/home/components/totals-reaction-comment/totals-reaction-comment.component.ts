@@ -12,7 +12,6 @@ export class TotalsReactionCommentComponent implements OnInit {
   @Input() idPublicacion!: string;
   @Output() hoverReaction = new EventEmitter<{ tipo: string; event: MouseEvent }>();
   @Output() leaveReaction = new EventEmitter<void>();
-
   @Output() hoverComments = new EventEmitter<{ event: MouseEvent }>();
   @Output() leaveComments = new EventEmitter<void>();
   @Input() totalComentarios!: number;
@@ -50,7 +49,7 @@ export class TotalsReactionCommentComponent implements OnInit {
   }
 
   onHoverComments(event: MouseEvent): void {
-    this.hoverComments.emit({ event }); // Emitir el evento MouseEvent envuelto en un objeto
+    this.hoverComments.emit({ event });
   }
 
   onLeaveComments(): void {
