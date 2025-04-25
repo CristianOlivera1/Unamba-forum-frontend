@@ -2,7 +2,7 @@
   <div class="relative inline-block border-t-10 border-r-10 border-b-10 border-transparent"
     (mouseenter)="mostrarPopover()" (mouseleave)="ocultarPopover()">
     <!-- Botón principal -->
-    <button type="button" class="cursor-pointer" (click)="removeReaction()">
+    <button type="button" class="cursor-pointer p-2 hover:bg-gray-100 rounded-md" (click)="removeReaction()">
       <img
         [src]="currentReaction ? '/assets/icons/publication/' + currentReaction + '.png' : '/assets/icons/publication/feliz-gris.svg'"
         [alt]="currentReaction || 'feliz-gris'" class="h-6 w-6"/>
@@ -54,6 +54,7 @@
   <button class="p-2 hover:text-blue-600">
     <!-- Comentario -->
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <title>Comentar</title>
       <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
         d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.891 1 4.127L3 21l4.873-1c1.236.64 2.64 1 4.127 1" />
     </svg>
@@ -61,6 +62,7 @@
   <button class="p-2 hover:text-blue-600">
     <!-- Compartir -->
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <title>Compartir</title>
       <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
         d="m14 10l-3 3m9.288-9.969a.535.535 0 0 1 .68.681l-5.924 16.93a.535.535 0 0 1-.994.04l-3.219-7.242a.54.54 0 0 0-.271-.271l-7.242-3.22a.535.535 0 0 1 .04-.993z" />
     </svg>
