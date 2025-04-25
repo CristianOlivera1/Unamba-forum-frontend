@@ -49,3 +49,11 @@ button {
     transform: rotate(360deg);
   }
 }
+
+.hover-img-avatar {
+  transition: opacity 0.4s ease-in-out;
+}
+
+.hover-img-avatar:hover {
+  opacity: 0.8; 
+}
