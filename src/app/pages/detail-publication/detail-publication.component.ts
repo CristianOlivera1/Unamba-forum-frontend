@@ -27,12 +27,12 @@ import { TimeUtils } from '../../Utils/TimeElapsed';
 
 @Component({
   selector: 'app-detail-publication',
-  imports: [CommonModule,FormsModule,HeaderComponent,FooterComponent,PhotoSliderComponent,ModalUserCommentPublicationComponent,ModalUserCommentPublicationComponent,ModalUsersByReactionTypeComponent,LoginModalComponent,HoverAvatarComponent,TotalsReactionCommentComponent,ReactionComponent,CompleteInfoRegisterGoogleComponent,CommentComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, PhotoSliderComponent, ModalUserCommentPublicationComponent, ModalUserCommentPublicationComponent, ModalUsersByReactionTypeComponent, LoginModalComponent, HoverAvatarComponent, TotalsReactionCommentComponent, ReactionComponent, CompleteInfoRegisterGoogleComponent, CommentComponent],
   templateUrl: './detail-publication.component.html',
   styleUrl: './detail-publication.component.css'
 })
-export class DetailPublicationComponent implements OnInit{
-  publication: any;
+export class DetailPublicationComponent implements OnInit {
+  publication: any = {}; 
   currentUserId: string | null = null;
 
   isPhotoSliderVisible = false;
@@ -57,15 +57,15 @@ export class DetailPublicationComponent implements OnInit{
     private tokenService: TokenService,
     private reactionPublicationService: ReactionPublicationService,
     private commentPublicationService: CommentPublicationService,
-    private profileService: ProfileService,private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService,@Inject(PLATFORM_ID) private platformId: Object,
-  ) {}
+    private profileService: ProfileService, private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, @Inject(PLATFORM_ID) private platformId: Object,
+  ) { }
 
   ngOnInit(): void {
     this.currentUserId = this.tokenService.getUserId();
     this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
     this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
     this.loadPublicationById();
-    this.loadCommentsByPublication(); 
+    this.loadCommentsByPublication();
 
   }
 
@@ -91,6 +91,9 @@ export class DetailPublicationComponent implements OnInit{
       this.commentPublicationService.getCommentsByPublication(idPublicacion).subscribe({
         next: (response: any) => {
           if (response.type === 'success') {
+            if (!this.publication) {
+              this.publication = {};
+            }
             this.publication.comments = response.data; // Almacena los comentarios en la publicación
           } else {
             console.error('Error al cargar los comentarios:', response.listMessage);
@@ -228,7 +231,7 @@ export class DetailPublicationComponent implements OnInit{
 
     this.hoverPosition = {
       top: rect.top + window.scrollY + rect.height - 40,
-      left: rect.left + window.scrollX + rect.width / 2 +30
+      left: rect.left + window.scrollX + rect.width / 2 + 30
     };
 
     this.profileService.getUserProfileHover(userId).subscribe({
@@ -256,7 +259,11 @@ export class DetailPublicationComponent implements OnInit{
   goBack(): void {
     this.router.navigate(['/']);
   }
-    getTimeElapsedWrapper(fechaPublicacion: string): string {
-      return TimeUtils.getTimeElapsed(fechaPublicacion);
-    }
+  getTimeElapsedWrapper(fechaPublicacion: string): string {
+    const timeElapsed = TimeUtils.getTimeElapsed(fechaPublicacion);
+    const publicationDate = new Date(fechaPublicacion);
+    const formattedTime = publicationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return `${timeElapsed}, ${formattedTime}`;
+    
+  }
 }
