@@ -6,7 +6,7 @@
     <span>{{ reaccion.cantidad }}</span>
   </div>
 
-  <div *ngIf="totalComentarios > 0" class="flex items-center gap-1 ml-auto cursor-pointer" (mouseenter)="onHoverComments($event)"
+  <div *ngIf="totalComentarios > 0" class="flex items-center gap-1 ml-auto cursor-pointer hover:text-gray-600 hover:underline" (mouseenter)="onHoverComments($event)"
     (mouseleave)="onLeaveComments()">
     <svg class="w-5 h-5 lg:h-6 lg:w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <g fill="none">
