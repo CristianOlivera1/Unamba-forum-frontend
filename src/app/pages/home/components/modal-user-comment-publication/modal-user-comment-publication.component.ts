@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-user-comment-publication',
@@ -11,4 +12,8 @@ export class ModalUserCommentPublicationComponent {
   @Input() usersComment: any[] = [];
   @Input() position: { top: number; left: number } | null = null;
 
+  constructor(private router:Router){}
+  navigateToProfileUser(idUsuario:string){
+    this.router.navigate(["/profile",idUsuario])
+  }
 }
