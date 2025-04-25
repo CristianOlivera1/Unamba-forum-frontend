@@ -1,17 +1,21 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommentPublicationService } from '../../../../core/services/commentPublication/comment-publication.service';
 import { TokenService } from '../../../../core/services/oauth/token.service';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 import { FormsModule } from '@angular/forms';
 import { ReactionCommentAndResponse } from '../../../../core/services/reaction/reaction-comments.service';
 import { ResponsesCommentComponent } from '../responses-comment/responses-comment.component';
+import { TimeUtils } from '../../../../Utils/TimeElapsed';
+import { HoverAvatarComponent } from '../../../home/components/hover-avatar/hover-avatar.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-comment',
-  imports: [CommonModule, FormsModule,ResponsesCommentComponent],
+  imports: [CommonModule, FormsModule, ResponsesCommentComponent,HoverAvatarComponent],
   templateUrl: './comment.component.html',
-  styleUrl: './comment.component.css'
+  styleUrl: './comment.component.css',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CommentComponent implements OnInit {
   @Input() idPublicacion!: string;
@@ -20,11 +24,17 @@ export class CommentComponent implements OnInit {
   isLoggedIn: boolean = false;
   userProfile: any = null;
   tiposReacciones: string[] = ['Me identifica', 'Es increíble', 'Qué divertido'];
+  
+  hoverProfileData: any = null;
+  hoverPosition = { top: 0, left: 0 };
+  isHoverModalVisible = false;
+  isHovering = false;
 
+  showEmojiPicker: boolean = false;
   constructor(
     private commentPublicationService: CommentPublicationService,
     private tokenService: TokenService,
-    private profileService: ProfileService, private reactionCommentAndResponse: ReactionCommentAndResponse
+    private profileService: ProfileService, private reactionCommentAndResponse: ReactionCommentAndResponse, @Inject(PLATFORM_ID) private platformId: Object, private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -53,12 +63,15 @@ export class CommentComponent implements OnInit {
         }
       });
     }
+    if (isPlatformBrowser(this.platformId)) {
+      import('emoji-picker-element');
+    }
   }
-  
-  selectedCommentId: string | null = null; // ID del comentario seleccionado para responder
+
+  selectedCommentId: string | null = null;
 
   handleReply(commentId: string): void {
-    this.selectedCommentId = commentId; // Establece el comentario seleccionado
+    this.selectedCommentId = commentId;
   }
 
   loadUserProfile(): Promise<void> {
@@ -84,7 +97,15 @@ export class CommentComponent implements OnInit {
       }
     });
   }
-
+  
+  toggleEmojiPicker(): void {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+  addEmoji(event: any): void {
+    const emoji = event.detail.unicode;
+    this.newCommentContent += emoji;
+    this.showEmojiPicker = false;
+  }
   userReactions: { [idComentario: string]: string } = {};
   loadUserReactions(): void {
     if (!this.isLoggedIn) {
@@ -151,7 +172,6 @@ export class CommentComponent implements OnInit {
     this.commentPublicationService.addComment(formData).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
-          console.log('Comentario agregado correctamente.');
           this.newCommentContent = '';
           this.loadComments();
         } else {
@@ -171,7 +191,7 @@ export class CommentComponent implements OnInit {
     }
 
     const idComentario = comment.idComentario;
-    const idReaccion = this.userReactions[idComentario]; // <-- Esto es clave
+    const idReaccion = this.userReactions[idComentario];
     const reaccionActual = comment.reacciones.find((r: { idReaccion: string }) => r.idReaccion === idReaccion);
 
     if (reaccionActual && reaccionActual.tipo === tipo) {
@@ -259,7 +279,6 @@ export class CommentComponent implements OnInit {
             });
           }
         }
-        // Actualizamos el mapa
         this.userReactions[idComentario] = idReaccion;
       },
       error: (err) => {
@@ -277,7 +296,6 @@ export class CommentComponent implements OnInit {
 
     this.reactionCommentAndResponse.removeReactionCommentOrResponse(idReaccion).subscribe({
       next: () => {
-        console.log('Reacción eliminada correctamente.');
 
         const comment = this.comments.find(c => c.idComentario === idComentario);
         if (comment) {
@@ -308,5 +326,65 @@ export class CommentComponent implements OnInit {
     return reacciones
       .filter(r => r.tipo === tipo)
       .reduce((total, r) => total + r.cantidad, 0);
+  }
+
+  showHoverModal(userId: string, event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target) {
+      console.error('El elemento objetivo no es un HTMLElement.');
+      return;
+    }
+
+    const rect = target.getBoundingClientRect();
+    this.isHoverModalVisible = true;
+    this.isHovering = true;
+
+    this.hoverPosition = {
+      top: rect.top + window.scrollY + rect.height - 40,
+      left: rect.left + window.scrollX + rect.width / 2 +30
+    };
+
+    this.profileService.getUserProfileHover(userId).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.hoverProfileData = response.data;
+        }
+      },
+      error: (error) => {
+        console.error('Error al cargar la información del perfil:', error);
+      }
+    });
+  }
+
+  hideHoverModal(): void {
+    this.isHovering = false;
+    setTimeout(() => {
+      if (!this.isHovering) {
+        this.isHoverModalVisible = false;
+        this.hoverProfileData = null;
+      }
+    }, 200);
+  }
+  onModalMouseEnter(): void {
+    this.isHovering = true;
+  }
+
+  onModalMouseLeave(): void {
+    this.isHovering = false;
+    setTimeout(() => {
+      if (!this.isHovering) {
+        this.isHoverModalVisible = false;
+        this.hoverProfileData = null;
+      }
+    }, 200);
+  }
+  getTimeElapsedWrapper(fechaPublicacion: string): string {
+    const timeElapsed = TimeUtils.getTimeElapsed(fechaPublicacion);
+    const publicationDate = new Date(fechaPublicacion);
+    const formattedTime = publicationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return `${timeElapsed}, ${formattedTime}`;
+  }
+  navigateToProfileUser(idUsuario: string) {
+    this.router.navigate(['/profile', idUsuario]);
   }
 }
