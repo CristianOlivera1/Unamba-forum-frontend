@@ -25,6 +25,7 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "animejs": "^4.0.1",
     "dropzone": "^6.0.0-beta.2",
+    "emoji-picker-element": "^1.26.3",
     "express": "^4.18.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
