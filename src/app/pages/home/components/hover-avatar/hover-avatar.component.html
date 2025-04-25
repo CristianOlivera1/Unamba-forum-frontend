@@ -1,88 +1,89 @@
 <a (click)="navigateToProfileUser(profileData.idUsuario)">
-<div  class="w-80 bg-white rounded-2xl shadow-xl overflow-hidden text-[#1D242F] absolute z-1"
-    [style.top.px]="position?.top" [style.left.px]="position?.left" *ngIf="profileData">
+    <div class="w-80 bg-white rounded-2xl shadow-xl overflow-hidden text-[#1D242F] absolute z-1"
+        [style.top.px]="position?.top" [style.left.px]="position?.left" *ngIf="profileData">
 
-    <div class="h-20 relative rounded-b-2xl" [style.backgroundImage]="'url(' + profileData.fotoPortada + ')'"
-        style="background-size: cover; background-position: center;">
-        <img [src]="profileData.fotoPerfil" alt="Perfil"
-            class="w-20 h-20 rounded-full absolute -bottom-10 left-1/2 transform -translate-x-1/2 object-cover" />
-    </div>
-
-    <div class="pt-12 pb-6 px-4 text-center">
-        <button
-            class="absolute top-22 right-4 bg-black text-white text-sm px-4 py-1 rounded-full hover:bg-gray-900 -secondary-blue">
-            Seguir
-        </button>
-
-        <h3 class="text-lg font-semibold">{{ profileData.nombreCompleto }}</h3>
-        <div class="flex items-center justify-center text-sm text-gray-600">
-            <p>
-                <span class="font-semibold text-black">{{ profileData.totalFollowers }}</span> Seguidores
-            </p>
-
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M12 10a2 2 0 0 0-2 2a2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2" />
-            </svg>
-
-            <p>
-                <span class="font-semibold text-black">{{ profileData.totalFollowing }}</span> Siguiendo
-            </p>
+        <div class="h-25 relative rounded-b-2xl" [style.backgroundImage]="'url(' + profileData.fotoPortada + ')'"
+            style="background-size: cover; background-position: center;">
+            <img [src]="profileData.fotoPerfil" alt="Perfil"
+                class="w-30 h-30 rounded-full absolute -bottom-14 left-1/2 transform -translate-x-1/2 object-cover border-4 border-white" />
         </div>
 
-        <div class="mt-4 border-t border-gray-300 pt-4 space-y-3 text-sm text-gray-500 text-left">
-            <div class="flex items-center gap-2">
-                <ng-container [ngSwitch]="profileData.rol">
-                    <svg *ngSwitchCase="'ESTUDIANTE'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 256 256">
-                        <g fill="currentColor">
-                            <path d="m224 64l-96 32l-96-32l96-32Z" opacity="0.2" />
-                            <path
-                                d="m226.53 56.41l-96-32a8 8 0 0 0-5.06 0l-96 32a8 8 0 0 0-5.4 6.75A5 5 0 0 0 24 64v80a8 8 0 0 0 16 0V75.1l33.59 11.19a64 64 0 0 0 20.65 88.05c-18 7.06-33.56 19.83-44.94 37.29a8 8 0 1 0 13.4 8.74C77.77 197.25 101.57 184 128 184s50.23 13.25 65.3 36.37a8 8 0 0 0 13.4-8.74c-11.38-17.46-27-30.23-44.94-37.29a64 64 0 0 0 20.65-88l44.12-14.7a8 8 0 0 0 0-15.18ZM176 120a48 48 0 1 1-86.65-28.45l36.12 12a8 8 0 0 0 5.06 0l36.12-12A47.9 47.9 0 0 1 176 120m-48-32.43L57.3 64L128 40.43L198.7 64Z" />
-                        </g>
-                    </svg>
-                    <svg *ngSwitchCase="'INVITADO'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24">
-                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="2">
-                            <circle cx="12" cy="8" r="5" />
-                            <path d="M20 21a8 8 0 0 0-16 0" />
-                        </g>
-                    </svg>
-                    <svg *ngSwitchCase="'ADMINISTRADOR'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24">
-                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                            stroke-width="1.5">
-                            <path d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8" />
-                            <path d="M5 20v-1a7 7 0 0 1 10-6.326M21 22l1-6l-3.5 1.8L17 16l-1.5 1.8L12 16l1 6z" />
-                        </g>
-                    </svg>
-                </ng-container>
-                <span>{{ profileData.rol | titlecase }}</span>
+        <div class="pt-14 pb-6 px-4 text-center">
+            <button
+                class="absolute top-27 right-4 bg-black text-white text-sm px-4 py-1 rounded-full hover:bg-gray-900 -secondary-blue">
+                Seguir
+            </button>
+
+            <h3 class="text-lg font-semibold">{{ profileData.nombreCompleto }}</h3>
+            <div class="flex items-center justify-center text-sm text-gray-600">
+                <p>
+                    <span class="font-semibold text-black">{{ profileData.totalFollowers }}</span> Seguidores
+                </p>
+
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12 10a2 2 0 0 0-2 2a2 2 0 0 0 2 2c1.11 0 2-.89 2-2a2 2 0 0 0-2-2" />
+                </svg>
+
+                <p>
+                    <span class="font-semibold text-black">{{ profileData.totalFollowing }}</span> Siguiendo
+                </p>
             </div>
 
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="1.5"
-                        d="M2 22h19.5M3 13v9m18-9v9M7.5 8v14m9-14v14M2 13h5m15 0h-5M6.5 8h11M12 8V4.982m0 0V2.97c0-.474 0-.711.146-.858c.46-.463 2.354.631 3.074 1.075c.608.374.78 1.122.78 1.795zM12 22v-2m-1.5-8v.5m3-.5v.5m-3 3.5v.5m3-.5v.5" />
-                </svg>
-                <span>{{ profileData.carrera }}</span>
-            </div>
+            <div class="mt-4 border-t border-gray-300 pt-4 space-y-3 text-sm text-gray-500 text-left">
+                <div class="flex items-center gap-2">
+                    <ng-container [ngSwitch]="profileData.rol">
+                        <svg *ngSwitchCase="'ESTUDIANTE'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 256 256">
+                            <g fill="currentColor">
+                                <path d="m224 64l-96 32l-96-32l96-32Z" opacity="0.2" />
+                                <path
+                                    d="m226.53 56.41l-96-32a8 8 0 0 0-5.06 0l-96 32a8 8 0 0 0-5.4 6.75A5 5 0 0 0 24 64v80a8 8 0 0 0 16 0V75.1l33.59 11.19a64 64 0 0 0 20.65 88.05c-18 7.06-33.56 19.83-44.94 37.29a8 8 0 1 0 13.4 8.74C77.77 197.25 101.57 184 128 184s50.23 13.25 65.3 36.37a8 8 0 0 0 13.4-8.74c-11.38-17.46-27-30.23-44.94-37.29a64 64 0 0 0 20.65-88l44.12-14.7a8 8 0 0 0 0-15.18ZM176 120a48 48 0 1 1-86.65-28.45l36.12 12a8 8 0 0 0 5.06 0l36.12-12A47.9 47.9 0 0 1 176 120m-48-32.43L57.3 64L128 40.43L198.7 64Z" />
+                            </g>
+                        </svg>
+                        <svg *ngSwitchCase="'INVITADO'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2">
+                                <circle cx="12" cy="8" r="5" />
+                                <path d="M20 21a8 8 0 0 0-16 0" />
+                            </g>
+                        </svg>
+                        <svg *ngSwitchCase="'ADMINISTRADOR'" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="1.5">
+                                <path d="M12 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8" />
+                                <path d="M5 20v-1a7 7 0 0 1 10-6.326M21 22l1-6l-3.5 1.8L17 16l-1.5 1.8L12 16l1 6z" />
+                            </g>
+                        </svg>
+                    </ng-container>
+                    <span>{{ profileData.rol | titlecase }}</span>
+                </div>
 
-            <div class="flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <g fill="none">
-                        <path stroke="currentColor" stroke-width="1.5"
-                            d="M2 12c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14z" />
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5"
-                            d="M7 4V2.5M17 4V2.5M2.5 9h19" />
-                        <path fill="currentColor"
-                            d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0" />
-                    </g>
-                </svg>
-                <span>Miembro desde <strong>{{ profileData.fechaRegistro | date: 'longDate':'':'es' }}</strong></span>
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="1.5"
+                            d="M2 22h19.5M3 13v9m18-9v9M7.5 8v14m9-14v14M2 13h5m15 0h-5M6.5 8h11M12 8V4.982m0 0V2.97c0-.474 0-.711.146-.858c.46-.463 2.354.631 3.074 1.075c.608.374.78 1.122.78 1.795zM12 22v-2m-1.5-8v.5m3-.5v.5m-3 3.5v.5m3-.5v.5" />
+                    </svg>
+                    <span>{{ profileData.carrera }}</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <g fill="none">
+                            <path stroke="currentColor" stroke-width="1.5"
+                                d="M2 12c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14z" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5"
+                                d="M7 4V2.5M17 4V2.5M2.5 9h19" />
+                            <path fill="currentColor"
+                                d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0" />
+                        </g>
+                    </svg>
+                    <span>Miembro desde <strong>{{ profileData.fechaRegistro | date: 'longDate':'':'es'
+                            }}</strong></span>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </a>
