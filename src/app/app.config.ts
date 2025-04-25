@@ -10,7 +10,7 @@ import localeEs from '@angular/common/locales/es';
 registerLocaleData(localeEs, 'es');
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch()),
-    { provide: 'LOCALE_ID', useValue: 'es' }
+  provideHttpClient(withFetch()),
+  { provide: 'LOCALE_ID', useValue: 'es' }
   ]
 };
