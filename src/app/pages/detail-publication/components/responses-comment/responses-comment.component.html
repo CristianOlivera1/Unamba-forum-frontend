@@ -1,61 +1,129 @@
 <div class="flex gap-2 mt-4 xl:ml-4">
-  <span class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-    <img src="https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_640.png"
-      alt="avatar-usuario-logueado(que va a responder)">
-  </span>
+  <a (click)="navigateToProfileUser(userProfile.idUsuario)">
+    <span class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+      <img [src]="userProfile?.fotoPerfil || '/assets/img/profile/sin-foto-perfil.webp'"
+        class="w-full h-full object-cover rounded-full hover-img-avatar"
+        alt="avatar-usuario-logueado(que va a responder)" (mouseenter)="showHoverModal(userProfile.idUsuario, $event)"
+        (mouseleave)="hideHoverModal()">
+    </span>
+  </a>
+
 
   <!-- Contenedor del comentario -->
   <div class="flex-1 flex flex-col gap-2">
-    <textarea [(ngModel)]="newResponseContent"
-      class="w-full border border-gray-300 rounded-lg p-4 min-h-15 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500"
-      placeholder="Escribe una respuesta..."></textarea>
+    <div class="relative">
+      <!-- Textarea -->
+      <textarea [(ngModel)]="newResponseContent" (input)="enforceMentionForComment()"
+        class="w-full border border-gray-300 rounded-lg p-2 min-h-20 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500 pr-20"
+        placeholder="Escribe una respuesta..."></textarea>
 
-    <!-- Botones de acción -->
-    <div class="flex gap-2 justify-end">
-      <button class="rounded-md px-3 border border-gray-200" type="button" (click)="closeResponses()">
-        Cancelar
-      </button>
+      <!-- Botones dentro del textarea -->
+      <div class="absolute bottom-3 right-4 flex gap-2">
+        <!-- Botón de emojis -->
+        <button type="button" class="text-gray-500 p-1 hover:text-gray-700 hover:bg-gray-100 hover:rounded-sm"
+          (click)="toggleEmojiPicker()" title="Agregar emoji">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10" />
+              <path d="M16.5 14.5s-1.5 2-4.5 2s-4.5-2-4.5-2" />
+              <path fill="currentColor" d="M15.5 9a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1m-7 0a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1" />
+            </g>
+          </svg>
+        </button>
 
-      <button class="h-9 rounded-md px-3 text-white bg-blue-600" type="button" (click)="addResponse()">
-        Responder
-      </button>
+        <!-- Botón de cancelar -->
+        <button type="button" class="text-gray-500 text-sm hover:text-gray-700 border border-gray-300 px-2 py-1 rounded"
+          (click)="closeResponses()">
+          Cancelar
+        </button>
+
+        <!-- Botón de responder -->
+        <button type="button" class="bg-blue-600 text-white text-sm px-2 py-1 rounded hover:bg-blue-700"
+          (click)="addResponse()">
+          Responder
+        </button>
+
+      </div>
+      <div *ngIf="showEmojiPicker" class="absolute bottom-12 right-0 bg-white shadow-lg rounded-lg z-50">
+        <emoji-picker (emoji-click)="addEmoji($event)"></emoji-picker>
+      </div>
     </div>
 
     <!-- Contenedor de respuestas registradas(si no las hay no se muestra)-->
     <div class="mt-1 border-t border-gray-300 pt-1" *ngFor="let response of responses">
       <div class="flex gap-2 mt-2">
-        <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
-          <img [src]="response.avatar" alt="avatar" class="w-full h-full object-cover rounded-full" />
-        </span>
+        <a (click)="navigateToProfileUser(response.idUsuario)">
+          <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
+            <img [src]="response.avatar" alt="avatar" class="w-full h-full object-cover rounded-full hover-img-avatar"
+              (mouseenter)="showHoverModal(response.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
+          </span>
+        </a>
 
         <div class="flex-1">
           <div class="flex items-center justify-between">
-            <span class="text-sm font-semibold hover:underline">{{ response.nombreCompleto }}</span>
+            <a (click)="navigateToProfileUser(response.idUsuario)">
+              <span class="text-sm font-semibold hover:underline">{{ response.nombreCompleto }}</span>
+            </a>
             <span class="text-xs text-gray-500">{{ response.fechaRegistro | date: 'short' }}</span>
           </div>
-          <p class="text-xs text-black break-words">{{ response.contenido }}</p>
+          <p class="text-xs text-black break-words">
+            <span *ngIf="response.contenido.startsWith('@')" class="text-blue-500 font-semibold">
+              {{ response.contenido.split(' ')[0] }}
+            </span>
+            {{ response.contenido.substring(response.contenido.indexOf(' ') + 1) }}
+          </p>
           <!-- Botón para responder a una respuesta -->
-
-          <button class="text-blue-500 text-xs hover:underline" (click)="handleReplyToResponse(response.idRespuesta)">
+          <button class="text-blue-500 text-xs hover:underline" (click)="handleReplyToResponse(response)">
             Responder
           </button>
 
-          <div *ngIf="selectedResponseId === response.idRespuesta" class="mt-4">
+          <div *ngIf="selectedResponseId === response.idRespuesta" class="relative mt-4">
+            <!-- Textarea -->
             <textarea [(ngModel)]="responseContents[response.idRespuesta]"
-              class="w-full border border-gray-300 rounded-lg p-4 min-h-15 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500"
+              (input)="enforceMention(response.idRespuesta, response.nombreCompleto)"
+              class="w-full border border-gray-300 rounded-lg p-2 min-h-20 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500 pr-20"
               placeholder="Escribe una respuesta..."></textarea>
 
-            <div class="flex gap-2 justify-end mt-2">
-              <button class="rounded-md px-3 border border-gray-200" type="button" (click)="selectedResponseId = null">
+            <!-- Botones dentro del textarea -->
+            <div class="absolute bottom-3 right-4 flex gap-2">
+              <!-- Botón de emojis -->
+              <button type="button" class="text-gray-500 hover:text-gray-700" (click)="toggleEmojiPicker()"
+                title="Agregar emoji">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="1.5">
+                    <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10" />
+                    <path d="M16.5 14.5s-1.5 2-4.5 2s-4.5-2-4.5-2" />
+                    <path fill="currentColor"
+                      d="M15.5 9a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1m-7 0a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1" />
+                  </g>
+                </svg>
+              </button>
+
+              <!-- Botón de cancelar -->
+              <button type="button"
+                class="text-gray-500 text-sm hover:text-gray-700 border border-gray-300 px-2 py-1 rounded"
+                (click)="selectedResponseId = null">
                 Cancelar
               </button>
-              <button class="h-9 rounded-md px-3 text-white bg-blue-600" type="button" (click)="addResponse(response.idRespuesta)">
+
+              <!-- Botón de responder -->
+              <button type="button" class="bg-blue-600 text-white text-sm px-2 py-1 rounded hover:bg-blue-700"
+                (click)="addResponse(response.idRespuesta)">
                 Responder
               </button>
             </div>
+
+            <div *ngIf="showEmojiPicker" class="absolute bottom-12 right-0 bg-white shadow-lg rounded-lg z-50">
+              <emoji-picker (emoji-click)="addEmoji($event)"></emoji-picker>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>
+<app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
+  (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
