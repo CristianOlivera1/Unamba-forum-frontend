@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule,isPlatformBrowser,Location} from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -20,7 +20,6 @@ import { TotalsReactionCommentComponent } from '../home/components/totals-reacti
 import { ReactionComponent } from '../home/components/reaction/reaction.component';
 import { CompleteInfoRegisterGoogleComponent } from '../oauth/complete-info-register-google/complete-info-register-google.component';
 import { ModalLoginService } from '../../core/services/modal/modalLogin.service';
-import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { CommentComponent } from './components/comment/comment.component';
 import { TimeUtils } from '../../Utils/TimeElapsed';
@@ -57,7 +56,7 @@ export class DetailPublicationComponent implements OnInit {
     private tokenService: TokenService,
     private reactionPublicationService: ReactionPublicationService,
     private commentPublicationService: CommentPublicationService,
-    private profileService: ProfileService, private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, @Inject(PLATFORM_ID) private platformId: Object,
+    private profileService: ProfileService, private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, @Inject(PLATFORM_ID) private platformId: Object,private location: Location,
   ) { }
 
   ngOnInit(): void {
@@ -257,7 +256,7 @@ export class DetailPublicationComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/']);
+    this.location.back();
   }
   getTimeElapsedWrapper(fechaPublicacion: string): string {
     const timeElapsed = TimeUtils.getTimeElapsed(fechaPublicacion);
