@@ -10,7 +10,7 @@
       <div class="flex-1">
         <a class="flex items-center gap-2" (click)="navigateToProfileUser(publication.idUsuario)">
           <h3 class="text-sm font-semibold text-gray-800 hover:underline">{{ publication.nombreCompleto }}</h3>
-          <ng-container title="Ícono de verificación" *ngIf="publication.tipoRol === 'ADMINISTRADOR'">
+          <ng-container *ngIf="publication.tipoRol === 'ADMINISTRADOR'">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
               <title>Usuario administrador</title>
               <path fill="#2b7fff" fill-rule="evenodd"
@@ -30,59 +30,54 @@
       </div>
     </div>
 
-    <app-hover-avatar  *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
+    <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
       (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
+      
+    <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
+      <div class="w-full overflow-hidden">
+        <div class="group relative h-[260px]" style="scrollbar-gutter: stable both-edges;">
+          <div
+            class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
 
-    <div class="w-full overflow-hidden">
-      <div class="group relative h-[260px]" style="scrollbar-gutter: stable both-edges;">
-        <div
-          class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
-
-          <!-- Condición para una sola imagen o video -->
-          <ng-container *ngIf="publication.archivos.length === 1">
-            <figure *ngFor="let archivo of publication.archivos;let i = index" class="shrink-0 w-full scroll-touch">
-              <div class="overflow-hidden rounded-md">
-                <!-- Imágenes -->
-                <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
-                  class="aspect-square h-54 w-full object-cover cursor-pointer"
-                  (click)="openPhotoSlider(publication.archivos,i)" />
-
-                <!-- Videos -->
-                <video *ngIf="archivo.tipo === 'video'" controls
-                  class="aspect-square h-54 w-full object-cover cursor-pointer"
-                  (click)="openPhotoSlider(publication.archivos,i)">
-                  <source [src]="archivo.rutaArchivo" type="video/mp4" />
-                  Tu navegador no soporta la etiqueta de video.
-                </video>
-              </div>
-            </figure>
-          </ng-container>
-          <!-- Condición para múltiples archivos -->
-          <ng-container *ngIf="publication.archivos.length > 1">
-            <div class="flex sm:overflow-visible overflow-x-auto gap-4 px-1">
-
-              <figure *ngFor="let archivo of publication.archivos; let i = index" class="shrink-0">
+            <!-- Condición para una sola imagen o video -->
+            <ng-container *ngIf="publication.archivos.length === 1">
+              <figure *ngFor="let archivo of publication.archivos;let i = index" class="shrink-0 w-full scroll-touch">
                 <div class="overflow-hidden rounded-md">
                   <!-- Imágenes -->
                   <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
-                    class="aspect-square h-54 w-54 object-cover cursor-pointer"
-                    (click)="openPhotoSlider(publication.archivos, i)" />
+                    class="aspect-square h-54 w-full object-cover" />
+
                   <!-- Videos -->
-                  <video *ngIf="archivo.tipo === 'video'" controls
-                    class="aspect-square h-54 w-54 object-cover cursor-pointer"
-                    (click)="openPhotoSlider(publication.archivos,i)">
+                  <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-full object-cover">
                     <source [src]="archivo.rutaArchivo" type="video/mp4" />
                     Tu navegador no soporta la etiqueta de video.
                   </video>
                 </div>
               </figure>
-            </div>
-          </ng-container>
+            </ng-container>
+            <!-- Condición para múltiples archivos -->
+            <ng-container *ngIf="publication.archivos.length > 1">
+              <div class="flex sm:overflow-visible overflow-x-auto gap-4 px-1">
 
+                <figure *ngFor="let archivo of publication.archivos; let i = index" class="shrink-0">
+                  <div class="overflow-hidden rounded-md">
+                    <!-- Imágenes -->
+                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
+                      class="aspect-square h-54 w-54 object-cover" />
+                    <!-- Videos -->
+                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-54 object-cover">
+                      <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                      Tu navegador no soporta la etiqueta de video.
+                    </video>
+                  </div>
+                </figure>
+              </div>
+            </ng-container>
+
+          </div>
         </div>
       </div>
-    </div>
-
+    </a>
     <!-- Contenido -->
     <div>
       <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
@@ -91,9 +86,6 @@
           publication.contenido }}</p>
       </a>
     </div>
-
-    <app-photo-slider *ngIf="isPhotoSliderVisible" [photos]="selectedPhotos" (close)="closePhotoSlider()"
-      [initialIndex]="selectedPhotoIndex"></app-photo-slider>
 
     <app-modal-users-by-reaction-type *ngIf="publication.isReactionModalVisible"
       [reactionType]="publication.reactionType" [users]="publication.reactionUsers"

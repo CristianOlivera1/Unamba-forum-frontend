@@ -24,7 +24,7 @@ import { debounceTime, fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-publication-with-files',
-  imports: [CommonModule, ReactionComponent, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, PhotoSliderComponent, ModalUsersByReactionTypeComponent, ModalUserCommentPublicationComponent],
+  imports: [CommonModule, ReactionComponent, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ModalUsersByReactionTypeComponent, ModalUserCommentPublicationComponent],
   templateUrl: './publication-with-files.component.html',
   styleUrl: './publication-with-files.component.css'
 })
@@ -40,10 +40,6 @@ export class PublicationWithFilesComponent implements OnInit {
   hoverPosition = { top: 0, left: 0 };
   isHoverModalVisible = false;
   isHovering = false;
-
-  isPhotoSliderVisible = false;
-  selectedPhotos: { tipo: string; rutaArchivo: string }[] = [];
-  selectedPhotoIndex: number = 0;
 
   isReactionModalVisible: boolean = false;
   reactionUsers: any[] = [];
@@ -138,18 +134,6 @@ export class PublicationWithFilesComponent implements OnInit {
 
   navigateToProfileUser(idUsuario: string) {
     this.router.navigate(['/profile', idUsuario]);
-  }
-
-  openPhotoSlider(archivos: { tipo: string; rutaArchivo: string }[], index: number): void {
-    this.selectedPhotos = archivos;
-    this.selectedPhotoIndex = index;
-    this.isPhotoSliderVisible = true;
-  }
-
-  closePhotoSlider(): void {
-    this.isPhotoSliderVisible = false;
-    this.selectedPhotos = [];
-    this.selectedPhotoIndex = 0;
   }
 
   showHoverModal(userId: string, event: MouseEvent): void {
