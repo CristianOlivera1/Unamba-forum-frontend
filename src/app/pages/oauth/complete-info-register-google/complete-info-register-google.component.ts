@@ -12,26 +12,27 @@ import { ProfileService } from '../../../core/services/profile/profile.service';
 
 @Component({
   selector: 'app-complete-info-register-google',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './complete-info-register-google.component.html',
   styleUrl: './complete-info-register-google.component.css'
 })
-export class CompleteInfoRegisterGoogleComponent implements OnInit{
+export class CompleteInfoRegisterGoogleComponent implements OnInit {
   careers: any[] = [];
   formData = {
-    idUsuario: '', // ID del usuario
+    idUsuario: '',
     carrera: '',
     genero: '',
     descripcion: '',
     fechaNacimiento: ''
   };
-  alert: { type: string; message: string } | null = null; // Sistema de alertas
+  alert: { type: string; message: string } | null = null;
+  isLoading: boolean = false;
 
   constructor(
     private careerService: CareerService,
     private modalInfoCompleteService: ModalInfoCompleteService,
-    private userProfileService: ProfileService, private tokenService : TokenService
-  ) {}
+    private userProfileService: ProfileService, private tokenService: TokenService
+  ) { }
 
   ngOnInit(): void {
     this.loadCareers();
@@ -59,7 +60,7 @@ export class CompleteInfoRegisterGoogleComponent implements OnInit{
   }
 
   submitForm(): void {
-    const idUsuario = this.tokenService.getUserId(); // Obtener el ID del usuario desde el token
+    const idUsuario = this.tokenService.getUserId();
     if (!idUsuario) {
       this.showAlert('error', 'Error: No se pudo obtener el ID del usuario.');
       return;
@@ -70,6 +71,7 @@ export class CompleteInfoRegisterGoogleComponent implements OnInit{
       return;
     }
 
+    this.isLoading = true;
     const payload = new FormData();
     payload.append('idUsuario', idUsuario);
     payload.append('idCarrera', this.formData.carrera);
@@ -94,12 +96,12 @@ export class CompleteInfoRegisterGoogleComponent implements OnInit{
           this.closeModal();
         } else {
           this.showAlert('error', 'Error al actualizar el perfil.');
-
         }
+        this.isLoading = false;
       },
       error: (error) => {
         this.showAlert('error', 'Error en la solicitud. Inténtalo de nuevo.');
-
+        this.isLoading = false;
       }
     });
   }
