@@ -116,7 +116,7 @@ export class EditPhotoProfileComponent {
           const responseObject = typeof response === 'string' ? JSON.parse(response) : response;
           componentRef.photoUrl = responseObject.data.fotoPerfil;
   
-          componentRef.success.emit('Foto de perfil actualizada correctamente, actualiza la página para ver los cambios.');
+          componentRef.success.emit('Actualizado correctamente. Recarga para ver cambios.');
   
           // Cerrar el modal
           componentRef.close.emit();
@@ -157,7 +157,7 @@ export class EditPhotoProfileComponent {
           this.profileService.updateProfile(formData).subscribe({
             next: (res) => {
               this.isUpdateProfileInProgress = false;
-              (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de perfil actualizada correctamente, actualiza la página para ver los cambios.');
+              (document.getElementById('dropzone') as any).componentRef.success.emit('Actualizado correctamente. Recarga para ver cambios.');
               this.close.emit();
             },
             error: (err) => {
