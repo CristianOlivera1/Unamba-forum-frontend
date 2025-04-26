@@ -20,12 +20,12 @@ export class GoogleAuthService  {
   constructor(private http: HttpClient) {}
 
  registerWithGoogleOauth(): void {
-    const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${this.clientId}&redirect_uri=${this.redirectUriRegister}&response_type=${this.responseType}&scope=${this.scope}`;
+    const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${this.clientId}&redirect_uri=${this.redirectUriLoginModal}&response_type=${this.responseType}&scope=${this.scope}`;
     window.location.href = authUrl;
   }
 
   loginWithGoogleOauth(): void {
-    const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${this.clientId}&redirect_uri=${this.redirectUriLogin}&response_type=${this.responseType}&scope=${this.scope}`;
+    const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${this.clientId}&redirect_uri=${this.redirectUriLoginModal}&response_type=${this.responseType}&scope=${this.scope}`;
     window.location.href = authUrl;
   }
 
