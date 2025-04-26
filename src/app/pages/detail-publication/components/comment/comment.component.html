@@ -1,35 +1,34 @@
 <!-- Formulario de nuevo comentario -->
-<div *ngIf="isLoggedIn" class="flex gap-4 mt-5">
+<div class="flex gap-4 mt-5">
   <a (click)="navigateToProfileUser(userProfile.idUsuario)">
-    <div class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-      <img class="w-full h-full object-cover rounded-full hover-img-avatar"
-        [src]="userProfile?.fotoPerfil || '/assets/img/profile/sin-foto-perfil.webp'" alt="avatar usuario logueado"
-        (mouseenter)="showHoverModal(userProfile.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
-    </div>
+    <img class="h-10 w-10 object-cover rounded-full hover-img-avatar"
+      [src]="userProfile?.fotoPerfil || '/assets/img/profile/avatar-perfil-uf.avif'" alt="avatar usuario logueado"
+      (mouseenter)="showHoverModal(userProfile.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
   </a>
 
-  <div class="flex-1 flex flex-col gap-2">
-    <div class="relative">
-      <textarea [(ngModel)]="newCommentContent" placeholder="Escribe un comentario..."
-        class="w-full border border-gray-300 rounded-lg p-4 min-h-24 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500"></textarea>
+<div class="flex-1 flex flex-col gap-2">
+  <div class="relative">
+    <textarea [(ngModel)]="newCommentContent" placeholder="Escribe un comentario..." (click)="handleTextareaClick()"
+      class="w-full border border-gray-300 rounded-lg p-4 min-h-24 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500 hover:border-gray-400"></textarea>
 
-      <!-- Botón de emojis -->
-      <div class="absolute bottom-3 right-4 flex gap-2">
-        <button type="button" class="text-gray-500 p-1 hover:text-gray-700 hover:bg-gray-100 hover:rounded-sm"
-          (click)="toggleEmojiPicker()" title="Agregar emoji">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
-              <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10" />
-              <path d="M16.5 14.5s-1.5 2-4.5 2s-4.5-2-4.5-2" />
-              <path fill="currentColor" d="M15.5 9a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1m-7 0a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1" />
-            </g>
-          </svg>
-        </button>
+    <!-- Botón de emojis -->
+    <div class="absolute bottom-3 right-4 flex gap-2" *ngIf="isLoggedIn">
+      <button type="button" class="text-gray-500 p-1 hover:text-gray-700 hover:bg-gray-100 hover:rounded-sm" [ngClass]="{'bg-gray-200 rounded-md': showEmojiPicker}" 
+        (click)="toggleEmojiPicker()" title="Agregar emoji">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10" />
+            <path d="M16.5 14.5s-1.5 2-4.5 2s-4.5-2-4.5-2" />
+            <path fill="currentColor" d="M15.5 9a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1m-7 0a.5.5 0 1 1 0-1a.5.5 0 0 1 0 1" />
+          </g>
+        </svg>
+      </button>
 
-        <!-- Botón para publicar el comentario -->
+      <!-- Botón para publicar el comentario -->
+      <div>
         <button (click)="addComment()"
           class="bg-blue-500 text-white hover:bg-blue-400 px-4 py-2 rounded-md text-sm font-medium z-10 shadow-md"
-          aria-label="Publicar comentario">
+          aria-label="Publicar comentario" [disabled]="!newCommentContent.trim()">
           Comentar
         </button>
       </div>
@@ -37,64 +36,67 @@
         <emoji-picker (emoji-click)="addEmoji($event)"></emoji-picker>
       </div>
     </div>
-
   </div>
 </div>
+</div>
+
 <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
-  (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
+(mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
 
 <!-- Lista de comentarios -->
 <div class="space-y-6 mt-10">
-  <div *ngFor="let comment of comments" class="flex gap-1 xl:gap-4 pb-4 border-b border-gray-200 last:border-0">
-    <a (click)="navigateToProfileUser(comment.idUsuario)">
-      <div class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-        <img class="w-full h-full object-cover rounded-full hover-img-avatar" [src]="comment.avatar"
-          alt="avatar del que comentó" (mouseenter)="showHoverModal(comment.idUsuario, $event)"
-          (mouseleave)="hideHoverModal()" />
-      </div>
-    </a>
+<div *ngFor="let comment of comments" class="flex gap-1 xl:gap-4 pb-4 border-b border-gray-200 last:border-0">
+  <a (click)="navigateToProfileUser(comment.idUsuario)">
+      <img class="h-10 w-10 object-cover rounded-full hover-img-avatar" [src]="comment.avatar"
+        alt="avatar del que comentó" (mouseenter)="showHoverModal(comment.idUsuario, $event)"
+        (mouseleave)="hideHoverModal()" />
+  </a>
 
-    <div class="flex-1">
-      <div class="flex items-center justify-between mb-1">
-        <a (click)="navigateToProfileUser(comment.idUsuario)">
-          <span class="text-sm font-semibold hover:underline cursor-pointer">{{ comment.nombreCompleto }}</span>
-        </a>
-        <span class="text-xs text-gray-500">{{ getTimeElapsedWrapper(comment.fechaRegistro )}}</span>
-      </div>
-      <p class="text-xs mb-2 text-black break-all whitespace-normal w-full overflow-hidden">
-        {{ comment.contenido }}
-      </p>
-      <div class="flex items-center gap-0.5 text-xs text-gray-500">
-        <!-- Mostrar reacciones -->
-        <div *ngFor="let tipoReaccion of tiposReacciones"
-          class="flex items-center hover:bg-gray-200 rounded-md transition-transform duration-300 transform hover:scale-110 cursor-pointer p-0.5 gap-0.5"
-          [ngClass]="{
-          'bg-blue-200': isUserReaction(comment, tipoReaccion),
-          'hover:bg-gray-200': !isUserReaction(comment, tipoReaccion)
-        }" (click)="handleReaction(tipoReaccion, comment)">
-          <img [src]="'/assets/icons/publication/' + tipoReaccion + '.png'" [alt]="tipoReaccion"
-            class="w-5 h-5 2xl:h-7 2xl:w-7" />
-          <span *ngIf="getCantidadReaccion(comment.reacciones, tipoReaccion) > 0">{{
-            getCantidadReaccion(comment.reacciones, tipoReaccion) }}</span>
-        </div>
-        <div class="flex items-center text-xs text-gray-500 hover:underline hover:text-blue-600">
-          <!-- Botón para responder -->
-          <button class="hover:text-foreground flex items-center ml-4" (click)="handleReply(comment.idComentario)">
-            Responder
-          </button>
-        </div>
-        <!-- Mostrar número de respuestas -->
-        <div *ngIf="comment.numeroRespuestas > 0"
-          class="flex items-center ml-5 gap-1 font-semibold underline cursor-pointer hover:text-black">
-          <span (click)="handleReply(comment.idComentario)" title="Ver respuestas">Ver respuestas {{ comment.numeroRespuestas }}</span>
-        </div>
-      </div>
 
-      <!-- Mostrar el componente de respuestas y respuestas a respuestas si el comentario está seleccionado -->
-      <app-responses-comment *ngIf="selectedCommentId === comment.idComentario" [idComentario]="comment.idComentario"
-        [idUsuario]="userProfile?.idUsuario" [nombreUsuario]="comment.nombreCompleto"
-        (close)="selectedCommentId = null">
-      </app-responses-comment>
+  <div class="flex-1">
+    <div class="flex items-center justify-between mb-1">
+      <a (click)="navigateToProfileUser(comment.idUsuario)">
+        <span class="text-sm font-semibold hover:underline cursor-pointer">{{ comment.nombreCompleto }}</span>
+      </a>
+      <span class="text-xs text-gray-500">{{ getTimeElapsedWrapper(comment.fechaRegistro )}}</span>
     </div>
+    <p class="text-xs mb-2 text-black break-all whitespace-normal w-full overflow-hidden">
+      {{ comment.contenido }}
+    </p>
+    <div class="flex items-center gap-0.5 text-xs text-gray-500">
+      <!-- Mostrar reacciones -->
+      <div *ngFor="let tipoReaccion of tiposReacciones"
+        class="flex items-center hover:bg-gray-200 rounded-md transition-transform duration-300 transform hover:scale-110 cursor-pointer p-0.5 gap-0.5"
+        [ngClass]="{
+        'bg-blue-200': isUserReaction(comment, tipoReaccion),
+        'hover:bg-gray-200': !isUserReaction(comment, tipoReaccion)
+      }" (click)="handleReaction(tipoReaccion, comment)">
+        <img [src]="'/assets/icons/publication/' + tipoReaccion + '.png'" [alt]="tipoReaccion"
+          class="w-5 h-5 2xl:h-7 2xl:w-7" />
+        <span *ngIf="getCantidadReaccion(comment.reacciones, tipoReaccion) > 0">{{
+          getCantidadReaccion(comment.reacciones, tipoReaccion) }}</span>
+      </div>
+      <div class="flex items-center text-xs text-gray-500 hover:underline hover:text-blue-600">
+        <!-- Botón para responder -->
+        <button class="hover:text-foreground flex items-center ml-4" (click)="handleReply(comment.idComentario)">
+          Responder
+        </button>
+      </div>
+      <!-- Mostrar número de respuestas -->
+      <div *ngIf="comment.numeroRespuestas > 0"
+        class="flex items-center ml-5 gap-1 font-semibold underline cursor-pointer hover:text-black">
+        <span (click)="handleReply(comment.idComentario)" title="Ver respuestas">Ver respuestas {{
+          comment.numeroRespuestas }}</span>
+      </div>
+    </div>
+
+    <!-- Mostrar el componente de respuestas y respuestas a respuestas si el comentario está seleccionado -->
+    <app-responses-comment *ngIf="selectedCommentId === comment.idComentario" [idComentario]="comment.idComentario"
+      [idUsuario]="userProfile?.idUsuario" [nombreUsuario]="comment.nombreCompleto"
+      (close)="selectedCommentId = null">
+    </app-responses-comment>
   </div>
 </div>
+</div>
+<!-- Modal de completar información -->
+<app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
