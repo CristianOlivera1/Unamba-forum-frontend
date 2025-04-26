@@ -9,6 +9,8 @@ import { ResponsesCommentComponent } from '../responses-comment/responses-commen
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
 import { HoverAvatarComponent } from '../../../home/components/hover-avatar/hover-avatar.component';
 import { Router } from '@angular/router';
+import { ModalLoginService } from '../../../../core/services/modal/modalLogin.service';
+import { ModalInfoCompleteService } from '../../../../core/services/modal/modalCompleteInfo.service';
 
 @Component({
   selector: 'app-comment',
@@ -31,13 +33,20 @@ export class CommentComponent implements OnInit {
   isHovering = false;
 
   showEmojiPicker: boolean = false;
+
+  isLoginModalVisible: boolean = false;
+  isInfoCompleteModalVisible$: any;
+
   constructor(
     private commentPublicationService: CommentPublicationService,
     private tokenService: TokenService,
-    private profileService: ProfileService, private reactionCommentAndResponse: ReactionCommentAndResponse, @Inject(PLATFORM_ID) private platformId: Object, private router: Router
+    private profileService: ProfileService, private reactionCommentAndResponse: ReactionCommentAndResponse, @Inject(PLATFORM_ID) private platformId: Object, private router: Router,    private modalLoginService: ModalLoginService,private modalInfoCompleteService: ModalInfoCompleteService,
+
   ) { }
 
   ngOnInit(): void {
+    this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
+
     this.isLoggedIn = !!this.tokenService.getToken();
     if (this.isLoggedIn) {
       this.loadUserProfile().then(() => {
@@ -128,7 +137,12 @@ export class CommentComponent implements OnInit {
       }
     });
   }
-
+  handleTextareaClick(): void {
+    if (!this.isLoggedIn) {
+      this.isLoginModalVisible = true;
+      this.modalLoginService.showLoginModal();
+    }
+  }
   extractUserIdFromToken(): string | null {
     const token = this.tokenService.getToken();
     if (token) {
@@ -155,31 +169,42 @@ export class CommentComponent implements OnInit {
   }
 
   addComment(): void {
-    if (!this.isLoggedIn) {
-      console.error('El usuario no está logueado.');
-      return;
-    }
-
     if (!this.newCommentContent.trim()) {
       console.error('El comentario no puede estar vacío.');
       return;
     }
-    const formData = new FormData();
-    formData.append('idUsuario', this.userProfile.idUsuario);
-    formData.append('idPublicacion', this.idPublicacion);
-    formData.append('contenido', this.newCommentContent);
-
-    this.commentPublicationService.addComment(formData).subscribe({
+  
+    // Verificar si el perfil del usuario tiene idCarrera
+    this.profileService.getProfileByUserId(this.userProfile.idUsuario).subscribe({
       next: (response: any) => {
-        if (response.type === 'success') {
-          this.newCommentContent = '';
-          this.loadComments();
-        } else {
-          console.error('Error al agregar el comentario:', response.listMessage);
+        if (response.type === 'success' && !response.data.idCarrera) {
+          console.warn('El usuario no tiene una carrera asignada.');
+          this.modalInfoCompleteService.showInfoCompleteModal(); 
+          return;
         }
+  
+        // Si el usuario tiene carrera, proceder a agregar el comentario
+        const formData = new FormData();
+        formData.append('idUsuario', this.userProfile.idUsuario);
+        formData.append('idPublicacion', this.idPublicacion);
+        formData.append('contenido', this.newCommentContent);
+  
+        this.commentPublicationService.addComment(formData).subscribe({
+          next: (response: any) => {
+            if (response.type === 'success') {
+              this.newCommentContent = '';
+              this.loadComments();
+            } else {
+              console.error('Error al agregar el comentario:', response.listMessage);
+            }
+          },
+          error: (err) => {
+            console.error('Error al agregar el comentario:', err);
+          }
+        });
       },
       error: (err) => {
-        console.error('Error al agregar el comentario:', err);
+        console.error('Error al verificar el perfil del usuario:', err);
       }
     });
   }
