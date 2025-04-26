@@ -6,11 +6,13 @@ import { TokenService } from '../../../../core/services/oauth/token.service';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 import { HoverAvatarComponent } from '../../../home/components/hover-avatar/hover-avatar.component';
 import { Router } from '@angular/router';
+import { ModalInfoCompleteService } from '../../../../core/services/modal/modalCompleteInfo.service';
+import { ModalLoginService } from '../../../../core/services/modal/modalLogin.service';
 
 
 @Component({
   selector: 'app-responses-comment',
-  imports: [CommonModule, FormsModule,HoverAvatarComponent],
+  imports: [CommonModule, FormsModule, HoverAvatarComponent],
   templateUrl: './responses-comment.component.html',
   styleUrl: './responses-comment.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -26,6 +28,7 @@ export class ResponsesCommentComponent implements OnInit {
   newResponseContent: string = '';
   selectedResponseId: string | null = null;
   userProfile: any = null;
+  isLoggedIn: boolean = false;
 
   showEmojiPicker: boolean = false;
 
@@ -34,11 +37,19 @@ export class ResponsesCommentComponent implements OnInit {
   isHoverModalVisible = false;
   isHovering = false;
 
+  isLoginModalVisible: boolean = false;
+  isInfoCompleteModalVisible$: any;
+
   constructor(private responseCommentService: ResponseCommentService, @Inject(PLATFORM_ID) private platformId: Object, private tokenService: TokenService,
-    private profileService: ProfileService, private router:Router) { }
+    private profileService: ProfileService, private router: Router, private modalInfoCompleteService: ModalInfoCompleteService, private modalLoginService: ModalLoginService) { }
 
   ngOnInit(): void {
-    this.loadUserProfile();
+    this.isLoggedIn = !!this.tokenService.getToken();
+    this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
+
+    if (this.isLoggedIn) {
+      this.loadUserProfile();
+    }
     if (isPlatformBrowser(this.platformId)) {
       import('emoji-picker-element');
     }
@@ -49,14 +60,15 @@ export class ResponsesCommentComponent implements OnInit {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
   addEmoji(event: any): void {
-    const emoji = event.detail.unicode; // Obtener el emoji seleccionado
+    const emoji = event.detail.unicode;
     if (this.selectedResponseId) {
       this.responseContents[this.selectedResponseId] += emoji;
     } else {
       this.newResponseContent += emoji;
     }
-    this.showEmojiPicker = false; // Cierra el selector después de seleccionar un emoji
+    this.showEmojiPicker = false;
   }
+
   loadUserProfile(): Promise<void> {
     return new Promise((resolve, reject) => {
       const userId = this.extractUserIdFromToken();
@@ -81,6 +93,12 @@ export class ResponsesCommentComponent implements OnInit {
     });
   }
 
+  handleTextareaClick(): void {
+    if (!this.isLoggedIn) {
+      this.isLoginModalVisible = true;
+      this.modalLoginService.showLoginModal();
+    }
+  }
   extractUserIdFromToken(): string | null {
     const token = this.tokenService.getToken();
     if (token) {
@@ -105,6 +123,7 @@ export class ResponsesCommentComponent implements OnInit {
       }
     });
   }
+
   private flattenResponses(responses: any[]): any[] {
     const flattened: any[] = [];
 
@@ -182,8 +201,8 @@ export class ResponsesCommentComponent implements OnInit {
     this.selectedResponseId = response.idRespuesta;
     this.responseContents[response.idRespuesta] = `@${response.nombreCompleto} `;
   }
-  
-  
+
+
   showHoverModal(userId: string, event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (!target) {
@@ -197,7 +216,7 @@ export class ResponsesCommentComponent implements OnInit {
 
     this.hoverPosition = {
       top: rect.top + window.scrollY + rect.height - 40,
-      left: rect.left + window.scrollX + rect.width / 2 +30
+      left: rect.left + window.scrollX + rect.width / 2 + 30
     };
 
     this.profileService.getUserProfileHover(userId).subscribe({
@@ -246,7 +265,7 @@ export class ResponsesCommentComponent implements OnInit {
     const mention = `@${nombreCompleto} `;
   }
 
-  navigateToProfileUser(idUsuario: string){
-    this.router.navigate(['/profile',idUsuario])
+  navigateToProfileUser(idUsuario: string) {
+    this.router.navigate(['/profile', idUsuario])
   }
 }
