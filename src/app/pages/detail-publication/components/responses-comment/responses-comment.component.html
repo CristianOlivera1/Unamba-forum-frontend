@@ -1,27 +1,27 @@
 <div class="flex gap-2 mt-4 xl:ml-4">
   <a (click)="navigateToProfileUser(userProfile.idUsuario)">
     <span class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
-      <img [src]="userProfile?.fotoPerfil || '/assets/img/profile/sin-foto-perfil.webp'"
+      <img [src]="userProfile?.fotoPerfil || '/assets/img/profile/avatar-perfil-uf.avif'"
         class="w-full h-full object-cover rounded-full hover-img-avatar"
         alt="avatar-usuario-logueado(que va a responder)" (mouseenter)="showHoverModal(userProfile.idUsuario, $event)"
         (mouseleave)="hideHoverModal()">
     </span>
   </a>
 
-
   <!-- Contenedor del comentario -->
   <div class="flex-1 flex flex-col gap-2">
     <div class="relative">
       <!-- Textarea -->
-      <textarea [(ngModel)]="newResponseContent" (input)="enforceMentionForComment()"
-        class="w-full border border-gray-300 rounded-lg p-2 min-h-20 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500 pr-20"
+      <textarea [(ngModel)]="newResponseContent" (input)="enforceMentionForComment()" (click)="handleTextareaClick()"
+      (click)="handleTextareaClick()"
+        class="w-full border border-gray-300 rounded-lg p-2 min-h-20 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500 pr-20 hover:border-gray-400"
         placeholder="Escribe una respuesta..."></textarea>
 
       <!-- Botones dentro del textarea -->
-      <div class="absolute bottom-3 right-4 flex gap-2">
+      <div *ngIf="isLoggedIn" class="absolute bottom-3 right-4 flex gap-2">
         <!-- Botón de emojis -->
         <button type="button" class="text-gray-500 p-1 hover:text-gray-700 hover:bg-gray-100 hover:rounded-sm"
-          (click)="toggleEmojiPicker()" title="Agregar emoji">
+          (click)="toggleEmojiPicker()" title="Agregar emoji" [ngClass]="{'bg-gray-200 rounded-md': showEmojiPicker}">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
               <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10" />
@@ -30,7 +30,7 @@
             </g>
           </svg>
         </button>
-
+        <app-login-modal *ngIf="isLoginModalVisible"></app-login-modal>
         <!-- Botón de cancelar -->
         <button type="button" class="text-gray-500 text-sm hover:text-gray-700 border border-gray-300 px-2 py-1 rounded"
           (click)="closeResponses()">
@@ -54,7 +54,7 @@
       <div class="flex gap-2 mt-2">
         <a (click)="navigateToProfileUser(response.idUsuario)">
           <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
-            <img [src]="response.avatar" alt="avatar" class="w-full h-full object-cover rounded-full hover-img-avatar"
+            <img [src]="response.avatar || '/assets/img/profile/avatar-perfil-uf.avif'" alt="avatar" class="w-full h-full object-cover rounded-full hover-img-avatar"
               (mouseenter)="showHoverModal(response.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
           </span>
         </a>
@@ -80,14 +80,14 @@
           <div *ngIf="selectedResponseId === response.idRespuesta" class="relative mt-4">
             <!-- Textarea -->
             <textarea [(ngModel)]="responseContents[response.idRespuesta]"
-              (input)="enforceMention(response.idRespuesta, response.nombreCompleto)"
-              class="w-full border border-gray-300 rounded-lg p-2 min-h-20 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500 pr-20"
+              (input)="enforceMention(response.idRespuesta, response.nombreCompleto)" (click)="handleTextareaClick()"
+              class="w-full border border-gray-300 rounded-lg p-2 min-h-20 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500 pr-20 hover:border-gray-400"
               placeholder="Escribe una respuesta..."></textarea>
 
             <!-- Botones dentro del textarea -->
-            <div class="absolute bottom-3 right-4 flex gap-2">
+            <div *ngIf="isLoggedIn" class="absolute bottom-3 right-4 flex gap-2">
               <!-- Botón de emojis -->
-              <button type="button" class="text-gray-500 hover:text-gray-700" (click)="toggleEmojiPicker()"
+              <button type="button" class="text-gray-500 hover:text-gray-700" (click)="toggleEmojiPicker()" [ngClass]="{'bg-gray-200 rounded-md': showEmojiPicker}"
                 title="Agregar emoji">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
