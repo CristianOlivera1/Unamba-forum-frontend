@@ -69,21 +69,81 @@
       </div>
 
       <div class="relative z-0 w-full mb-5 group">
-        <input type="password" [(ngModel)]="registerData.contrasenha" name="contrasenha" id="contrasenha"
+        <input 
+          [type]="showPassword ? 'text' : 'password'" 
+          [(ngModel)]="registerData.contrasenha" 
+          name="contrasenha" 
+          id="contrasenha"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
-          placeholder=" " required />
-        <label for="contrasenha"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
+          placeholder=" " 
+          required 
+        />
+        <label 
+          for="contrasenha"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+          Contraseña
+        </label>
+        <!-- Botón para mostrar/ocultar contraseña -->
+        <button 
+          *ngIf="registerData.contrasenha?.trim()"
+          type="button" 
+          class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          (click)="togglePasswordVisibility()">
+          <ng-container *ngIf="showPassword">
+            <!-- Icono para ocultar contraseña -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M17.883 19.297A10.95 10.95 0 0 1 12 21c-5.392 0-9.878-3.88-10.818-9A11 11 0 0 1 4.52 5.935L1.394 2.808l1.414-1.414l19.799 19.798l-1.414 1.415zM5.936 7.35A8.97 8.97 0 0 0 3.223 12a9.005 9.005 0 0 0 13.201 5.838l-2.028-2.028A4.5 4.5 0 0 1 8.19 9.604zm6.978 6.978l-3.242-3.241a2.5 2.5 0 0 0 3.241 3.241m7.893 2.265l-1.431-1.431A8.9 8.9 0 0 0 20.778 12A9.005 9.005 0 0 0 9.552 5.338L7.974 3.76C9.221 3.27 10.58 3 12 3c5.392 0 9.878 3.88 10.819 9a10.95 10.95 0 0 1-2.012 4.593m-9.084-9.084Q11.86 7.5 12 7.5a4.5 4.5 0 0 1 4.492 4.778z"/>
+            </svg>
+          </ng-container>
+          <ng-container *ngIf="!showPassword">
+            <!-- Icono para mostrar contraseña -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3.275 15.296C2.425 14.192 2 13.639 2 12c0-1.64.425-2.191 1.275-3.296C4.972 6.5 7.818 4 12 4s7.028 2.5 8.725 4.704C21.575 9.81 22 10.361 22 12c0 1.64-.425 2.191-1.275 3.296C19.028 17.5 16.182 20 12 20s-7.028-2.5-8.725-4.704Z"/>
+                <path d="M15 12a3 3 0 1 1-6 0a3 3 0 0 1 6 0Z"/>
+              </g>
+            </svg>
+          </ng-container>
+        </button>
       </div>
-
+      
       <div class="relative z-0 w-full mb-5 group">
-        <input type="password" [(ngModel)]="registerData.confirmarContrasenha" name="confirmarContrasenha"
+        <input 
+          [type]="showConfirmPassword ? 'text' : 'password'" 
+          [(ngModel)]="registerData.confirmarContrasenha" 
+          name="confirmarContrasenha" 
           id="confirmarContrasenha"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
-          placeholder=" " required />
-        <label for="confirmarContrasenha"
-          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirmar
-          contraseña</label>
+          placeholder=" " 
+          required 
+        />
+        <label 
+          for="confirmarContrasenha"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+          Confirmar contraseña
+        </label>
+        <!-- Botón para mostrar/ocultar contraseña -->
+        <button 
+          *ngIf="registerData.confirmarContrasenha?.trim()"
+          type="button" 
+          class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          (click)="toggleConfirmPasswordVisibility()">
+          <ng-container *ngIf="showConfirmPassword">
+            <!-- Icono para ocultar contraseña -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M17.883 19.297A10.95 10.95 0 0 1 12 21c-5.392 0-9.878-3.88-10.818-9A11 11 0 0 1 4.52 5.935L1.394 2.808l1.414-1.414l19.799 19.798l-1.414 1.415zM5.936 7.35A8.97 8.97 0 0 0 3.223 12a9.005 9.005 0 0 0 13.201 5.838l-2.028-2.028A4.5 4.5 0 0 1 8.19 9.604zm6.978 6.978l-3.242-3.241a2.5 2.5 0 0 0 3.241 3.241m7.893 2.265l-1.431-1.431A8.9 8.9 0 0 0 20.778 12A9.005 9.005 0 0 0 9.552 5.338L7.974 3.76C9.221 3.27 10.58 3 12 3c5.392 0 9.878 3.88 10.819 9a10.95 10.95 0 0 1-2.012 4.593m-9.084-9.084Q11.86 7.5 12 7.5a4.5 4.5 0 0 1 4.492 4.778z"/>
+            </svg>
+          </ng-container>
+          <ng-container *ngIf="!showConfirmPassword">
+            <!-- Icono para mostrar contraseña -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3.275 15.296C2.425 14.192 2 13.639 2 12c0-1.64.425-2.191 1.275-3.296C4.972 6.5 7.818 4 12 4s7.028 2.5 8.725 4.704C21.575 9.81 22 10.361 22 12c0 1.64-.425 2.191-1.275 3.296C19.028 17.5 16.182 20 12 20s-7.028-2.5-8.725-4.704Z"/>
+                <path d="M15 12a3 3 0 1 1-6 0a3 3 0 0 1 6 0Z"/>
+              </g>
+            </svg>
+          </ng-container>
+        </button>
       </div>
 
       <button
@@ -92,13 +152,7 @@
         <ng-container *ngIf="!isRegistering">Registrarse</ng-container>
         <ng-container *ngIf="isRegistering">
           Registrando...
-          <svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
-              <animateTransform attributeName="transform" type="rotate" dur="0.75s" values="0 12 12;360 12 12"
-                repeatCount="indefinite" />
-            </path>
-          </svg>
+          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" data-icon="spin"><defs><linearGradient x1="0%" y1="100%" x2="100%" y2="100%" id="linearGradient-1"><stop stop-color="currentColor" stop-opacity="0" offset="0%"></stop><stop stop-color="currentColor" stop-opacity="0.50" offset="39.9430698%"></stop><stop stop-color="currentColor" offset="100%"></stop></linearGradient></defs><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect fill-opacity="0.01" fill="none" x="0" y="0" width="36" height="36"></rect><path d="M34,18 C34,9.163444 26.836556,2 18,2 C11.6597233,2 6.18078805,5.68784135 3.59122325,11.0354951" stroke="url(#linearGradient-1)" stroke-width="4" stroke-linecap="round"></path></g></svg>
         </ng-container>
       </button>
     </form>
