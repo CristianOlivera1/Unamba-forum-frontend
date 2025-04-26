@@ -1,6 +1,7 @@
 <div class="fixed inset-0 bg-[rgba(0,0,0,0.3)] z-40" (click)="closeModal()"></div>
 
-<div class="fixed bottom-0 left-0 w-full h-[70vh] bg-white shadow-xl rounded-t-3xl p-3 sm:p-4 md:p-5 xl:p-7 overflow-auto z-50">
+<div
+  class="fixed bottom-0 left-0 w-full h-[70vh] bg-white shadow-xl rounded-t-3xl p-3 sm:p-4 md:p-5 xl:p-7 overflow-auto z-50">
 
   <!-- Alerta -->
   <div *ngIf="alert" [ngClass]="{
@@ -8,17 +9,17 @@
     'bg-red-50 text-red-800': alert.type === 'error',
     'bg-yellow-50 text-yellow-800': alert.type === 'warning'
   }" class="fixed top-5 left-5 right-5 flex items-center p-4 rounded-lg shadow-lg z-50" role="alert">
-<svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
-  fill="currentColor" viewBox="0 0 20 20">
-  <path
-    d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
-</svg>
-<svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
-  fill="currentColor" viewBox="0 0 20 20">
-  <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
-</svg>
-<span class="text-sm font-medium">{{ alert.message }}</span>
-</div>
+    <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <path
+        d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
+    </svg>
+    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
+    </svg>
+    <span class="text-sm font-medium">{{ alert.message }}</span>
+  </div>
   <button (click)="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -41,11 +42,11 @@
           Carrera
         </label>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
-        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none">
-        <path fill-rule="evenodd"
-      d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
-      clip-rule="evenodd"></path>
-      </svg>
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none">
+          <path fill-rule="evenodd"
+            d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+            clip-rule="evenodd"></path>
+        </svg>
       </div>
 
       <!-- Select de género-->
@@ -61,11 +62,11 @@
           Género (opcional)
         </label>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
-        class="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none">
-        <path fill-rule="evenodd"
-      d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
-      clip-rule="evenodd"></path>
-      </svg>
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none">
+          <path fill-rule="evenodd"
+            d="M5.22 10.22a.75.75 0 0 1 1.06 0L8 11.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-2.25 2.25a.75.75 0 0 1-1.06 0l-2.25-2.25a.75.75 0 0 1 0-1.06ZM10.78 5.78a.75.75 0 0 1-1.06 0L8 4.06 6.28 5.78a.75.75 0 0 1-1.06-1.06l2.25-2.25a.75.75 0 0 1 1.06 0l2.25 2.25a.75.75 0 0 1 0 1.06Z"
+            clip-rule="evenodd"></path>
+        </svg>
       </div>
 
       <!-- Descripción (opcional) -->
@@ -90,9 +91,29 @@
       </div>
 
       <!-- Botón para continuar -->
-      <button type="submit"
-        class="w-full bg-secondary-blue text-white py-3 rounded-md hover:bg-[#256EDD] transition-colors duration-200 mt-2">
-        Guardar y continuar
+      <button type="submit" [disabled]="isLoading"
+        class="w-full bg-secondary-blue text-white py-3 rounded-md hover:bg-[#256EDD] transition-colors duration-200 mt-2 flex items-center justify-center gap-2">
+        <ng-container *ngIf="isLoading; else defaultText">
+          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36"
+            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient x1="0%" y1="100%" x2="100%" y2="100%" id="linearGradient-1">
+                <stop stop-color="currentColor" stop-opacity="0" offset="0%"></stop>
+                <stop stop-color="currentColor" stop-opacity="0.50" offset="39.9430698%"></stop>
+                <stop stop-color="currentColor" offset="100%"></stop>
+              </linearGradient>
+            </defs>
+            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <rect fill-opacity="0.01" fill="none" x="0" y="0" width="36" height="36"></rect>
+              <path d="M34,18 C34,9.163444 26.836556,2 18,2 C11.6597233,2 6.18078805,5.68784135 3.59122325,11.0354951"
+                stroke="url(#linearGradient-1)" stroke-width="4" stroke-linecap="round"></path>
+            </g>
+          </svg>
+          Guardando...
+        </ng-container>
+        <ng-template #defaultText>
+          Guardar y continuar
+        </ng-template>
       </button>
     </form>
   </div>
