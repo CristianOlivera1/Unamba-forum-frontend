@@ -117,7 +117,7 @@ export class EditFrontPageComponent {
 
           (document.getElementById('dropzone') as any).componentRef.photoUrl = responseObject.data.fotoPortada;
 
-          (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de portada actualizada correctamente, actualiza la página para ver los cambios.');
+          (document.getElementById('dropzone') as any).componentRef.success.emit('Actualizado correctamente. Recarga para ver cambios.');
 
           (document.getElementById('dropzone') as any).componentRef.close.emit();
         });
@@ -154,7 +154,7 @@ export class EditFrontPageComponent {
           this.profileService.updateProfile(formData).subscribe({
             next: (res) => {
               this.isUpdateFrontPageInProgress = false;
-              (document.getElementById('dropzone') as any).componentRef.success.emit('Foto de portada actualizada correctamente, actualiza la página para ver los cambios.');
+              (document.getElementById('dropzone') as any).componentRef.success.emit('Actualizado correctamente. Recarga para ver cambios.');
               this.close.emit();
             },
             error: (err) => {
