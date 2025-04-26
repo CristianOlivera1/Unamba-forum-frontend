@@ -33,6 +33,8 @@ export class RegisterComponent implements OnInit{
   };
   alert: { type: string; message: string } | null = null;
   isRegistering: boolean = false;
+  showPassword: boolean = false; 
+  showConfirmPassword: boolean = false; 
 
   constructor(private registerService: RegisterService, private careerService: CareerService, private router: Router,private http: HttpClient,private tokenService:TokenService,private customValidators: CustomValidators,@Inject(PLATFORM_ID) private platformId: Object,private googleAuthService:GoogleAuthService, private modalInfoCompleteService: ModalInfoCompleteService
   ) {}
@@ -149,5 +151,13 @@ export class RegisterComponent implements OnInit{
 
   loginWithGoogle(): void {
     this.googleAuthService.registerWithGoogleOauth();
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 }
