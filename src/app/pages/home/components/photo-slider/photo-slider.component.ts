@@ -2,11 +2,9 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-// Removed SwiperModule import as it is not found
-
 @Component({
   selector: 'app-photo-slider',
-  imports: [CommonModule], // Removed SwiperModule from imports
+  imports: [CommonModule],
   templateUrl: './photo-slider.component.html',
   styleUrl: './photo-slider.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
