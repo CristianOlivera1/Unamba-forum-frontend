@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 
   alert: { type: string; message: string } | null = null;
   isLoggingIn: boolean = false;
+  showPassword: boolean = false;
 
   constructor(
     private loginService: LoginService,
@@ -44,6 +45,9 @@ export class LoginComponent implements OnInit {
     setTimeout(() => {
       this.alert = null;
     }, 5000);
+  }
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   login(): void {

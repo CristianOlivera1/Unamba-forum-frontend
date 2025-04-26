@@ -1,62 +1,168 @@
-<div class="flex items-center justify-center min-h-screen bg-[#F3F4F6] bg-[url('/assets/img/oauth/grid.svg')] bg-cover bg-no-repeat bg-center bg-fixed">
-    <div *ngIf="alert" [ngClass]="{
+<div
+  class="flex items-center justify-center min-h-screen bg-[#F3F4F6] bg-[url('/assets/img/oauth/grid.svg')] bg-cover bg-no-repeat bg-center bg-fixed">
+  <div *ngIf="alert" [ngClass]="{
           'bg-green-50 text-green-800': alert.type === 'success',
           'bg-red-50 text-red-800': alert.type === 'error',
           'bg-yellow-50 text-yellow-800': alert.type === 'warning'
         }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg" role="alert">
-      <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor" viewBox="0 0 20 20">
-        <path
-          d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
-      </svg>
-      <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
-      </svg>
-      <span class="text-sm font-medium">{{ alert.message }}</span>
+    <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <path
+        d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
+    </svg>
+    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
+    </svg>
+    <span class="text-sm font-medium">{{ alert.message }}</span>
+  </div>
+
+  <div class="bg-white p-12 pt-10 mt-5 mb-5 rounded-lg shadow-lg w-[30rem]">
+    <div class="flex justify-center mb-2">
+        <a href="#" class="relative -m-1.5 p-1.5 flex">
+  
+          <svg class="absolute opacity-30 -z-10" width="64" height="44" viewBox="0 0 64 44" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.03774 2.3999H43.5746C52.9851 2.3999 57.6903 2.3999 60.1045 5.46659C62.5187 8.53329 61.4141 13.107
+            59.2049 22.2544L57.3113 30.0951C55.8849 36.0014 55.1717 38.9546 52.9835 40.6772C50.7953 42.3999
+            47.7572 42.3999 41.6811 42.3999H18.6889C10.0002 42.3999 5.65575 42.3999 3.24994 39.6037C0.844136 36.8075
+            1.49255 32.5118 2.78937 23.9203L6.03774 2.3999Z" stroke="currentColor" stroke-width="1.8" />
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M39.7456 10.6449L38.633 24.2026C37.8012 31.603 31.4846 37.0577 24.1654 36.4571C16.7802 35.8511
+            11.2878 29.336 11.8976 21.9051L13.0017 8.45028L19.6877 8.99893L18.5835 22.4537C18.2787 26.1692
+            21.0248 29.4267 24.7175 29.7297C28.3456 30.0275 31.5126 27.3074 31.9599 23.4972L33.0596 10.0962
+            L39.7456 10.6449Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  
+            <path
+              d="M39.6041 14.0487C41.327 12.9001 45.9885 11.9583 48.2183 14.6228C48.5519 15.1334 49.0843 15.7245 49.3668 15.7716C52.8124 16.346 53.961 12.3263 52.8124 11.1774C51.6639 10.0285 51.6639 10.0288 51.6639 10.0288C46.8394 4.86026 38.4556 6.5832 33.0705 9.48908"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M45.857 20.6169C46.5115 20.6166 47.1519 20.8076 47.6993 21.1665C48.2467 21.5254 48.6772 22.0364 48.938 22.6367C49.1987 23.2371 49.2783 23.9006 49.1669 24.5455C49.0555 25.1905 48.758 25.7889 48.311 26.267C47.864 26.7451 47.287 27.0821 46.6509 27.2366C46.0149 27.3911 45.3476 27.3562 44.7311 27.1364C44.1146 26.9166 43.5758 26.5214 43.1809 25.9993C42.7861 25.4773 42.5525 24.8512 42.5089 24.1981V23.7502C42.6206 22.0045 44.0753 20.6169 45.857 20.6169Z"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M33.1111 9.97146L30.7795 36.8487L37.4614 37.4283L39.795 10.5294L33.113 9.94971" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+  
+          <svg width="64" height="44" viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  
+            <path class="line"
+              d="M6.03774 2.3999H43.5746C52.9851 2.3999 57.6903 2.3999 60.1045 5.46659C62.5187 8.53329 61.4141 13.107 59.2049 22.2544L57.3113 30.0951C55.8849 36.0014 55.1717 38.9546 52.9835 40.6772C50.7953 42.3999 47.7572 42.3999 41.6811 42.3999H18.6889C10.0002 42.3999 5.65575 42.3999 3.24994 39.6037C0.844136 36.8075 1.49255 32.5118 2.78937 23.9203L6.03774 2.3999Z"
+              stroke="currentColor" stroke-width="1.8" />
+            <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+              d="M39.7456 10.6449L38.633 24.2026C37.8012 31.603 31.4846 37.0577 24.1654 36.4571C16.7802 35.8511 11.2878 29.336 11.8976 21.9051L13.0017 8.45028L19.6877 8.99893L18.5835 22.4537C18.2787 26.1692 21.0248 29.4267 24.7175 29.7297C28.3456 30.0275 31.5126 27.3074 31.9599 23.4972L33.0596 10.0962L39.7456 10.6449Z"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path class="line"
+              d="M39.6041 14.0487C41.327 12.9001 45.9885 11.9583 48.2183 14.6228C48.5519 15.1334 49.0843 15.7245 49.3668 15.7716C52.8124 16.346 53.961 12.3263 52.8124 11.1774C51.6639 10.0285 51.6639 10.0288 51.6639 10.0288C46.8394 4.86026 38.4556 6.5832 33.0705 9.48908"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+              d="M45.857 20.6169C46.5115 20.6166 47.1519 20.8076 47.6993 21.1665C48.2467 21.5254 48.6772 22.0364 48.938 22.6367C49.1987 23.2371 49.2783 23.9006 49.1669 24.5455C49.0555 25.1905 48.758 25.7889 48.311 26.267C47.864 26.7451 47.287 27.0821 46.6509 27.2366C46.0149 27.3911 45.3476 27.3562 44.7311 27.1364C44.1146 26.9166 43.5758 26.5214 43.1809 25.9993C42.7861 25.4773 42.5525 24.8512 42.5089 24.1981V23.7502C42.6206 22.0045 44.0753 20.6169 45.857 20.6169Z"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path class="line" d="M33.1111 9.97146L30.7795 36.8487L37.4614 37.4283L39.795 10.5294L33.113 9.94971"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <h1 class="font-display text-[1.70rem] font-black italic flex my-1">
+            Unamba <span class="relative bg-[#155ffc] px-2 text-white" style="
+              clip-path: polygon(8% 15%, 100% 15%, 93% 90%, 0% 90%);
+            ">
+              forum
+            </span>
+          </h1>
+        </a>
+  
     </div>
-  
-    <div class="bg-white p-12 pt-10 mt-5 mb-5 rounded-lg shadow-lg w-[30rem]">
-      <h2 class="text-2xl font-semibold text-center mb-4">Iniciar sesión</h2>
-  
-      <form (ngSubmit)="login()">
-        <div class="relative z-0 w-full mb-5 group">
-          <input type="email" [(ngModel)]="loginData.email" name="email" id="email"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
-            placeholder=" " required />
-          <label for="email"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
-        </div>
-  
-        <div class="relative z-0 w-full mb-5 group">
-          <input type="password" [(ngModel)]="loginData.contrasenha" name="contrasenha" id="contrasenha"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
-            placeholder=" " required />
-          <label for="contrasenha"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
-        </div>
-     <button
-      class="w-full bg-secondary-blue mt-6 text-white py-3 rounded hover:bg-hover-secondary-blue flex items-center justify-center gap-2"
-      [disabled]="isLoggingIn">
-      <ng-container *ngIf="!isLoggingIn">Iniciar sesión</ng-container>
-      <ng-container *ngIf="isLoggingIn">
-        Iniciando sesión...
-        <svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z"><animateTransform attributeName="transform" type="rotate" dur="0.75s" values="0 12 12;360 12 12" repeatCount="indefinite"/></path></svg>
-      </ng-container>
+    <h2 class="text-2xl font-semibold text-center mb-4">Iniciar sesión</h2>
+
+    <form (ngSubmit)="login()">
+      <div class="relative z-0 w-full mb-5 group">
+        <input type="email" [(ngModel)]="loginData.email" name="email" id="email"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
+          placeholder=" " required />
+        <label for="email"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <input 
+          [type]="showPassword ? 'text' : 'password'" 
+          [(ngModel)]="loginData.contrasenha" 
+          name="contrasenha" 
+          id="contrasenha"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
+          placeholder=" " 
+          required 
+        />
+        <label 
+          for="contrasenha"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+          Contraseña
+        </label>
+        <!-- Botón para mostrar/ocultar contraseña -->
+        <button 
+          *ngIf="loginData.contrasenha?.trim()"
+          type="button" 
+          class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          (click)="togglePasswordVisibility()">
+          <ng-container *ngIf="showPassword">
+            <!-- Icono para ocultar contraseña -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M17.883 19.297A10.95 10.95 0 0 1 12 21c-5.392 0-9.878-3.88-10.818-9A11 11 0 0 1 4.52 5.935L1.394 2.808l1.414-1.414l19.799 19.798l-1.414 1.415zM5.936 7.35A8.97 8.97 0 0 0 3.223 12a9.005 9.005 0 0 0 13.201 5.838l-2.028-2.028A4.5 4.5 0 0 1 8.19 9.604zm6.978 6.978l-3.242-3.241a2.5 2.5 0 0 0 3.241 3.241m7.893 2.265l-1.431-1.431A8.9 8.9 0 0 0 20.778 12A9.005 9.005 0 0 0 9.552 5.338L7.974 3.76C9.221 3.27 10.58 3 12 3c5.392 0 9.878 3.88 10.819 9a10.95 10.95 0 0 1-2.012 4.593m-9.084-9.084Q11.86 7.5 12 7.5a4.5 4.5 0 0 1 4.492 4.778z"/>
+            </svg>
+          </ng-container>
+          <ng-container *ngIf="!showPassword">
+            <!-- Icono para mostrar contraseña -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <g fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3.275 15.296C2.425 14.192 2 13.639 2 12c0-1.64.425-2.191 1.275-3.296C4.972 6.5 7.818 4 12 4s7.028 2.5 8.725 4.704C21.575 9.81 22 10.361 22 12c0 1.64-.425 2.191-1.275 3.296C19.028 17.5 16.182 20 12 20s-7.028-2.5-8.725-4.704Z"/>
+                <path d="M15 12a3 3 0 1 1-6 0a3 3 0 0 1 6 0Z"/>
+              </g>
+            </svg>
+          </ng-container>
+        </button>
+      </div>
+      <button
+        class="w-full bg-secondary-blue mt-6 text-white py-3 rounded hover:bg-hover-secondary-blue flex items-center justify-center gap-2"
+        [disabled]="isLoggingIn">
+        <ng-container *ngIf="!isLoggingIn">Iniciar sesión</ng-container>
+        <ng-container *ngIf="isLoggingIn">
+          Iniciando sesión...
+          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1"
+            xmlns="http://www.w3.org/2000/svg" aria-hidden="true" data-icon="spin">
+            <defs>
+              <linearGradient x1="0%" y1="100%" x2="100%" y2="100%" id="linearGradient-1">
+                <stop stop-color="currentColor" stop-opacity="0" offset="0%"></stop>
+                <stop stop-color="currentColor" stop-opacity="0.50" offset="39.9430698%"></stop>
+                <stop stop-color="currentColor" offset="100%"></stop>
+              </linearGradient>
+            </defs>
+            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <rect fill-opacity="0.01" fill="none" x="0" y="0" width="36" height="36"></rect>
+              <path d="M34,18 C34,9.163444 26.836556,2 18,2 C11.6597233,2 6.18078805,5.68784135 3.59122325,11.0354951"
+                stroke="url(#linearGradient-1)" stroke-width="4" stroke-linecap="round"></path>
+            </g>
+          </svg>
+        </ng-container>
+      </button>
+
+    </form>
+    <div class="text-center my-4 relative">
+      <span class="absolute left-0 right-0 top-1/2 bg-gray-300 h-px"></span>
+      <span class="relative bg-white px-2 text-gray-500">O continuar con</span>
+    </div>
+
+    <button (click)="initiateGoogleLogin()"
+      class="w-full flex items-center justify-center gap-2 border py-3 border-gray-300 rounded text-gray-700 hover:bg-gray-200">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
+        <path fill="#ffc107"
+          d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917" />
+        <path fill="#ff3d00"
+          d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691" />
+        <path fill="#4caf50"
+          d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44" />
+        <path fill="#1976d2"
+          d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917" />
+      </svg>Iniciar sesión con Google
     </button>
 
-      </form>
-      <div class="text-center my-4 relative">
-        <span class="absolute left-0 right-0 top-1/2 bg-gray-300 h-px"></span>
-        <span class="relative bg-white px-2 text-gray-500">O continuar con</span>
-      </div>
-  
-      <button (click)="initiateGoogleLogin()"
-        class="w-full flex items-center justify-center gap-2 border py-3 border-gray-300 rounded text-gray-700 hover:bg-gray-200">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><path fill="#ffc107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917"/><path fill="#ff3d00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691"/><path fill="#4caf50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44"/><path fill="#1976d2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917"/></svg>Iniciar sesión con Google
-      </button>
-  
-      <p class="text-center mt-4 text-gray-600">¿No tienes una cuenta? <a href="/register"
-          class="text-primary-blue  font-semibold underline">Regístrate</a></p>
-    </div>
+    <p class="text-center mt-4 text-gray-600">¿No tienes una cuenta? <a href="/register"
+        class="text-primary-blue  font-semibold underline">Regístrate</a></p>
   </div>
+</div>
