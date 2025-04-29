@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, PLATFORM_ID, SimpleChanges } from '@angular/core';
 import { ReactionPublicationService } from '../../../../core/services/reaction/reaction-publication.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-totals-reaction-comment',
@@ -15,13 +15,13 @@ export class TotalsReactionCommentComponent implements OnInit {
   @Output() hoverComments = new EventEmitter<{ event: MouseEvent }>();
   @Output() leaveComments = new EventEmitter<void>();
   @Input() totalComentarios!: number;
+  @Input() reacciones: { tipo: string; cantidad: number }[] = [];
 
-  reacciones: { tipo: string; cantidad: number }[] = [];
 
-  constructor(private reactionService: ReactionPublicationService) {}
+  constructor(private reactionService: ReactionPublicationService,@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
-    this.loadReactionSummary();
+      this.loadReactionSummary();
   }
 
   loadReactionSummary(): void {
@@ -54,5 +54,11 @@ export class TotalsReactionCommentComponent implements OnInit {
 
   onLeaveComments(): void {
     this.leaveComments.emit();
+  }
+  
+  navigateToDetailAndFocusComment(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.href = `/publication/${this.idPublicacion}?focusComment=true`;
+    }
   }
 }
