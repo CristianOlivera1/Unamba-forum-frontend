@@ -1,5 +1,5 @@
-import { CommonModule,isPlatformBrowser,Location} from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { CommonModule, isPlatformBrowser, Location } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from '../../core/services/publication/publication.service';
@@ -23,15 +23,18 @@ import { ModalLoginService } from '../../core/services/modal/modalLogin.service'
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { CommentComponent } from './components/comment/comment.component';
 import { TimeUtils } from '../../Utils/TimeElapsed';
+import { RelatedComponent } from './components/related/related.component';
 
 @Component({
   selector: 'app-detail-publication',
-  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, PhotoSliderComponent, ModalUserCommentPublicationComponent, ModalUserCommentPublicationComponent, ModalUsersByReactionTypeComponent, LoginModalComponent, HoverAvatarComponent, TotalsReactionCommentComponent, ReactionComponent, CompleteInfoRegisterGoogleComponent, CommentComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, PhotoSliderComponent, ModalUserCommentPublicationComponent, ModalUserCommentPublicationComponent, ModalUsersByReactionTypeComponent, LoginModalComponent, HoverAvatarComponent, TotalsReactionCommentComponent, ReactionComponent, CompleteInfoRegisterGoogleComponent, CommentComponent, RelatedComponent],
   templateUrl: './detail-publication.component.html',
   styleUrl: './detail-publication.component.css'
 })
 export class DetailPublicationComponent implements OnInit {
-  publication: any = {}; 
+  comments: any[] = [];
+  @ViewChild(CommentComponent) commentComponent!: CommentComponent;
+  publication: any = {};
   currentUserId: string | null = null;
 
   isPhotoSliderVisible = false;
@@ -50,61 +53,100 @@ export class DetailPublicationComponent implements OnInit {
   isLoginModalVisible$: any;
   isInfoCompleteModalVisible$: any;
 
+  publicationRelated: any[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private publicationService: PublicationService,
     private tokenService: TokenService,
     private reactionPublicationService: ReactionPublicationService,
     private commentPublicationService: CommentPublicationService,
-    private profileService: ProfileService, private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, @Inject(PLATFORM_ID) private platformId: Object,private location: Location,
+    private profileService: ProfileService, private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, @Inject(PLATFORM_ID) private platformId: Object, private location: Location,
   ) { }
 
   ngOnInit(): void {
     this.currentUserId = this.tokenService.getUserId();
     this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
     this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
-    this.loadPublicationById();
-    this.loadCommentsByPublication();
 
+    this.route.params.subscribe((params) => {
+      const idPublicacion = params['idPublicacion'];
+      if (idPublicacion) {
+        this.loadPublicationById(idPublicacion);
+        this.loadReactionSummary(idPublicacion);
+        this.loadCommentsByPublication(idPublicacion);
+        this.loadPublicationRelated(idPublicacion);
+      }
+    });
+
+    this.route.queryParams.subscribe((params) => {
+      if (params['focusComment']) {
+        this.focusCommentTextarea();
+
+      }
+    });
   }
 
-  loadPublicationById(): void {
-    const idPublicacion = this.route.snapshot.paramMap.get('idPublicacion');
+  loadPublicationRelated(idPublicacion: string): void {
     if (idPublicacion) {
-      this.publicationService.getPublicationById(idPublicacion).subscribe({
-        next: (response: any) => {
-          this.publication = response.data;
-        },
-        error: (err) => {
-          console.error('Error al obtener la publicación:', err);
-        }
-      });
-    } else {
-      console.error('idPublicacion es null');
-    }
-  }
-
-  loadCommentsByPublication(): void {
-    const idPublicacion = this.route.snapshot.paramMap.get('idPublicacion');
-    if (idPublicacion) {
-      this.commentPublicationService.getCommentsByPublication(idPublicacion).subscribe({
+      this.publicationService.getRelatedPublications(idPublicacion, 0, 6).subscribe({
         next: (response: any) => {
           if (response.type === 'success') {
-            if (!this.publication) {
-              this.publication = {};
-            }
-            this.publication.comments = response.data; // Almacena los comentarios en la publicación
+            this.publicationRelated = response.data.map((related: any) => ({
+              ...related,
+              archivos: related.archivos || []
+            }));
           } else {
-            console.error('Error al cargar los comentarios:', response.listMessage);
+            console.error('Error al cargar las publicaciones relacionadas:', response.listMessage);
           }
         },
         error: (err) => {
-          console.error('Error al obtener los comentarios:', err);
+          console.error('Error en la solicitud de publicaciones relacionadas:', err);
         }
       });
-    } else {
-      console.error('idPublicacion es null');
     }
+  }
+
+  loadPublicationById(idPublicacion: string): void {
+    this.publicationService.getPublicationById(idPublicacion).subscribe({
+      next: (response: any) => {
+        this.publication = response.data;
+      },
+      error: (err) => {
+        console.error('Error al obtener la publicación:', err);
+      }
+    });
+  }
+
+  loadReactionSummary(idPublicacion: string): void {
+    this.reactionPublicationService.getReactionAndCommentSummary(idPublicacion).subscribe({
+      next: (response) => {
+        if (response.type === 'success') {
+          this.publication.reacciones = response.data.reacciones;
+          this.publication.totalComentarios = response.data.totalComentarios;
+        } else {
+          console.error('Error al obtener el resumen de reacciones:', response.listMessage);
+        }
+      },
+      error: (err) => {
+        console.error('Error en la solicitud:', err);
+      }
+    });
+  }
+
+  loadCommentsByPublication(idPublicacion: string): void {
+    this.commentPublicationService.getCommentsByPublication(idPublicacion).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.comments = response.data;
+        } else {
+          console.error('Error al cargar los comentarios:', response.listMessage);
+        }
+      },
+      error: (err) => {
+        console.error('Error en la solicitud de comentarios:', err);
+      }
+    });
   }
 
   openPhotoSlider(archivos: { tipo: string; rutaArchivo: string }[], index: number): void {
@@ -131,7 +173,6 @@ export class DetailPublicationComponent implements OnInit {
       left: rect.left + window.scrollX + rect.width / 2 + 20
     };
 
-    // Cargar los usuarios que reaccionaron
     this.reactionPublicationService.getUsersByReactionType(publication.idPublicacion, data.tipo).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
@@ -143,12 +184,14 @@ export class DetailPublicationComponent implements OnInit {
       }
     });
   }
+
   screenIsSmUp(): boolean {
     if (isPlatformBrowser(this.platformId)) {
       return window.innerWidth >= 640;
     }
     return false;
   }
+
   closeReactionHover(publication: any): void {
     setTimeout(() => {
       if (!this.isHovering) {
@@ -158,6 +201,7 @@ export class DetailPublicationComponent implements OnInit {
       }
     }, 200);
   }
+
   openCommentHover(data: { event: MouseEvent }, publication: any): void {
     const target = data.event.target as HTMLElement;
     const rect = target.getBoundingClientRect();
@@ -200,7 +244,6 @@ export class DetailPublicationComponent implements OnInit {
     this.isHovering = false;
     this.closeCommentHover(publication);
   }
-
 
   onModalMouseEnter(): void {
     this.isHovering = true;
@@ -258,11 +301,12 @@ export class DetailPublicationComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-  getTimeElapsedWrapper(fechaPublicacion: string): string {
-    const timeElapsed = TimeUtils.getTimeElapsed(fechaPublicacion);
-    const publicationDate = new Date(fechaPublicacion);
-    const formattedTime = publicationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    return `${timeElapsed}, ${formattedTime}`;
-    
+  getTimeElapsedWrapper(fechaRegistro: string): string {
+    return TimeUtils.getTimeElapsed(fechaRegistro);
+  }
+  focusCommentTextarea(): void {
+    setTimeout(() => {
+      this.commentComponent?.focusTextarea();
+    }, 0);
   }
 }
