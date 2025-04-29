@@ -1,0 +1,151 @@
+<app-header></app-header>
+<!-- Alert -->
+<div *ngIf="alert" [ngClass]="{
+    'bg-green-50 text-green-800': alert.type === 'success',
+    'bg-red-50 text-red-800': alert.type === 'error',
+    'bg-yellow-50 text-yellow-800': alert.type === 'warning'
+  }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg z-50 w-100" role="alert">
+    <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor" viewBox="0 0 20 20">
+        <path
+            d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
+    </svg>
+    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
+    </svg>
+    <span class="text-sm font-medium">{{ alert.message }}</span>
+</div>
+
+<div class="flex flex-col items-center min-h-screen mesh pb-20">
+    
+    <div class="mx-auto p-4 md:p-6 space-y-10 mt-6 w-200 w-max-300">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+
+            <div class="space-y-2">
+                <label for="title" class="block text-sm font-semibold text-gray-700">Título</label>
+                <div class="relative">
+                    <input id="title" name="title" [(ngModel)]="newPublicationData.titulo"
+                        (input)="updateCharacterCount($event)" placeholder="Escribe un título atractivo..."
+                        maxlength="100" class="w-full h-10 pl-3 pr-3 text-sm bg-white border border-gray-300 rounded-lg 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-gray-500">
+                    <span class="absolute -bottom-6 right-0 text-xs text-gray-500">{{ characterCount() }}/100
+                        caracteres</span>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label class="block text-sm font-semibold text-gray-700">Categoría</label>
+                <div class="relative">
+                    <select [(ngModel)]="newPublicationData.idCategoria" name="idCategoria" id="idCategoria"
+                        class="w-full h-10 pl-3 pr-8 text-sm bg-white border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all border">
+
+                        <option value="" disabled selected hidden>Seleccione una categoria</option>
+                        <option *ngFor="let c of category" [value]="c.idCategoria">{{ c.nombre }}</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editor Markdown -->
+        <div class="space-y-2 ">
+            <label class="block text-sm text-gray-700 font-semibold">Contenido</label>
+            <quill-editor [(ngModel)]="newPublicationData.contenido" [modules]="editorConfig"
+                placeholder="Escribe tu contenido aquí..." class="w-full max-h-54 h-50 bg-white pb-10">
+            </quill-editor>
+            <p class="text-xs text-gray-500 mt-2">Usa los botones de formato o escribe directamente en el editor</p>
+        </div>
+
+        <!-- Subida de archivos -->
+        <div class="space-y-2">
+            <div class="flex justify-between items-center">
+                <label class="block text-sm font-semibold text-gray-700">Multimedia <span class="text-gray-500 font-normal">(opcional)</span></label>
+
+                <div class="flex items-center space-x-2 border border-gray-300 rounded-lg p-2 bg-white">
+                    <!-- Checkbox -->
+                    <input type="checkbox" id="enableButton" (change)="toggleButton($event)" class="w-4 h-4 shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 
+                disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 
+                dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
+
+                    <!-- Label cambia de color si el checkbox está marcado -->
+                    <label class="flex items-center text-sm" [ngClass]="isChecked ? 'text-blue-600' : 'text-gray-500'">
+                        Imagen aleatoria
+                    </label>
+                </div>
+            </div>
+
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors hover:border-blue-400 bg-white"
+                [class.border-blue-500]="isDragging" [class.bg-blue-50]="isDragging" (dragover)="handleDragOver($event)"
+                (dragleave)="handleDragLeave($event)" (drop)="handleDrop($event)">
+                <div class="space-y-3">
+                    <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                        </path>
+                    </svg>
+                    <div class="text-sm text-gray-600">
+                        <label for="file-upload" class="cursor-pointer text-blue-600 hover:text-blue-500 font-medium">
+                            Haz clic para subir
+                        </label>
+                        <span class="pl-1">o arrastra archivos</span>
+                    </div>
+                    <p class="text-xs text-gray-500">PNG, JPG, JPEG, GIF, MP4 (hasta 2MB cada uno)</p>
+                </div>
+                <input id="file-upload" name="file-upload" type="file" class="sr-only" accept="image/*,video/*" multiple
+                    (change)="handleFileChange($event)">
+            </div>
+        </div>
+
+        <!-- Vista previa de archivos -->
+        <div *ngIf="previewUrls.length > 0" class="grid grid-cols-2 md:grid-cols-2 gap-4 mt-4">
+            <div *ngFor="let url of previewUrls; let index = index"
+                class="relative overflow-hidden group rounded-lg border border-gray-200">
+
+                <!-- Mostrar video si el archivo es un video -->
+                <video *ngIf="mediaFiles[index]?.type?.includes('video')" [src]="url" class="w-full h-64 object-cover"
+                    controls></video>
+
+                <!-- Mostrar imagen si el archivo es una imagen -->
+                <img *ngIf="!mediaFiles[index]?.type?.includes('video')" [src]="url" alt="Uploaded media"
+                    class="w-full h-64 object-cover" />
+
+                <!-- Botón para eliminar el archivo -->
+                <div
+                    class="absolute inset-0 bg-black-40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                    <button
+                        class="h-8 w-8 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600"
+                        (click)="removeMedia(index)">
+                        ✕
+                    </button>
+                </div>
+
+                <!-- Icono para identificar si es video o imagen -->
+                <div class="absolute top-2 left-2">
+                    <!-- Mostrar icono si es un video -->
+                    <svg *ngIf="mediaFiles[index]?.type?.includes('video')" xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 text-white drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+
+                    <!-- Mostrar icono si es una imagen -->
+                    <svg *ngIf="!mediaFiles[index]?.type?.includes('video')" xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 text-white drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <!-- Botón para publicar -->
+        <div class="mt-6">
+            <button (click)="insertPublication()"
+                class="w-full bg-secondary-blue text-white py-2 rounded-lg hover:bg-blue-600 transition-all">
+                Publicar
+            </button>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
