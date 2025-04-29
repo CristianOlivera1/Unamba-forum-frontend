@@ -23,7 +23,23 @@ export class PublicationService {
   getPublicationById(idPublication: string): Observable<any> {
     return this.httpClient.get(`${this.apiPublication}/details/${idPublication}`);
   }
+
   getPublicationUser(idUser: string, page: number = 0): Observable<any> {
     return this.httpClient.get(`${this.apiPublication}/user/${idUser}?page=${page}`);
   }
+
+  public insertPublication(formData: FormData): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.httpClient.post(`${this.apiPublication}/insert`, formData, { headers });
+  }
+
+  public deletePublication(idPublication: string): Observable<any> {
+    return this.httpClient.delete(`${this.apiPublication}/delete/${idPublication}`);
+  }
+
+  public getRelatedPublications(idPublication: string, page: number = 0, size: number = 6): Observable<any> {
+    return this.httpClient.get(`${this.apiPublication}/related/${idPublication}?page=${page}&size=${size}`);
+  }
+  
 }
