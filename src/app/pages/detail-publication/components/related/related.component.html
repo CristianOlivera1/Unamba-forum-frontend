@@ -1,0 +1,37 @@
+<div class="space-y-4">
+  <div *ngFor="let related of publicationRelated" class="bg-white p-4 rounded-xl shadow border border-gray-200">
+    <a (click)="navigateToDetailPublication(related.idPublicacion)" title="Ver más...">
+      <h3 class="text-sm font-semibold text-gray-800 leading-snug">{{ related.titulo }}</h3>
+      <p class="text-xs text-gray-500 mt-1">{{ getTimeElapsedWrapper(related.fechaRegistro) }}</p>
+
+      <!-- Mostrar archivo relacionado (imagen, GIF o video) -->
+      <ng-container *ngIf="related.archivos?.length > 0">
+        <div class="mt-2">
+          <img *ngIf="related.archivos[0].tipo === 'imagen' && !related.archivos[0].rutaArchivo.endsWith('.gif')"
+            [src]="related.archivos[0].rutaArchivo" alt="Imagen relacionada"
+            class="w-full h-32 object-cover rounded-lg" />
+
+          <img *ngIf="related.archivos[0].tipo === 'imagen' && related.archivos[0].rutaArchivo.endsWith('.gif')"
+            [src]="related.archivos[0].rutaArchivo" alt="GIF relacionado"
+            class="w-full h-32 object-cover rounded-lg" />
+
+          <video *ngIf="related.archivos[0].tipo === 'video'" controls class="w-full h-32 object-cover rounded-lg">
+            <source [src]="related.archivos[0].rutaArchivo" type="video/mp4" />
+            Tu navegador no soporta la etiqueta de video.
+          </video>
+        </div>
+      </ng-container>
+
+      <!-- Contenido de la publicación -->
+      <p class="text-xs text-gray-700 mt-2 line-clamp-2" [innerHTML]="related.contenido">
+      </p>
+
+      <!-- Reacciones y comentarios -->
+      <div class="flex gap-2 mt-2 text-xs text-gray-500" *ngIf="related.totalReacciones > 0 || related.totalComentarios > 0">
+        <span *ngIf="related.totalReacciones > 0">{{ related.totalReacciones }}</span>
+        <span *ngIf="related.totalReacciones > 0 && related.totalComentarios > 0">•</span>
+        <span *ngIf="related.totalComentarios > 0">{{ related.totalComentarios }}</span>
+      </div>
+    </a>
+  </div>
+</div>
