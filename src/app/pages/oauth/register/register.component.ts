@@ -23,6 +23,7 @@ import { ModalInfoCompleteService } from '../../../core/services/modal/modalComp
 export class RegisterComponent implements OnInit{
   
   career: any[] = [];
+  
   registerData: any = {
     nombre: '',
     apellidos: '',
@@ -31,12 +32,13 @@ export class RegisterComponent implements OnInit{
     confirmarContrasenha: '', 
     idCarrera: ''
   };
+
   alert: { type: string; message: string } | null = null;
   isRegistering: boolean = false;
   showPassword: boolean = false; 
   showConfirmPassword: boolean = false; 
 
-  constructor(private registerService: RegisterService, private careerService: CareerService, private router: Router,private http: HttpClient,private tokenService:TokenService,private customValidators: CustomValidators,@Inject(PLATFORM_ID) private platformId: Object,private googleAuthService:GoogleAuthService, private modalInfoCompleteService: ModalInfoCompleteService
+  constructor(private registerService: RegisterService, private careerService: CareerService, private router: Router,private tokenService:TokenService,private customValidators: CustomValidators,@Inject(PLATFORM_ID) private platformId: Object,private googleAuthService:GoogleAuthService
   ) {}
 
   ngOnInit(): void {
@@ -64,8 +66,7 @@ export class RegisterComponent implements OnInit{
           this.career = response.data;
     
         } else {
-          console.error('Error al cargar las carreras:', response.listMessage);
-          alert('No se pudieron cargar las carreras.');
+          this.showAlert('error', ['Error al cargar las carreras: ' + response.listMessage]);
         }
       },
       error: (error: any) => {
@@ -87,11 +88,9 @@ export class RegisterComponent implements OnInit{
   );
   if (passwordError) errors.push(passwordError);
 
-  const nameError = this.customValidators.validateField(this.registerData.nombre, 'El nombre es obligatorio.');
-  if (nameError) errors.push(nameError);
-
-  const lastNameError = this.customValidators.validateField(this.registerData.apellidos, 'Los apellidos son obligatorios.');
-  if (lastNameError) errors.push(lastNameError);
+  if (!this.registerData.nombre || !this.registerData.apellidos) {
+    errors.push('Todos los campos son obligatorios.');
+  }
 
   const careerError = this.customValidators.validateCareer(this.registerData.idCarrera);
   if (careerError) errors.push(careerError);
@@ -129,6 +128,7 @@ export class RegisterComponent implements OnInit{
       }
     );
   }
+
   registerWithGoogle(idToken: string, accessToken: string): void {
     this.googleAuthService.registerWithGoogle(idToken, accessToken).subscribe(
       (response: any) => {
