@@ -8,7 +8,7 @@
 
 <div class="flex-1 flex flex-col gap-2">
   <div class="relative">
-    <textarea [(ngModel)]="newCommentContent" placeholder="Escribe un comentario..." (click)="handleTextareaClick()"
+    <textarea #commentTextarea [(ngModel)]="newCommentContent" placeholder="Escribe un comentario..." (click)="handleTextareaClick()"
       class="w-full border border-gray-300 rounded-lg p-4 min-h-24 text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue placeholder-gray-500 hover:border-gray-400"></textarea>
 
     <!-- Botón de emojis -->
