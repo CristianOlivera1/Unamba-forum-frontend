@@ -1,5 +1,5 @@
 <div
-  class="flex items-center justify-center min-h-screen bg-[#F3F4F6] bg-[url('/assets/img/oauth/grid.svg')] bg-cover bg-no-repeat bg-center bg-fixed">
+  class="flex items-center justify-center min-h-screen bg-[rgb(243,244,246)] bg-[url('/assets/img/oauth/grid.svg')] bg-cover bg-no-repeat bg-center bg-fixed">
   <div *ngIf="alert" [ngClass]="{
         'bg-green-50 text-green-800': alert.type === 'success',
         'bg-red-50 text-red-800': alert.type === 'error',
@@ -48,8 +48,8 @@
           required>
           <option value="" disabled selected hidden>Seleccione una carrera</option>
           <option *ngFor="let c of career" [value]="c.idCarrera">{{ c.nombre }}</option>
-
         </select>
+        
         <label for="idCarrera"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Carrera</label>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
