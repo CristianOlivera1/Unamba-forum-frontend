@@ -11,10 +11,6 @@ export class CustomValidators {
     return null;
   }
 
-  validateField(field: string, message: string): string | null {
-    return field.trim() ? null : message;
-  }
-
   validateCareer(career: string): string | null {
     return career ? null : 'Por favor selecciona una carrera válida.';
   }
