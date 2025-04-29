@@ -13,7 +13,6 @@ import { ModalInfoCompleteService } from '../../../../core/services/modal/modalC
 import { CompleteInfoRegisterGoogleComponent } from '../../../oauth/complete-info-register-google/complete-info-register-google.component';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 import { HoverAvatarComponent } from '../hover-avatar/hover-avatar.component';
-import { PhotoSliderComponent } from '../photo-slider/photo-slider.component';
 import { RolService } from '../../../../core/services/rol/rol.service';
 import { ModalUsersByReactionTypeComponent } from '../modal-users-by-reaction-type/modal-users-by-reaction-type.component';
 import { ReactionPublicationService } from '../../../../core/services/reaction/reaction-publication.service';
@@ -21,7 +20,7 @@ import { CommentPublicationService } from '../../../../core/services/commentPubl
 import { ModalUserCommentPublicationComponent } from '../modal-user-comment-publication/modal-user-comment-publication.component';
 import { Publication } from '../../../../core/interfaces/publication';
 import { debounceTime, fromEvent } from 'rxjs';
-
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'app-publication-with-files',
   imports: [CommonModule, ReactionComponent, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ModalUsersByReactionTypeComponent, ModalUserCommentPublicationComponent],
@@ -50,7 +49,7 @@ export class PublicationWithFilesComponent implements OnInit {
   hasMorePublications: boolean = true;
 
   constructor(private publicationService: PublicationService, private tokenService: TokenService, private commentPublicationService: CommentPublicationService,
-    private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private profileService: ProfileService, private rolService: RolService, private reactionPublicationService: ReactionPublicationService,@Inject(PLATFORM_ID) private platformId: Object) { }
+    private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private profileService: ProfileService, private rolService: RolService, private reactionPublicationService: ReactionPublicationService,@Inject(PLATFORM_ID) private platformId: Object,private reactionService: ReactionPublicationService) { }
 
   ngOnInit(): void {
     this.currentUserId = this.tokenService.getUserId();
@@ -62,6 +61,22 @@ export class PublicationWithFilesComponent implements OnInit {
         .subscribe(() => this.onScroll());
     }
     this.loadPublications();
+  }
+
+  updateReactions(idPublicacion: string): void {
+    // Actualizar las reacciones y el total de comentarios para la publicación específica
+    this.reactionService.getReactionAndCommentSummary(idPublicacion).subscribe({
+      next: (response) => {
+        const publication = this.publications.find((p) => p.idPublicacion === idPublicacion);
+        if (publication) {
+          publication.reacciones = response.data.reacciones;
+          publication.totalComentarios = response.data.totalComentarios;
+        }
+      },
+      error: (err) => {
+        console.error('Error al actualizar las reacciones:', err);
+      }
+    });
   }
   
   getTimeElapsedWrapper(fechaRegistro: string): string {
@@ -80,6 +95,7 @@ export class PublicationWithFilesComponent implements OnInit {
         if (response.type === 'success') {
           const newPublications: Publication[] = response.data.map((publication: any) => ({
             ...publication,
+            isDropdownVisible: false,
             isReactionModalVisible: false,
             reactionUsers: [],
             reactionType: '',
@@ -117,7 +133,25 @@ export class PublicationWithFilesComponent implements OnInit {
       }
     });
   }
-  
+  toggleDropdown(publication: Publication): void {
+    // Alternar la visibilidad del dropdown
+    publication.isDropdownVisible = !publication.isDropdownVisible;
+  }
+
+  deletePublication(idPublicacion: string): void {
+    if (confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
+      this.publicationService.deletePublication(idPublicacion).subscribe({
+        next: () => {
+          this.publications = this.publications.filter(p => p.idPublicacion !== idPublicacion);
+          alert('Publicación eliminada con éxito.');
+        },
+        error: (error) => {
+          console.error('Error al eliminar la publicación:', error);
+          alert('Ocurrió un error al eliminar la publicación.');
+        }
+      });
+    }
+  }
   @HostListener('window:scroll', [])
   onScroll(): void {
     const scrollPosition = window.innerHeight + window.scrollY;

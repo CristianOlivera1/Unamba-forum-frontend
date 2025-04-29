@@ -28,26 +28,48 @@
           </div>
         </div>
       </div>
+
+      <div class="relative inline-block text-left" *ngIf="publication.idUsuario === currentUserId">
+        <div>
+          <button type="button" id="option-publication" class="text-gray-800 hover:bg-gray-100 p-1 rounded-lg transition-colors duration-300" aria-expanded="true" aria-haspopup="true"
+            (click)="toggleDropdown(publication)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0" />
+            </svg>
+          </button>
+        </div>
+        <div *ngIf="publication.isDropdownVisible"
+          class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden">
+          <div class="py-1">
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-300"
+              (click)="deletePublication(publication.idPublicacion)">Eliminar</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-300">Actualizar</a>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
       (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
-      
+
     <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
       <div class="w-full overflow-hidden">
         <div class="group relative h-[260px]" style="scrollbar-gutter: stable both-edges;">
           <div
             class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
 
-            <!-- Condición para una sola imagen o video -->
+            <!-- Condición para una sola imagen, video o GIF -->
             <ng-container *ngIf="publication.archivos.length === 1">
-              <figure *ngFor="let archivo of publication.archivos;let i = index" class="shrink-0 w-full scroll-touch">
+              <figure *ngFor="let archivo of publication.archivos; let i = index" class="shrink-0 w-full scroll-touch">
                 <div class="overflow-hidden rounded-md">
-                  <!-- Imágenes -->
-                  <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
-                    class="aspect-square h-54 w-full object-cover" />
+                  <img *ngIf="archivo.tipo === 'imagen' && !archivo.rutaArchivo.endsWith('.gif')"
+                    [src]="archivo.rutaArchivo" alt="Media" class="aspect-square h-54 w-full object-cover" />
 
-                  <!-- Videos -->
+                  <img *ngIf="archivo.tipo === 'gif' && archivo.rutaArchivo.endsWith('.gif')"
+                    [src]="archivo.rutaArchivo" alt="GIF" class="aspect-square h-54 w-full object-cover" />
+
                   <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-full object-cover">
                     <source [src]="archivo.rutaArchivo" type="video/mp4" />
                     Tu navegador no soporta la etiqueta de video.
@@ -61,10 +83,13 @@
 
                 <figure *ngFor="let archivo of publication.archivos; let i = index" class="shrink-0">
                   <div class="overflow-hidden rounded-md">
-                    <!-- Imágenes -->
+
                     <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
                       class="aspect-square h-54 w-54 object-cover" />
-                    <!-- Videos -->
+
+                    <img *ngIf="archivo.tipo === 'gif' && archivo.rutaArchivo.endsWith('.gif')"
+                      [src]="archivo.rutaArchivo" alt="GIF" class="aspect-square h-54 w-54 object-cover" />
+
                     <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-54 object-cover">
                       <source [src]="archivo.rutaArchivo" type="video/mp4" />
                       Tu navegador no soporta la etiqueta de video.
@@ -73,7 +98,6 @@
                 </figure>
               </div>
             </ng-container>
-
           </div>
         </div>
       </div>
@@ -82,8 +106,7 @@
     <div>
       <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
         <h4 class="font-semibold truncate text-gray-900 text-sm">{{ publication.titulo }}</h4>
-        <p class="text-gray-600 text-sm mt-1 truncate w-80 sm:w-120 md:w-130 xl:w-95 2xl:w-auto">{{
-          publication.contenido }}</p>
+        <div class="text-gray-600 text-sm mt-1 clamped" [innerHTML]="publication.contenido"></div>
       </a>
     </div>
 
@@ -94,9 +117,9 @@
     </app-modal-users-by-reaction-type>
 
     <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
-      [totalComentarios]="publication.totalComentarios ?? 0" (hoverReaction)="openReactionHover($event, publication)"
-      (leaveReaction)="closeReactionHover(publication)" (hoverComments)="openCommentHover($event, publication)"
-      (leaveComments)="closeCommentHover(publication)">
+      [totalComentarios]="publication.totalComentarios ?? 0" [reacciones]="publication.reacciones"
+      (hoverReaction)="openReactionHover($event, publication)" (leaveReaction)="closeReactionHover(publication)"
+      (hoverComments)="openCommentHover($event, publication)" (leaveComments)="closeCommentHover(publication)">
     </app-totals-reaction-comment>
 
     <app-modal-user-comment-publication *ngIf="publication.isCommentModalVisible"
@@ -104,7 +127,9 @@
       (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveComment(publication)">
     </app-modal-user-comment-publication>
 
-    <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
+    <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"
+      (reactionChanged)="updateReactions(publication.idPublicacion)">
+    </app-reaction>
 
     <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
 
