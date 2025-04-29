@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Inject, Input, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { CommentPublicationService } from '../../../../core/services/commentPublication/comment-publication.service';
 import { TokenService } from '../../../../core/services/oauth/token.service';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
@@ -21,6 +21,8 @@ import { ModalInfoCompleteService } from '../../../../core/services/modal/modalC
 })
 export class CommentComponent implements OnInit {
   @Input() idPublicacion!: string;
+  @ViewChild('commentTextarea') commentTextarea!: ElementRef;
+
   comments: any[] = [];
   newCommentContent: string = '';
   isLoggedIn: boolean = false;
@@ -41,7 +43,6 @@ export class CommentComponent implements OnInit {
     private commentPublicationService: CommentPublicationService,
     private tokenService: TokenService,
     private profileService: ProfileService, private reactionCommentAndResponse: ReactionCommentAndResponse, @Inject(PLATFORM_ID) private platformId: Object, private router: Router,    private modalLoginService: ModalLoginService,private modalInfoCompleteService: ModalInfoCompleteService,
-
   ) { }
 
   ngOnInit(): void {
@@ -81,6 +82,12 @@ export class CommentComponent implements OnInit {
 
   handleReply(commentId: string): void {
     this.selectedCommentId = commentId;
+  }
+  
+  focusTextarea(): void {
+    setTimeout(() => {
+      this.commentTextarea?.nativeElement.focus();
+    }, 0); 
   }
 
   loadUserProfile(): Promise<void> {
@@ -178,7 +185,6 @@ export class CommentComponent implements OnInit {
     this.profileService.getProfileByUserId(this.userProfile.idUsuario).subscribe({
       next: (response: any) => {
         if (response.type === 'success' && !response.data.idCarrera) {
-          console.warn('El usuario no tiene una carrera asignada.');
           this.modalInfoCompleteService.showInfoCompleteModal(); 
           return;
         }
@@ -403,12 +409,10 @@ export class CommentComponent implements OnInit {
       }
     }, 200);
   }
-  getTimeElapsedWrapper(fechaPublicacion: string): string {
-    const timeElapsed = TimeUtils.getTimeElapsed(fechaPublicacion);
-    const publicationDate = new Date(fechaPublicacion);
-    const formattedTime = publicationDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    return `${timeElapsed}, ${formattedTime}`;
+  getTimeElapsedWrapper(fechaRegistro: string): string {
+    return TimeUtils.getTimeElapsed(fechaRegistro);
   }
+
   navigateToProfileUser(idUsuario: string) {
     this.router.navigate(['/profile', idUsuario]);
   }
