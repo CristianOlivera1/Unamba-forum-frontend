@@ -11,6 +11,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { PhotoSliderComponent } from './pages/home/components/photo-slider/photo-slider.component';
 import { EditPhotoProfileComponent } from './pages/profile/components/edit-photo-profile/edit-photo-profile.component';
 import { ModalFollowerComponent } from './pages/profile/components/modal-follower/modal-follower.component';
+import { NewPublicationComponent } from './pages/new-publication/new-publication.component';
+import { EditPublicationComponent } from './pages/home/edit-publication/edit-publication.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -28,5 +30,9 @@ export const routes: Routes = [
     { path: 'editphoto', component: EditPhotoProfileComponent },
     { path: 'follow', component: ModalFollowerComponent },
     { path: 'publication', component: DetailPublicationComponent },
+    { path: 'newpublication', component: NewPublicationComponent },
+    { path: 'editpublication', component: EditPublicationComponent },
+
+    
     { path: '**', redirectTo: '' }
 ];
