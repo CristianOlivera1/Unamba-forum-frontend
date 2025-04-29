@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../../../../core/services/oauth/token.service';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -14,7 +15,7 @@ export class WelcomeComponent implements OnInit {
 
   constructor(
     private tokenService: TokenService,
-    private profileService: ProfileService
+    private profileService: ProfileService, private router:Router
   ) {}
   isLoggedIn: boolean = false;
   userProfile: any = null;
@@ -37,6 +38,9 @@ export class WelcomeComponent implements OnInit {
     }
   }
 
+  newPublication():void{
+    this.router.navigate(["newpublication"])
+  }
 
   loadUserProfile(): void {
     const userId = this.extractUserIdFromToken();
