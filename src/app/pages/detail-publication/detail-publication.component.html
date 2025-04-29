@@ -1,8 +1,8 @@
 <app-header></app-header>
 <div class="container mx-auto mt-10">
   <div *ngIf="publication" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-    <!-- Columna principal -->
     <div class="col-span-2">
+    <!-- Columna principal -->
       <div class="p-4 pt-0">
         <button
           class="px-4 py-2 border border-gray-200 font-semibold text-gray-800 text-sm rounded hover:bg-gray-50 transition hover:border-gray-300"
@@ -35,6 +35,9 @@
               <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Imagen"
                 class="w-full h-full object-cover" />
 
+                <img *ngIf="archivo.tipo === 'gif' && archivo.rutaArchivo.endsWith('.gif')" [src]="archivo.rutaArchivo" alt="GIF"
+                class="w-full h-full object-cover" />
+
               <!-- Videos -->
               <video *ngIf="archivo.tipo === 'video'" controls class="w-full h-full object-cover">
                 <source [src]="archivo.rutaArchivo" type="video/mp4" />
@@ -65,15 +68,19 @@
           </div>
 
           <h2 class="mt-4 text-xl font-bold text-gray-900">{{ publication.titulo }}</h2>
-          <p class="mt-2 text-sm text-gray-700 break-words">{{ publication.contenido }}</p>
+          <div class="mt-2 text-sm text-gray-700 break-words" [innerHTML]="publication.contenido"></div>
+ 
         </div>
 
         <!-- Totales de reacciones -->
         <div class="p-6 pt-0 ">
           <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
+          [reacciones]="publication.reacciones"
+
             [totalComentarios]="publication.totalComentarios" (hoverReaction)="openReactionHover($event, publication)"
             (leaveReaction)="closeReactionHover(publication)" (hoverComments)="openCommentHover($event, publication)"
-            (leaveComments)="closeCommentHover(publication)">
+            (leaveComments)="closeCommentHover(publication)"
+            >
           </app-totals-reaction-comment>
         </div>
 
@@ -83,16 +90,16 @@
         </div>
       </div>
       </div>
-      <div class="border p-2 xl:p-6 mt-5 xl:mx-4 border-gray-200 rounded-xl" *ngIf="publication?.idPublicacion">
+      <div class="border p-2 xl:p-6 mt-5 xl:mx-4 border-gray-200 rounded-xl" *ngIf="publication?.idPublicacion" #commentSection>
         <app-comment [idPublicacion]="publication.idPublicacion"></app-comment>
       </div>
 
+  </div>
     <!-- Columna secundaria -->
     <div class="col-span-1">
-      <!-- Aquí puedes agregar contenido adicional -->
+     <app-related [publicationRelated]="publicationRelated"></app-related>
     </div>
-  </div>
-
+    
   <!-- Modales -->
   <app-photo-slider *ngIf="isPhotoSliderVisible" [photos]="selectedPhotos" [initialIndex]="selectedPhotoIndex"
     (close)="closePhotoSlider()"></app-photo-slider>
