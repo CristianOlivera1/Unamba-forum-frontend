@@ -31,7 +31,7 @@ export class TokenService  {
   public setToken(token: string): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(TOKEN_KEY, token);
-      this.loggedInSubject.next(true); // Actualiza el estado
+      this.loggedInSubject.next(true);
     }
   }
 
