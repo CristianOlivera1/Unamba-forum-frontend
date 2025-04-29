@@ -65,10 +65,13 @@ export class ProfileComponent implements OnInit {
 
   alert: { type: string; message: string } | null = null;
 
+  isFollowing: boolean = false;
+  isLoggedIn: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private profileService: ProfileService, private followService: FollowService,
-    private publicationService: PublicationService, private router: Router, private tokenService: TokenService, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private userService: UserService,private reactionPublicationService:ReactionPublicationService, private commentPublicationService:CommentPublicationService
+    private publicationService: PublicationService, private router: Router, private tokenService: TokenService, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private userService: UserService,private reactionPublicationService:ReactionPublicationService, private commentPublicationService:CommentPublicationService,
 
   ) { }
 
@@ -77,18 +80,22 @@ export class ProfileComponent implements OnInit {
     this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
     this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
 
-
     const idUsuario = this.route.snapshot.paramMap.get('idUsuario');
     if (idUsuario) {
       this.userId = idUsuario;
       this.loadProfileData();
+      this.checkIfFollowing();
     }
+
+    this.isLoggedIn = !!this.tokenService.getToken();
 
     this.route.params.subscribe(params => {
       const newUserId = params['idUsuario'];
       if (newUserId && newUserId !== this.userId) {
         this.userId = newUserId;
         this.loadProfileData();
+        this.checkIfFollowing();
+
       }
     });
   }
@@ -99,6 +106,7 @@ export class ProfileComponent implements OnInit {
     this.loadUserDetails(this.userId);
     this.loadUserPublications(this.userId);
   }
+
   showAlert(type: string, message: string): void {
     this.alert = { type, message };
     setTimeout(() => {
@@ -166,6 +174,61 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  checkIfFollowing(): void {
+  if (!this.currentUserId || !this.userId) return;
+
+  this.followService.getFollowersByUserId(this.userId).subscribe({
+    next: (response: any) => {
+      if (response.type === 'success') {
+        // Verificar si el usuario actual está en la lista de seguidores
+        this.isFollowing = response.data.some((follower: any) => follower.idSeguidor === this.currentUserId);
+      } else {
+        console.error('Error al verificar si sigue al usuario:', response.listMessage);
+      }
+    },
+    error: (error) => {
+      console.error('Error en la solicitud de seguidores:', error);
+    }
+  });
+}
+
+  followUser(): void {
+    if (!this.currentUserId || !this.userId) return;
+
+    this.followService.followUser(this.currentUserId, this.userId).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.isFollowing = true;
+          this.userProfile.totalFollowers += 1;
+        } else {
+          console.error('Error al seguir al usuario:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de seguir usuario:', error);
+      }
+    });
+  }
+
+  unfollowUser(): void {
+    if (!this.currentUserId || !this.userId) return;
+
+    this.followService.unfollowUser(this.currentUserId, this.userId).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.isFollowing = false;
+          this.userProfile.totalFollowers -= 1;
+          
+        } else {
+          console.error('Error al dejar de seguir al usuario:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de dejar de seguir usuario:', error);
+      }
+    });
+  }
+  
   showHoverModal(userId: string, event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (!target) {
@@ -227,7 +290,6 @@ export class ProfileComponent implements OnInit {
     this.followers = []; 
   }
 
-  
   openFollowingModal(): void {
     if (!this.userId) return;
 
