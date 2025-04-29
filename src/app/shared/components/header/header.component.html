@@ -1,46 +1,38 @@
 <header (click)="onClickOutside($event)">
-  <nav class="flex items-center justify-between p-6 md:px-8" aria-label="Global">
-    <div class="flex md:flex-1">
+  <nav class="flex items-center justify-between p-4 md:px-8" aria-label="Global">
+        <div class="flex md:flex-1">
 
       <a href="#" class="relative -m-1.5 p-1.5 md:flex">
 
         <svg class="absolute opacity-30 -z-10" width="64" height="44" viewBox="0 0 64 44" fill="none"
           xmlns="http://www.w3.org/2000/svg">
-          <path d="M6.03774 2.3999H43.5746C52.9851 2.3999 57.6903 2.3999 60.1045 5.46659C62.5187 8.53329 61.4141 13.107
-          59.2049 22.2544L57.3113 30.0951C55.8849 36.0014 55.1717 38.9546 52.9835 40.6772C50.7953 42.3999
-          47.7572 42.3999 41.6811 42.3999H18.6889C10.0002 42.3999 5.65575 42.3999 3.24994 39.6037C0.844136 36.8075
-          1.49255 32.5118 2.78937 23.9203L6.03774 2.3999Z" stroke="currentColor" stroke-width="1.8" />
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M39.7456 10.6449L38.633 24.2026C37.8012 31.603 31.4846 37.0577 24.1654 36.4571C16.7802 35.8511
-          11.2878 29.336 11.8976 21.9051L13.0017 8.45028L19.6877 8.99893L18.5835 22.4537C18.2787 26.1692
-          21.0248 29.4267 24.7175 29.7297C28.3456 30.0275 31.5126 27.3074 31.9599 23.4972L33.0596 10.0962
-          L39.7456 10.6449Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-
           <path
-            d="M39.6041 14.0487C41.327 12.9001 45.9885 11.9583 48.2183 14.6228C48.5519 15.1334 49.0843 15.7245 49.3668 15.7716C52.8124 16.346 53.961 12.3263 52.8124 11.1774C51.6639 10.0285 51.6639 10.0288 51.6639 10.0288C46.8394 4.86026 38.4556 6.5832 33.0705 9.48908"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            d="M6.03774 3.40015H43.5746C52.9851 3.40015 57.6903 3.40015 60.1045 6.46684C62.5187 9.53353 61.4141 14.1072 59.2049 23.2547L57.3113 31.0953C55.8849 37.0017 55.1717 39.9548 52.9835 41.6775C50.7953 43.4001 47.7572 43.4001 41.6811 43.4001H18.6889C10.0002 43.4001 5.65575 43.4001 3.24994 40.6039C0.844136 37.8077 1.49255 33.512 2.78937 24.9205L6.03774 3.40015Z"
+            stroke="currentColor" stroke-width="1.8" />
           <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M45.857 20.6169C46.5115 20.6166 47.1519 20.8076 47.6993 21.1665C48.2467 21.5254 48.6772 22.0364 48.938 22.6367C49.1987 23.2371 49.2783 23.9006 49.1669 24.5455C49.0555 25.1905 48.758 25.7889 48.311 26.267C47.864 26.7451 47.287 27.0821 46.6509 27.2366C46.0149 27.3911 45.3476 27.3562 44.7311 27.1364C44.1146 26.9166 43.5758 26.5214 43.1809 25.9993C42.7861 25.4773 42.5525 24.8512 42.5089 24.1981V23.7502C42.6206 22.0045 44.0753 20.6169 45.857 20.6169Z"
+            d="M38.6865 11.6097L38.721 25.2129C38.5162 32.6571 32.6819 38.625 25.3382 38.6436C17.9281 38.6624 11.906 32.6337 11.8871 25.1777L11.8528 11.6778L18.5613 11.6607L18.5955 25.1607C18.605 28.8887 21.616 31.9031 25.321 31.8937C28.9613 31.8844 31.8878 28.907 32.0122 25.0727L31.9781 11.6267L38.6865 11.6097Z"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M33.1111 9.97146L30.7795 36.8487L37.4614 37.4283L39.795 10.5294L33.113 9.94971" stroke="currentColor"
+          <path
+            d="M38.8326 15.0135C40.4524 13.7238 45.018 12.3924 47.4644 14.8594C47.8399 15.34 48.4203 15.8841 48.7058 15.9072C52.1875 16.189 52.9931 12.0869 51.7517 11.0389C50.5104 9.99086 50.5104 9.99124 50.5104 9.99124C45.2674 5.24782 37.0587 7.67149 31.9378 11.0211" stroke="currentColor"
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M45.6169 21.0312C46.2691 20.9757 46.9233 21.112 47.499 21.4235C48.0747 21.7349 48.5468 22.2078 48.8572 22.784C49.1676 23.3602 49.3029 24.0147 49.2463 24.6667C49.1896 25.3188 48.9437 25.9401 48.5386 26.4542C48.1335 26.9683 47.5869 27.3528 46.9662 27.5603C46.3454 27.7679 45.6775 27.7894 45.0447 27.6224C44.4118 27.4553 43.8416 27.1069 43.4042 26.62C42.9668 26.1331 42.6812 25.529 42.5826 24.8819L42.5449 24.4356C42.5091 22.6866 43.8416 21.1814 45.6169 21.0312Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M32.0189 11.4984L31.9617 38.4765L38.6687 38.4907L38.7259 11.4908L32.0189 11.4766"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
 
         <svg width="64" height="44" viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-
           <path class="line"
-            d="M6.03774 2.3999H43.5746C52.9851 2.3999 57.6903 2.3999 60.1045 5.46659C62.5187 8.53329 61.4141 13.107 59.2049 22.2544L57.3113 30.0951C55.8849 36.0014 55.1717 38.9546 52.9835 40.6772C50.7953 42.3999 47.7572 42.3999 41.6811 42.3999H18.6889C10.0002 42.3999 5.65575 42.3999 3.24994 39.6037C0.844136 36.8075 1.49255 32.5118 2.78937 23.9203L6.03774 2.3999Z"
-            stroke="currentColor" stroke-width="1.8" />
-          <path class="line" fill-rule="evenodd" clip-rule="evenodd"
-            d="M39.7456 10.6449L38.633 24.2026C37.8012 31.603 31.4846 37.0577 24.1654 36.4571C16.7802 35.8511 11.2878 29.336 11.8976 21.9051L13.0017 8.45028L19.6877 8.99893L18.5835 22.4537C18.2787 26.1692 21.0248 29.4267 24.7175 29.7297C28.3456 30.0275 31.5126 27.3074 31.9599 23.4972L33.0596 10.0962L39.7456 10.6449Z"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path class="line"
-            d="M39.6041 14.0487C41.327 12.9001 45.9885 11.9583 48.2183 14.6228C48.5519 15.1334 49.0843 15.7245 49.3668 15.7716C52.8124 16.346 53.961 12.3263 52.8124 11.1774C51.6639 10.0285 51.6639 10.0288 51.6639 10.0288C46.8394 4.86026 38.4556 6.5832 33.0705 9.48908"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path class="line" fill-rule="evenodd" clip-rule="evenodd"
-            d="M45.857 20.6169C46.5115 20.6166 47.1519 20.8076 47.6993 21.1665C48.2467 21.5254 48.6772 22.0364 48.938 22.6367C49.1987 23.2371 49.2783 23.9006 49.1669 24.5455C49.0555 25.1905 48.758 25.7889 48.311 26.267C47.864 26.7451 47.287 27.0821 46.6509 27.2366C46.0149 27.3911 45.3476 27.3562 44.7311 27.1364C44.1146 26.9166 43.5758 26.5214 43.1809 25.9993C42.7861 25.4773 42.5525 24.8512 42.5089 24.1981V23.7502C42.6206 22.0045 44.0753 20.6169 45.857 20.6169Z"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path class="line" d="M33.1111 9.97146L30.7795 36.8487L37.4614 37.4283L39.795 10.5294L33.113 9.94971"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          d="M6.03774 3.40015H43.5746C52.9851 3.40015 57.6903 3.40015 60.1045 6.46684C62.5187 9.53353 61.4141 14.1072 59.2049 23.2547L57.3113 31.0953C55.8849 37.0017 55.1717 39.9548 52.9835 41.6775C50.7953 43.4001 47.7572 43.4001 41.6811 43.4001H18.6889C10.0002 43.4001 5.65575 43.4001 3.24994 40.6039C0.844136 37.8077 1.49255 33.512 2.78937 24.9205L6.03774 3.40015Z"
+          stroke="currentColor" stroke-width="1.8" />
+        <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+          d="M38.6865 11.6097L38.721 25.2129C38.5162 32.6571 32.6819 38.625 25.3382 38.6436C17.9281 38.6624 11.906 32.6337 11.8871 25.1777L11.8528 11.6778L18.5613 11.6607L18.5955 25.1607C18.605 28.8887 21.616 31.9031 25.321 31.8937C28.9613 31.8844 31.8878 28.907 32.0122 25.0727L31.9781 11.6267L38.6865 11.6097Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="line"
+          d="M38.8326 15.0135C40.4524 13.7238 45.018 12.3924 47.4644 14.8594C47.8399 15.34 48.4203 15.8841 48.7058 15.9072C52.1875 16.189 52.9931 12.0869 51.7517 11.0389C50.5104 9.99086 50.5104 9.99124 50.5104 9.99124C45.2674 5.24782 37.0587 7.67149 31.9378 11.0211" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path class="line" fill-rule="evenodd" clip-rule="evenodd" d="M45.6169 21.0312C46.2691 20.9757 46.9233 21.112 47.499 21.4235C48.0747 21.7349 48.5468 22.2078 48.8572 22.784C49.1676 23.3602 49.3029 24.0147 49.2463 24.6667C49.1896 25.3188 48.9437 25.9401 48.5386 26.4542C48.1335 26.9683 47.5869 27.3528 46.9662 27.5603C46.3454 27.7679 45.6775 27.7894 45.0447 27.6224C44.4118 27.4553 43.8416 27.1069 43.4042 26.62C42.9668 26.1331 42.6812 25.529 42.5826 24.8819L42.5449 24.4356C42.5091 22.6866 43.8416 21.1814 45.6169 21.0312Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="line" d="M32.0189 11.4984L31.9617 38.4765L38.6687 38.4907L38.7259 11.4908L32.0189 11.4766"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         <h1 class="font-display text-[1.70rem] font-black italic hidden md:flex my-1">
           Unamba <span class="relative bg-white px-2 text-[#155FFC]" style="
@@ -100,8 +92,7 @@
             class="absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-lg z-50 pt-2 pb-3">
             <div class="px-4 py-3 flex gap-3">
               <div class="relative flex h-12 w-12 shrink-0 overflow-hidden rounded-full">
-                <img [src]="userProfile?.fotoPerfil" alt="Foto de perfil"
-                  class="w-full h-full object-cover" />
+                <img [src]="userProfile?.fotoPerfil" alt="Foto de perfil" class="w-full h-full object-cover" />
               </div>
               <div>
                 <div class="text-indigo-600 font-normal mb-1">
@@ -114,8 +105,8 @@
             </div>
             <ul>
               <li>
-                <a (click)="navigateToProfileUser(userProfile.idUsuario)" class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-900 text-sm"
-                  href="javascript:;">
+                <a (click)="navigateToProfileUser(userProfile.idUsuario)"
+                  class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-900 text-sm" href="javascript:;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                       stroke-width="2">
@@ -155,16 +146,16 @@
               </li>
               <li>
                 <a class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-red-700 text-sm border-t border-gray-200"
-                (click)="logOut()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="#DF3636"
-                    d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6q.425 0 .713.288T12 4t-.288.713T11 5H5v14h6q.425 0 .713.288T12 20t-.288.713T11 21zm12.175-8H10q-.425 0-.712-.288T9 12t.288-.712T10 11h7.175L15.3 9.125q-.275-.275-.275-.675t.275-.7t.7-.313t.725.288L20.3 11.3q.3.3.3.7t-.3.7l-3.575 3.575q-.3.3-.712.288t-.713-.313q-.275-.3-.262-.712t.287-.688z" />
-                </svg>
+                  (click)="logOut()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="#DF3636"
+                      d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6q.425 0 .713.288T12 4t-.288.713T11 5H5v14h6q.425 0 .713.288T12 20t-.288.713T11 21zm12.175-8H10q-.425 0-.712-.288T9 12t.288-.712T10 11h7.175L15.3 9.125q-.275-.275-.275-.675t.275-.7t.7-.313t.725.288L20.3 11.3q.3.3.3.7t-.3.7l-3.575 3.575q-.3.3-.712.288t-.713-.313q-.275-.3-.262-.712t.287-.688z" />
+                  </svg>
                   Cerrar sesión
                 </a>
               </li>
             </ul>
-            
+
           </div>
         </div>
 
@@ -208,27 +199,24 @@
   class="md:hidden fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white px-6 py-6 overflow-y-auto" #menuMovil>
   <div class="flex items-center justify-between">
     <a href="#" class="-m-1.5 p-1.5 flex">
+      
       <svg width="64" height="44" viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path class="line"
-          d="M6.03774 2.3999H43.5746C52.9851 2.3999 57.6903 2.3999 60.1045 5.46659C62.5187 8.53329 61.4141 13.107 59.2049 22.2544L57.3113 30.0951C55.8849 36.0014 55.1717 38.9546 52.9835 40.6772C50.7953 42.3999 47.7572 42.3999 41.6811 42.3999H18.6889C10.0002 42.3999 5.65575 42.3999 3.24994 39.6037C0.844136 36.8075 1.49255 32.5118 2.78937 23.9203L6.03774 2.3999Z"
-          stroke="currentColor" stroke-width="1.8" />
-        <path class="line" fill-rule="evenodd" clip-rule="evenodd"
-          d="M39.7456 10.6449L38.633 24.2026C37.8012 31.603 31.4846 37.0577 24.1654 36.4571C16.7802 35.8511 11.2878 29.336 11.8976 21.9051L13.0017 8.45028L19.6877 8.99893L18.5835 22.4537C18.2787 26.1692 21.0248 29.4267 24.7175 29.7297C28.3456 30.0275 31.5126 27.3074 31.9599 23.4972L33.0596 10.0962L39.7456 10.6449Z"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <path class="line"
-          d="M39.6041 14.0487C41.327 12.9001 45.9885 11.9583 48.2183 14.6228C48.5519 15.1334 49.0843 15.7245 49.3668 15.7716C52.8124 16.346 53.961 12.3263 52.8124 11.1774C51.6639 10.0285 51.6639 10.0288 51.6639 10.0288C46.8394 4.86026 38.4556 6.5832 33.0705 9.48908"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <path class="line" fill-rule="evenodd" clip-rule="evenodd"
-          d="M45.857 20.6169C46.5115 20.6166 47.1519 20.8076 47.6993 21.1665C48.2467 21.5254 48.6772 22.0364 48.938 22.6367C49.1987 23.2371 49.2783 23.9006 49.1669 24.5455C49.0555 25.1905 48.758 25.7889 48.311 26.267C47.864 26.7451 47.287 27.0821 46.6509 27.2366C46.0149 27.3911 45.3476 27.3562 44.7311 27.1364C44.1146 26.9166 43.5758 26.5214 43.1809 25.9993C42.7861 25.4773 42.5525 24.8512 42.5089 24.1981V23.7502C42.6206 22.0045 44.0753 20.6169 45.857 20.6169Z"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <path class="line" d="M33.1111 9.97146L30.7795 36.8487L37.4614 37.4283L39.795 10.5294L33.113 9.94971"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        d="M6.03774 3.40015H43.5746C52.9851 3.40015 57.6903 3.40015 60.1045 6.46684C62.5187 9.53353 61.4141 14.1072 59.2049 23.2547L57.3113 31.0953C55.8849 37.0017 55.1717 39.9548 52.9835 41.6775C50.7953 43.4001 47.7572 43.4001 41.6811 43.4001H18.6889C10.0002 43.4001 5.65575 43.4001 3.24994 40.6039C0.844136 37.8077 1.49255 33.512 2.78937 24.9205L6.03774 3.40015Z"
+        stroke="currentColor" stroke-width="1.8" />
+      <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+        d="M38.6865 11.6097L38.721 25.2129C38.5162 32.6571 32.6819 38.625 25.3382 38.6436C17.9281 38.6624 11.906 32.6337 11.8871 25.1777L11.8528 11.6778L18.5613 11.6607L18.5955 25.1607C18.605 28.8887 21.616 31.9031 25.321 31.8937C28.9613 31.8844 31.8878 28.907 32.0122 25.0727L31.9781 11.6267L38.6865 11.6097Z"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path class="line"
+        d="M38.8326 15.0135C40.4524 13.7238 45.018 12.3924 47.4644 14.8594C47.8399 15.34 48.4203 15.8841 48.7058 15.9072C52.1875 16.189 52.9931 12.0869 51.7517 11.0389C50.5104 9.99086 50.5104 9.99124 50.5104 9.99124C45.2674 5.24782 37.0587 7.67149 31.9378 11.0211" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="line" fill-rule="evenodd" clip-rule="evenodd" d="M45.6169 21.0312C46.2691 20.9757 46.9233 21.112 47.499 21.4235C48.0747 21.7349 48.5468 22.2078 48.8572 22.784C49.1676 23.3602 49.3029 24.0147 49.2463 24.6667C49.1896 25.3188 48.9437 25.9401 48.5386 26.4542C48.1335 26.9683 47.5869 27.3528 46.9662 27.5603C46.3454 27.7679 45.6775 27.7894 45.0447 27.6224C44.4118 27.4553 43.8416 27.1069 43.4042 26.62C42.9668 26.1331 42.6812 25.529 42.5826 24.8819L42.5449 24.4356C42.5091 22.6866 43.8416 21.1814 45.6169 21.0312Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="line" d="M32.0189 11.4984L31.9617 38.4765L38.6687 38.4907L38.7259 11.4908L32.0189 11.4766"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
       <h1 class="font-display text-[1.70rem] font-black italic my-1">
-        Unamba <span class="relative bg-white px-2 text-[#155FFC]" style="
-            clip-path: polygon(8% 15%, 100% 15%, 93% 90%, 0% 90%);
-            mask-image: radial-gradient(circle, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
-          ">
+        Unamba <span class="relative bg-[#155FFC] px-2 text-white" style="
+            clip-path: polygon(8% 15%, 100% 15%, 93% 90%, 0% 90%);">
           forum
         </span>
       </h1>
