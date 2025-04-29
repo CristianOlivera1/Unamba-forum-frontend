@@ -127,3 +127,4 @@
 </div>
 <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
   (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
+  <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>

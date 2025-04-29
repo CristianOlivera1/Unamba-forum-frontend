@@ -137,6 +137,7 @@ export class ResponsesCommentComponent implements OnInit {
 
     return flattened;
   }
+
   addResponse(responseId?: string): void {
     let content = responseId ? this.responseContents[responseId] : this.newResponseContent;
 
@@ -144,65 +145,82 @@ export class ResponsesCommentComponent implements OnInit {
       console.error('La respuesta no puede estar vacía.');
       return;
     }
-    // Validar que el contenido no sea solo la mención
-    if (responseId) {
-      const mention = `@${this.responses.find(r => r.idRespuesta === responseId)?.nombreCompleto} `;
-      if (content.trim() === mention.trim()) {
-        console.error('No puedes enviar solo la mención.');
+     // Verificar si el usuario tiene una carrera asignada
+  this.profileService.getProfileByUserId(this.userProfile.idUsuario).subscribe({
+    next: (response: any) => {
+      if (response.type === 'success' && !response.data.idCarrera) {
+        this.modalInfoCompleteService.showInfoCompleteModal();
         return;
       }
-      if (!content.startsWith(mention)) {
-        content = mention + content; // Agregar la mención al inicio si no está
-      }
-    } else {
-      const mention = `@${this.nombreUsuario} `;
-      if (content.trim() === mention.trim()) {
-        console.error('No puedes enviar solo la mención.');
+
+      // Continuar con la lógica para agregar la respuesta
+      let content = responseId ? this.responseContents[responseId] : this.newResponseContent;
+
+      if (!content?.trim()) {
+        console.error('La respuesta no puede estar vacía.');
         return;
       }
-      if (!content.startsWith(mention)) {
-        content = mention + content; // Agregar la mención al inicio si no está
-      }
-    }
 
-
-    const formData = new FormData();
-    if (responseId) {
-      formData.append('idRespuestaPadre', responseId); // Responder a una respuesta
-    } else {
-      formData.append('idComentario', this.idComentario); // Responder a un comentario
-    }
-
-    formData.append('idUsuario', this.idUsuario);
-    formData.append('contenido', content);
-
-    this.responseCommentService.addResponse(formData).subscribe({
-      next: (response: any) => {
-        if (response.type === 'success') {
-          console.log('Respuesta agregada correctamente.');
-          if (responseId) {
-            delete this.responseContents[responseId];
-          } else {
-            this.newResponseContent = '';
-          }
-          this.selectedResponseId = null;
-          this.loadResponses();
-        } else {
-          console.error('Error al agregar la respuesta:', response.listMessage);
+      // Validar que el contenido no sea solo la mención
+      if (responseId) {
+        const mention = `@${this.responses.find(r => r.idRespuesta === responseId)?.nombreCompleto} `;
+        if (content.trim() === mention.trim()) {
+          console.error('No puedes enviar solo la mención.');
+          return;
         }
-      },
-      error: (err) => {
-        console.error('Error al agregar la respuesta:', err);
+        if (!content.startsWith(mention)) {
+          content = mention + content; // Agregar la mención al inicio si no está
+        }
+      } else {
+        const mention = `@${this.nombreUsuario} `;
+        if (content.trim() === mention.trim()) {
+          console.error('No puedes enviar solo la mención.');
+          return;
+        }
+        if (!content.startsWith(mention)) {
+          content = mention + content; // Agregar la mención al inicio si no está
+        }
       }
-    });
-  }
 
+      const formData = new FormData();
+      if (responseId) {
+        formData.append('idRespuestaPadre', responseId); // Responder a una respuesta
+      } else {
+        formData.append('idComentario', this.idComentario); // Responder a un comentario
+      }
+
+      formData.append('idUsuario', this.idUsuario);
+      formData.append('contenido', content);
+
+      this.responseCommentService.addResponse(formData).subscribe({
+        next: (response: any) => {
+          if (response.type === 'success') {
+            if (responseId) {
+              delete this.responseContents[responseId];
+            } else {
+              this.newResponseContent = '';
+            }
+            this.selectedResponseId = null;
+            this.loadResponses();
+          } else {
+            console.error('Error al agregar la respuesta:', response.listMessage);
+          }
+        },
+        error: (err) => {
+          console.error('Error al agregar la respuesta:', err);
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Error al verificar el perfil del usuario:', err);
+    }
+  });
+}
   handleReplyToResponse(response: any): void {
     this.selectedResponseId = response.idRespuesta;
     this.responseContents[response.idRespuesta] = `@${response.nombreCompleto} `;
   }
-
-
+  
   showHoverModal(userId: string, event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (!target) {
