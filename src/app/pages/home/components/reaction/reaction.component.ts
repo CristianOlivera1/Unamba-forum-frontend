@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, PLATFORM_ID, SimpleChanges } from '@angular/core';
 import { ReactionPublicationService } from '../../../../core/services/reaction/reaction-publication.service';
 import { TokenService } from '../../../../core/services/oauth/token.service';
 import { ModalLoginService } from '../../../../core/services/modal/modalLogin.service';
 import { ModalInfoCompleteService } from '../../../../core/services/modal/modalCompleteInfo.service';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reaction',
@@ -13,18 +14,17 @@ import { ProfileService } from '../../../../core/services/profile/profile.servic
   styleUrl: './reaction.component.css'
 })
 export class ReactionComponent implements OnInit {
-
   @Input() idUsuario!: string;
   @Input() idPublicacion!: string;
+  @Output() reactionChanged = new EventEmitter<void>();
 
   popoverVisible = false;
   tooltipActivo: string | null = null;
   currentReaction: string | null = null;
   isLoggedIn = false;
 
-  
   constructor(private reactionService: ReactionPublicationService,    private tokenService: TokenService,private modalService: ModalLoginService,    private modalInfoCompleteService: ModalInfoCompleteService,
-    private profileService: ProfileService
+    private profileService: ProfileService,private router: Router,@Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +78,8 @@ export class ReactionComponent implements OnInit {
         next: () => {
           this.currentReaction = tipo;
           this.popoverVisible = false;
+          this.reactionChanged.emit();
+
         },
         error: (err) => {
           console.error('Error al actualizar la reacción:', err);
@@ -95,6 +97,8 @@ export class ReactionComponent implements OnInit {
         next: () => {
           this.currentReaction = tipo;
           this.popoverVisible = false;
+          this.reactionChanged.emit();
+
         },
         error: (err) => {
           console.error('Error al agregar la reacción:', err);
@@ -123,6 +127,8 @@ export class ReactionComponent implements OnInit {
     this.reactionService.removeReaction(this.idUsuario, this.idPublicacion).subscribe({
       next: () => {
         this.currentReaction = null;
+        this.reactionChanged.emit();
+
       },
       error: (err) => {
         console.error('Error al eliminar la reacción:', err);
@@ -148,6 +154,11 @@ export class ReactionComponent implements OnInit {
   
   ocultarTooltip() {
     this.tooltipActivo = null;
+  }
+  navigateToDetailAndFocusComment(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.location.href = `/publication/${this.idPublicacion}?focusComment=true`;
+    }
   }
   
 }
