@@ -18,6 +18,7 @@ export class PublicationWithoutFilesComponent implements OnInit {
   ngOnInit(): void {
     this.loadPublications();
   }
+  
   loadPublications(): void {
     this.publicationService.getAllPublicationwithoutFile().subscribe({
       next: (response: any) => {
