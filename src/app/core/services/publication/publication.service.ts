@@ -41,5 +41,9 @@ export class PublicationService {
   public getRelatedPublications(idPublication: string, page: number = 0, size: number = 6): Observable<any> {
     return this.httpClient.get(`${this.apiPublication}/related/${idPublication}?page=${page}&size=${size}`);
   }
+
+  public fixPublication(dtoFixPublication: any): Observable<any> {
+    return this.httpClient.put(`${this.apiPublication}/fix`, dtoFixPublication);
+  }
   
 }
