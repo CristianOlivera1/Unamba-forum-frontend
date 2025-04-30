@@ -31,6 +31,7 @@ export class PublicationWithFilesComponent implements OnInit {
   publications: Publication[] = [];
   currentUserId: string | null = null;
   currentPublicationId: string | null = null;
+  isCurrentUserAdmin: boolean = false;
 
   isLoginModalVisible$: any;
   isInfoCompleteModalVisible$: any;
@@ -48,6 +49,10 @@ export class PublicationWithFilesComponent implements OnInit {
   isLoading: boolean = false;
   hasMorePublications: boolean = true;
 
+  isDeleteModalVisible: boolean = false;
+  publicationToDelete: Publication | null = null;
+  alert: { type: string; message: string } | null = null;
+
   constructor(private publicationService: PublicationService, private tokenService: TokenService, private commentPublicationService: CommentPublicationService,
     private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private profileService: ProfileService, private rolService: RolService, private reactionPublicationService: ReactionPublicationService,@Inject(PLATFORM_ID) private platformId: Object,private reactionService: ReactionPublicationService) { }
 
@@ -60,11 +65,22 @@ export class PublicationWithFilesComponent implements OnInit {
         .pipe(debounceTime(300))
         .subscribe(() => this.onScroll());
     }
+    
+    this.rolService.getRolByUserId(this.currentUserId!).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.isCurrentUserAdmin = response.data.tipo === 'ADMINISTRADOR';
+        }
+      },
+      error: (error) => {
+        this.showAlert('error', 'Error al verificar el rol del usuario actual.');
+        console.error('Error al verificar el rol del usuario actual:', error);
+      }
+    });
     this.loadPublications();
   }
 
   updateReactions(idPublicacion: string): void {
-    // Actualizar las reacciones y el total de comentarios para la publicación específica
     this.reactionService.getReactionAndCommentSummary(idPublicacion).subscribe({
       next: (response) => {
         const publication = this.publications.find((p) => p.idPublicacion === idPublicacion);
@@ -81,6 +97,36 @@ export class PublicationWithFilesComponent implements OnInit {
   
   getTimeElapsedWrapper(fechaRegistro: string): string {
     return TimeUtils.getTimeElapsed(fechaRegistro);
+  }
+
+  toggleFixPublication(publication: Publication): void {
+    publication.isDropdownVisible = false;
+    const dtoFixPublication = {
+      idPublicacion: publication.idPublicacion,
+      fijada: !publication.fijada // Cambiar el estado actual
+    };
+  
+    this.publicationService.fixPublication(dtoFixPublication).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          publication.fijada = !publication.fijada;
+        this.showAlert('success', `Publicación ${publication.fijada ? 'fijada' : 'desfijada'} con éxito.`);
+        } else {
+          this.showAlert('error', 'Error al fijar/desfijar la publicación');
+          console.error('Error al fijar/desfijar la publicación:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de fijar/desfijar:', error);
+        this.showAlert('error', 'Ocurrió un error al intentar fijar/desfijar la publicación.');
+      }
+    });
+  }
+  showAlert(type: string, message: string): void {
+    this.alert = { type, message };
+    setTimeout(() => {
+      this.alert = null;
+    }, 5000);
   }
 
   loadPublications(page: number = 0): void {
@@ -133,25 +179,38 @@ export class PublicationWithFilesComponent implements OnInit {
       }
     });
   }
+
   toggleDropdown(publication: Publication): void {
-    // Alternar la visibilidad del dropdown
     publication.isDropdownVisible = !publication.isDropdownVisible;
   }
 
-  deletePublication(idPublicacion: string): void {
-    if (confirm('¿Estás seguro de que deseas eliminar esta publicación?')) {
-      this.publicationService.deletePublication(idPublicacion).subscribe({
+  openDeleteModal(publication: Publication): void {
+    publication.isDropdownVisible = false;
+    this.isDeleteModalVisible = true;
+    this.publicationToDelete = publication;
+  }
+
+  closeDeleteModal(): void {
+    this.isDeleteModalVisible = false;
+    this.publicationToDelete = null;
+  }
+
+  confirmDelete(): void {
+    if (this.publicationToDelete) {
+      this.publicationService.deletePublication(this.publicationToDelete.idPublicacion).subscribe({
         next: () => {
-          this.publications = this.publications.filter(p => p.idPublicacion !== idPublicacion);
-          alert('Publicación eliminada con éxito.');
+          this.publications = this.publications.filter(p => p.idPublicacion !== this.publicationToDelete?.idPublicacion);
+          this.closeDeleteModal();
+        this.showAlert('success','Publicación eliminada con éxito.');
         },
         error: (error) => {
           console.error('Error al eliminar la publicación:', error);
-          alert('Ocurrió un error al eliminar la publicación.');
+        this.showAlert('error','Ocurrió un error al eliminar la publicación.');
         }
       });
     }
   }
+
   @HostListener('window:scroll', [])
   onScroll(): void {
     const scrollPosition = window.innerHeight + window.scrollY;
@@ -303,4 +362,14 @@ export class PublicationWithFilesComponent implements OnInit {
     this.isHovering = false;
     this.closeReactionHover(publication);
   }
+
+  navigateToEditPublication(idPublicacion: string) {
+    const publication = this.publications.find(p => p.idPublicacion === idPublicacion);
+    if (publication) {
+      publication.isDropdownVisible = false;
+    }
+    this.router.navigate(['/editpublication', idPublicacion]);
+    this.router.navigate(['/editpublication', idPublicacion]);
+  }
+
 }
