@@ -206,6 +206,7 @@ export class NewPublicationComponent implements OnInit {
     },
   };
 
+  
   toggleButton(event: any): void {
     this.isChecked = event.target.checked;
 
