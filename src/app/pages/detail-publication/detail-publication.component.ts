@@ -24,6 +24,8 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 import { CommentComponent } from './components/comment/comment.component';
 import { TimeUtils } from '../../Utils/TimeElapsed';
 import { RelatedComponent } from './components/related/related.component';
+import { Publication } from '../../core/interfaces/publication';
+import { RolService } from '../../core/services/rol/rol.service';
 
 @Component({
   selector: 'app-detail-publication',
@@ -36,10 +38,11 @@ export class DetailPublicationComponent implements OnInit {
   @ViewChild(CommentComponent) commentComponent!: CommentComponent;
   publication: any = {};
   currentUserId: string | null = null;
-
+  publications: Publication[] = [];
   isPhotoSliderVisible = false;
   selectedPhotos: { tipo: string; rutaArchivo: string }[] = [];
   selectedPhotoIndex: number = 0;
+  isCurrentUserAdmin: boolean = false;
 
   isReactionModalVisible: boolean = false;
   reactionUsers: any[] = [];
@@ -54,6 +57,9 @@ export class DetailPublicationComponent implements OnInit {
   isInfoCompleteModalVisible$: any;
 
   publicationRelated: any[] = [];
+  isDeleteModalVisible: boolean = false;
+  publicationToDelete: Publication | null = null;
+  alert: { type: string; message: string } | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,7 +67,7 @@ export class DetailPublicationComponent implements OnInit {
     private tokenService: TokenService,
     private reactionPublicationService: ReactionPublicationService,
     private commentPublicationService: CommentPublicationService,
-    private profileService: ProfileService, private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, @Inject(PLATFORM_ID) private platformId: Object, private location: Location,
+    private profileService: ProfileService, private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, @Inject(PLATFORM_ID) private platformId: Object, private location: Location, private rolService: RolService,
   ) { }
 
   ngOnInit(): void {
@@ -69,9 +75,21 @@ export class DetailPublicationComponent implements OnInit {
     this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
     this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
 
+    this.rolService.getRolByUserId(this.currentUserId!).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.isCurrentUserAdmin = response.data.tipo === 'ADMINISTRADOR';
+        }
+      },
+      error: (error) => {
+        console.error('Error al verificar el rol del usuario actual:', error);
+      }
+    });
+
     this.route.params.subscribe((params) => {
       const idPublicacion = params['idPublicacion'];
       if (idPublicacion) {
+
         this.loadPublicationById(idPublicacion);
         this.loadReactionSummary(idPublicacion);
         this.loadCommentsByPublication(idPublicacion);
@@ -83,6 +101,29 @@ export class DetailPublicationComponent implements OnInit {
       if (params['focusComment']) {
         this.focusCommentTextarea();
 
+      }
+    });
+  }
+
+  toggleFixPublication(publication: Publication): void {
+    const dtoFixPublication = {
+      idPublicacion: publication.idPublicacion,
+      fijada: !publication.fijada // Cambiar el estado actual
+    };
+
+    this.publicationService.fixPublication(dtoFixPublication).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          publication.fijada = !publication.fijada; // Actualizar el estado en el frontend
+          this.showAlert('success', `Publicación ${publication.fijada ? 'fijada' : 'desfijada'} con éxito.`);
+        } else {
+          this.showAlert('error', 'Error al fijar/desfijar la publicación');
+          console.error('Error al fijar/desfijar la publicación:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de fijar/desfijar:', error);
+        this.showAlert('error', 'Ocurrió un error al intentar fijar/desfijar la publicación.');
       }
     });
   }
@@ -298,6 +339,38 @@ export class DetailPublicationComponent implements OnInit {
     }, 200);
   }
 
+  toggleDropdown(publication: Publication): void {
+    // Alternar la visibilidad del dropdown
+    publication.isDropdownVisible = !publication.isDropdownVisible;
+  }
+
+  openDeleteModal(publication: Publication): void {
+    this.isDeleteModalVisible = true;
+    this.publicationToDelete = publication;
+  }
+
+  closeDeleteModal(): void {
+    this.isDeleteModalVisible = false;
+    this.publicationToDelete = null;
+  }
+
+  confirmDelete(): void {
+    if (this.publicationToDelete) {
+      this.publicationService.deletePublication(this.publicationToDelete.idPublicacion).subscribe({
+        next: () => {
+          this.publications = this.publications.filter(p => p.idPublicacion !== this.publicationToDelete?.idPublicacion);
+          this.closeDeleteModal();
+          this.showAlert('success', 'Publicación eliminada con éxito.');
+        },
+        error: (error) => {
+          console.error('Error al eliminar la publicación:', error);
+          this.showAlert('error', 'Ocurrió un error al eliminar la publicación.');
+        }
+      });
+    }
+  }
+
+
   goBack(): void {
     this.location.back();
   }
@@ -308,5 +381,19 @@ export class DetailPublicationComponent implements OnInit {
     setTimeout(() => {
       this.commentComponent?.focusTextarea();
     }, 0);
+  }
+  navigateToProfileUser(idUsuario: string) {
+    this.router.navigate(['/profile', idUsuario]);
+  }
+
+  showAlert(type: string, message: string): void {
+    this.alert = { type, message };
+    setTimeout(() => {
+      this.alert = null;
+    }, 5000);
+  }
+
+  navigateToEditPublication(idPublicacion: string) {
+    this.router.navigate(['/editpublication', idPublicacion]);
   }
 }
