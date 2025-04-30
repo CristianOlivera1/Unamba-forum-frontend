@@ -31,7 +31,7 @@ export const routes: Routes = [
     { path: 'follow', component: ModalFollowerComponent },
     { path: 'publication', component: DetailPublicationComponent },
     { path: 'newpublication', component: NewPublicationComponent },
-    { path: 'editpublication', component: EditPublicationComponent },
+    { path: 'editpublication/:idPublicacion', component: EditPublicationComponent },
 
     
     { path: '**', redirectTo: '' }
