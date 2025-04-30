@@ -1,4 +1,5 @@
 # UnambaForumFrontend
+![postspark_export_2025-04-30_11-49-26](https://github.com/user-attachments/assets/ec10864b-dc77-4bd2-8e06-ae23d1a32a72)
 
 Este proyecto esta realizado en [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
 
