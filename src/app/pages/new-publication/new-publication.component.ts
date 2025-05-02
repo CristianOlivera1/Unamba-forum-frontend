@@ -37,6 +37,7 @@ export class NewPublicationComponent implements OnInit {
   previewUrls: string[] = [];
   randomImage: string | null = null;
   apiCat = environment.apiCat;
+  isPublishing: boolean = false;
 
   alert: { type: 'success' | 'error' | 'warning'; message: string } | null = null;
   updateCharacterCount(event: Event) {
@@ -77,8 +78,8 @@ export class NewPublicationComponent implements OnInit {
         return file.type.includes('image') || file.type.includes('video');
       });
 
-      if (this.mediaFiles.length + validFiles.length > 4) {
-        this.showToast('Solo puedes subir un máximo de 4 archivos.', 'warning');
+      if (this.mediaFiles.length + validFiles.length > 3) {
+        this.showToast('Solo puedes subir un máximo de 3 archivos.', 'warning');
         return;
       }
 
@@ -138,10 +139,11 @@ export class NewPublicationComponent implements OnInit {
   insertPublication(): void {
     console.log(this.newPublicationData.contenido);
     if (!this.newPublicationData.idCategoria || !this.newPublicationData.titulo || !this.newPublicationData.contenido) {
-      this.showToast('Por favor, completa todos los campos obligatorios.', 'error');
+      this.showToast('Por favor, completa todos los campos obligatorios.', 'warning');
       return;
     }
 
+    this.isPublishing = true;
     const formData = new FormData();
     formData.append('idUsuario', this.newPublicationData.idUsuario);
     formData.append('idCategoria', this.newPublicationData.idCategoria);
@@ -160,26 +162,15 @@ export class NewPublicationComponent implements OnInit {
       next: (response) => {
         this.showToast('Publicación creada con éxito.', 'success');
         this.router.navigate(['/publication', response.data.idPublicacion]);
+        this.isPublishing = false;
 
       },
       error: (err) => {
         console.error('Error al insertar la publicación:', err);
         this.showToast('Error al crear la publicación.', 'error');
+        this.isPublishing = false;
       }
     });
-  }
-
-  resetForm(): void {
-    this.newPublicationData = {
-      idUsuario: this.tokenService.getUserId(),
-      idCategoria: '',
-      titulo: '',
-      contenido: '',
-      archivos: []
-    };
-    this.mediaFiles = [];
-    this.randomImage = null;
-    this.isChecked = false;
   }
 
   showToast(message: string, type: 'success' | 'error' | 'warning'): void {
@@ -206,7 +197,6 @@ export class NewPublicationComponent implements OnInit {
     },
   };
 
-  
   toggleButton(event: any): void {
     this.isChecked = event.target.checked;
 
@@ -230,8 +220,6 @@ export class NewPublicationComponent implements OnInit {
           // Actualizar la URL de la imagen aleatoria
           this.randomImage = randomImgUrl;
           this.previewUrls.push(randomImgUrl);
-
-          this.showToast('Imagen aleatoria añadida con éxito.', 'success');
         }
       },
       error: (err) => {

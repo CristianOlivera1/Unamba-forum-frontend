@@ -1,5 +1,5 @@
 <app-header></app-header>
-<!-- Alert -->
+
 <div *ngIf="alert" [ngClass]="{
     'bg-green-50 text-green-800': alert.type === 'success',
     'bg-red-50 text-red-800': alert.type === 'error',
@@ -10,15 +10,17 @@
         <path
             d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
     </svg>
-    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
+    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <use xlink:href="/assets/sprite.svg#error" />
+    </svg>
+    <svg *ngIf="alert.type === 'warning'" class="shrink-0 w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <use xlink:href="/assets/sprite.svg#alert" />
     </svg>
     <span class="text-sm font-medium">{{ alert.message }}</span>
 </div>
 
 <div class="flex flex-col items-center min-h-screen mesh pb-20">
-    
+
     <div class="mx-auto p-4 md:p-6 space-y-10 mt-6 w-200 w-max-300">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
@@ -61,15 +63,14 @@
         <!-- Subida de archivos -->
         <div class="space-y-2">
             <div class="flex justify-between items-center">
-                <label class="block text-sm font-semibold text-gray-700">Multimedia <span class="text-gray-500 font-normal">(opcional)</span></label>
+                <label class="block text-sm font-semibold text-gray-700">Multimedia <span
+                        class="text-gray-500 font-normal">(opcional)</span></label>
 
-                <div class="flex items-center space-x-2 border border-gray-300 rounded-lg p-2 bg-white">
+                <div class="flex items-center space-x-2 border border-gray-300 rounded-lg p-2 bg-white" title="Añadir una imagen aleatoria generada por el sistema">
                     <!-- Checkbox -->
                     <input type="checkbox" id="enableButton" (change)="toggleButton($event)" class="w-4 h-4 shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 checked:border-blue-500 
                 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 
                 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800" />
-
-                    <!-- Label cambia de color si el checkbox está marcado -->
                     <label class="flex items-center text-sm" [ngClass]="isChecked ? 'text-blue-600' : 'text-gray-500'">
                         Imagen aleatoria
                     </label>
@@ -80,11 +81,10 @@
                 [class.border-blue-500]="isDragging" [class.bg-blue-50]="isDragging" (dragover)="handleDragOver($event)"
                 (dragleave)="handleDragLeave($event)" (drop)="handleDrop($event)">
                 <div class="space-y-3">
-                    <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
-                        </path>
+                    <svg class="mx-auto text-gray-400" width="64" height="64" viewBox="0 0 24 24">
+                        <use xlink:href="/assets/sprite.svg#uploadfile" />
                     </svg>
+
                     <div class="text-sm text-gray-600">
                         <label for="file-upload" class="cursor-pointer text-blue-600 hover:text-blue-500 font-medium">
                             Haz clic para subir
@@ -124,27 +124,33 @@
                 <!-- Icono para identificar si es video o imagen -->
                 <div class="absolute top-2 left-2">
                     <!-- Mostrar icono si es un video -->
-                    <svg *ngIf="mediaFiles[index]?.type?.includes('video')" xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 text-white drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    <svg *ngIf="mediaFiles[index]?.type?.includes('video')" class="h-5 w-5 text-white drop-shadow-md"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <use xlink:href="/assets/sprite.svg#video" />
                     </svg>
 
                     <!-- Mostrar icono si es una imagen -->
-                    <svg *ngIf="!mediaFiles[index]?.type?.includes('video')" xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 text-white drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <svg *ngIf="!mediaFiles[index]?.type?.includes('video')" class="h-5 w-5 text-white drop-shadow-md"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <use xlink:href="/assets/sprite.svg#imagen" />
                     </svg>
                 </div>
             </div>
         </div>
         <!-- Botón para publicar -->
         <div class="mt-6">
-            <button (click)="insertPublication()"
-                class="w-full bg-secondary-blue text-white py-2 rounded-lg hover:bg-blue-600 transition-all">
-                Publicar
-            </button>
+            <button
+            class="w-full bg-secondary-blue mt-6 text-white py-3 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2 transition-all"
+            [disabled]="isPublishing"
+            (click)="insertPublication()">
+            <ng-container *ngIf="!isPublishing">Publicar</ng-container>
+            <ng-container *ngIf="isPublishing">
+              Publicando...
+              <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true" data-icon="spin">
+                <use xlink:href="/assets/sprite.svg#spinner" />
+              </svg>
+            </ng-container>
+          </button>
         </div>
     </div>
 </div>
