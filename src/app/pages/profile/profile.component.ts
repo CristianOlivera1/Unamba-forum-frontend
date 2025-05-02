@@ -27,16 +27,18 @@ import { ModalUserCommentPublicationComponent } from '../home/components/modal-u
 import { ModalUsersByReactionTypeComponent } from '../home/components/modal-users-by-reaction-type/modal-users-by-reaction-type.component';
 import { ReactionPublicationService } from '../../core/services/reaction/reaction-publication.service';
 import { CommentPublicationService } from '../../core/services/commentPublication/comment-publication.service';
+import { Publication } from '../../core/interfaces/publication';
+import { RolService } from '../../core/services/rol/rol.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent, PhotoSliderComponent,EditPhotoProfileComponent,EditFrontPageComponent,ModalFollowerComponent,ModalFollowingComponent,ModalUserCommentPublicationComponent,ModalUsersByReactionTypeComponent],
+  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent, PhotoSliderComponent, EditPhotoProfileComponent, EditFrontPageComponent, ModalFollowerComponent, ModalFollowingComponent, ModalUserCommentPublicationComponent, ModalUsersByReactionTypeComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 
 export class ProfileComponent implements OnInit {
-  userProfile: any = null;
+  userProfile: any = {}; 
   userDetails: any = null;
   userPublications: any[] = [];
   currentUserId: string | null = null;
@@ -44,6 +46,7 @@ export class ProfileComponent implements OnInit {
   isInfoCompleteModalVisible$: any;
   suggestedUsers: any[] = [];
   userId: string = '';
+  isCurrentUserAdmin: boolean = false;
 
   hoverProfileData: any = null;
   hoverPosition = { top: 0, left: 0 };
@@ -58,21 +61,24 @@ export class ProfileComponent implements OnInit {
   isEditPhotoFrontPageModalVisible: boolean = false;
 
   isFollowerModalVisible: boolean = false;
-  followers: any[] = []; 
+  followers: any[] = [];
 
   isFollowingModalVisible: boolean = false;
-  followings: any[] = []; 
+  followings: any[] = [];
 
   alert: { type: string; message: string } | null = null;
 
   isFollowing: boolean = false;
   isLoggedIn: boolean = false;
 
+  isDeleteModalVisible: boolean = false;
+  publicationToDelete: Publication | null = null;
+  publications: Publication[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private profileService: ProfileService, private followService: FollowService,
-    private publicationService: PublicationService, private router: Router, private tokenService: TokenService, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private userService: UserService,private reactionPublicationService:ReactionPublicationService, private commentPublicationService:CommentPublicationService,
-
+    private publicationService: PublicationService, private router: Router, private tokenService: TokenService, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private userService: UserService, private reactionPublicationService: ReactionPublicationService, private commentPublicationService: CommentPublicationService,private rolService:RolService,
   ) { }
 
   ngOnInit(): void {
@@ -88,6 +94,7 @@ export class ProfileComponent implements OnInit {
     }
 
     this.isLoggedIn = !!this.tokenService.getToken();
+    this.checkIfCurrentUserIsAdmin();
 
     this.route.params.subscribe(params => {
       const newUserId = params['idUsuario'];
@@ -95,7 +102,6 @@ export class ProfileComponent implements OnInit {
         this.userId = newUserId;
         this.loadProfileData();
         this.checkIfFollowing();
-
       }
     });
   }
@@ -118,7 +124,21 @@ export class ProfileComponent implements OnInit {
   handlePhotoUpdateSuccess(message: string): void {
     this.showAlert('success', message);
   }
-  
+
+  checkIfCurrentUserIsAdmin(): void {
+    this.rolService.getRolByUserId(this.currentUserId!).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.isCurrentUserAdmin = response.data.tipo === 'ADMINISTRADOR';
+        }
+      },
+      error: (error) => {
+        this.showAlert('error', 'Error al verificar el rol del usuario actual.');
+        console.error('Error al verificar el rol del usuario actual:', error);
+      }
+    });
+  }
+
   loadSuggestedUsers(): void {
     this.userService.getSuggestedUsers(this.userId).subscribe(response => {
       if (response.type === 'success') {
@@ -144,6 +164,60 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  toggleDropdown(publication: Publication): void {
+    publication.isDropdownVisible = !publication.isDropdownVisible;
+  }
+
+  openDeleteModal(publication: Publication): void {
+    console.log("abierto")
+    publication.isDropdownVisible = false;
+    this.isDeleteModalVisible = true;
+    this.publicationToDelete = publication;
+  }
+
+  closeDeleteModal(): void {
+    this.isDeleteModalVisible = false;
+    this.publicationToDelete = null;
+  }
+
+  confirmDelete(): void {
+    if (this.publicationToDelete) {
+      this.publicationService.deletePublication(this.publicationToDelete.idPublicacion).subscribe({
+        next: () => {
+          this.publications = this.publications.filter(p => p.idPublicacion !== this.publicationToDelete?.idPublicacion);
+          this.closeDeleteModal();
+          this.showAlert('success', 'Publicación eliminada con éxito.');
+        },
+        error: (error) => {
+          console.error('Error al eliminar la publicación:', error);
+          this.showAlert('error', 'Ocurrió un error al eliminar la publicación.');
+        }
+      });
+    }
+  }
+  toggleFixPublication(publication: Publication): void {
+    publication.isDropdownVisible = false;
+    const dtoFixPublication = {
+      idPublicacion: publication.idPublicacion,
+      fijada: !publication.fijada // Cambiar el estado actual
+    };
+
+    this.publicationService.fixPublication(dtoFixPublication).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          publication.fijada = !publication.fijada;
+          this.showAlert('success', `Publicación ${publication.fijada ? 'fijada' : 'desfijada'} con éxito.`);
+        } else {
+          this.showAlert('error', 'Error al fijar/desfijar la publicación');
+          console.error('Error al fijar/desfijar la publicación:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de fijar/desfijar:', error);
+        this.showAlert('error', 'Ocurrió un error al intentar fijar/desfijar la publicación.');
+      }
+    });
+  }
   loadUserDetails(userId: string): void {
     this.profileService.getUserProfileDetail(userId).subscribe({
       next: (response: any) => {
@@ -163,6 +237,7 @@ export class ProfileComponent implements OnInit {
     this.publicationService.getPublicationUser(userId).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
+          
           this.userPublications = response.data;
         } else {
           console.error('Error al cargar las publicaciones:', response.listMessage);
@@ -175,22 +250,22 @@ export class ProfileComponent implements OnInit {
   }
 
   checkIfFollowing(): void {
-  if (!this.currentUserId || !this.userId) return;
+    if (!this.currentUserId || !this.userId) return;
 
-  this.followService.getFollowersByUserId(this.userId).subscribe({
-    next: (response: any) => {
-      if (response.type === 'success') {
-        // Verificar si el usuario actual está en la lista de seguidores
-        this.isFollowing = response.data.some((follower: any) => follower.idSeguidor === this.currentUserId);
-      } else {
-        console.error('Error al verificar si sigue al usuario:', response.listMessage);
+    this.followService.getFollowersByUserId(this.userId).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          // Verificar si el usuario actual está en la lista de seguidores
+          this.isFollowing = response.data.some((follower: any) => follower.idSeguidor === this.currentUserId);
+        } else {
+          console.error('Error al verificar si sigue al usuario:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de seguidores:', error);
       }
-    },
-    error: (error) => {
-      console.error('Error en la solicitud de seguidores:', error);
-    }
-  });
-}
+    });
+  }
 
   followUser(): void {
     if (!this.currentUserId || !this.userId) return;
@@ -218,7 +293,7 @@ export class ProfileComponent implements OnInit {
         if (response.type === 'success') {
           this.isFollowing = false;
           this.userProfile.totalFollowers -= 1;
-          
+
         } else {
           console.error('Error al dejar de seguir al usuario:', response.listMessage);
         }
@@ -228,7 +303,7 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-  
+
   showHoverModal(userId: string, event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (!target) {
@@ -242,7 +317,7 @@ export class ProfileComponent implements OnInit {
 
     this.hoverPosition = {
       top: rect.top + window.scrollY + rect.height - 40,
-      left: rect.left + window.scrollX + rect.width / 2 +30
+      left: rect.left + window.scrollX + rect.width / 2 + 30
     };
 
     this.profileService.getUserProfileHover(userId).subscribe({
@@ -287,7 +362,7 @@ export class ProfileComponent implements OnInit {
 
   closeFollowerModal(): void {
     this.isFollowerModalVisible = false;
-    this.followers = []; 
+    this.followers = [];
   }
 
   openFollowingModal(): void {
@@ -310,7 +385,7 @@ export class ProfileComponent implements OnInit {
 
   closeFollowingModal(): void {
     this.isFollowingModalVisible = false;
-    this.followings = []; 
+    this.followings = [];
   }
 
   onModalMouseEnter(): void {
@@ -421,19 +496,19 @@ export class ProfileComponent implements OnInit {
   }
 
   openEditPhotoModal(): void {
-    this.isEditPhotoModalVisible = true; 
+    this.isEditPhotoModalVisible = true;
   }
 
   closeEditPhotoModal(): void {
-    this.isEditPhotoModalVisible = false; 
+    this.isEditPhotoModalVisible = false;
   }
 
   openEditPhotoFrontPageModal(): void {
-    this.isEditPhotoFrontPageModalVisible = true; 
+    this.isEditPhotoFrontPageModalVisible = true;
   }
 
   closeEditPhotoFrontPageModal(): void {
-    this.isEditPhotoFrontPageModalVisible = false; 
+    this.isEditPhotoFrontPageModalVisible = false;
   }
 
   getTimeElapsedWrapper(fechaRegistro: string): string {
@@ -446,5 +521,13 @@ export class ProfileComponent implements OnInit {
 
   navigateToProfileUser(idUsuario: string) {
     this.router.navigate(['/profile', idUsuario]);
+  }
+  navigateToEditPublication(idPublicacion: string) {
+    const publication = this.publications.find(p => p.idPublicacion === idPublicacion);
+    if (publication) {
+      publication.isDropdownVisible = false;
+    }
+    this.router.navigate(['/editpublication', idPublicacion]);
+    this.router.navigate(['/editpublication', idPublicacion]);
   }
 }
