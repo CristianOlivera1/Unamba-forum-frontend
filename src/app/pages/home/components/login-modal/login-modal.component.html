@@ -1,23 +1,24 @@
 <div class="fixed inset-0 bg-[rgba(0,0,0,0.1)] z-40" (click)="closeModal()"></div>
 <div
   class="fixed bottom-0 left-0 w-full h-[65vh] bg-[url('/assets/img/oauth/backgound-modal-services.svg')] bg-cover bg-no-repeat bg-center shadow-xl rounded-t-3xl px-6 py-8 overflow-auto z-50">
-  <button (click)="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
-    ✕
+  <button (click)="closeModal()" class="absolute top-4 right-4 text-white hover:text-gray-200">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
   </button>
 
   <div *ngIf="alert" [ngClass]="{
     'bg-green-50 text-green-800': alert.type === 'success',
-    'bg-red-50 text-red-800': alert.type === 'error',
-    'bg-yellow-50 text-yellow-800': alert.type === 'warning'
+    'bg-red-50 text-red-800': alert.type === 'error'
   }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg" role="alert">
     <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
       fill="currentColor" viewBox="0 0 20 20">
       <path
         d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
     </svg>
-    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2"
       fill="currentColor" viewBox="0 0 20 20">
-      <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
+      <use xlink:href="/assets/sprite.svg#error" />
     </svg>
     <span class="text-sm font-medium">{{ alert.message }}</span>
   </div>
@@ -25,7 +26,6 @@
   <div class="max-w-xl mx-auto bg-white p-6 lg:p-7 xl:pt-10 rounded-lg shadow-lg">
 
     <h2 class="text-xl font-semibold text-center mb-6 xl:text-2xl">Iniciar sesión</h2>
-
     <form (ngSubmit)="login()">
       <div class="relative z-0 w-full mb-5 group">
         <input type="email" [(ngModel)]="loginData.email" name="email" id="email"
@@ -49,7 +49,9 @@
         <ng-container *ngIf="!isLoggingIn">Iniciar sesión</ng-container>
         <ng-container *ngIf="isLoggingIn">
           Iniciando sesión...
-          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" data-icon="spin"><defs><linearGradient x1="0%" y1="100%" x2="100%" y2="100%" id="linearGradient-1"><stop stop-color="currentColor" stop-opacity="0" offset="0%"></stop><stop stop-color="currentColor" stop-opacity="0.50" offset="39.9430698%"></stop><stop stop-color="currentColor" offset="100%"></stop></linearGradient></defs><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect fill-opacity="0.01" fill="none" x="0" y="0" width="36" height="36"></rect><path d="M34,18 C34,9.163444 26.836556,2 18,2 C11.6597233,2 6.18078805,5.68784135 3.59122325,11.0354951" stroke="url(#linearGradient-1)" stroke-width="4" stroke-linecap="round"></path></g></svg>
+          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true" data-icon="spin">
+            <use xlink:href="/assets/sprite.svg#spinner" />
+          </svg>
         </ng-container>
       </button>
     </form>
@@ -61,15 +63,9 @@
 
     <button (click)="initiateGoogleLogin()"
       class="w-full flex items-center justify-center gap-2 border py-3 border-gray-200 text-gray-600 bg-white hover:bg-[#D3E4FF] rounded-md transition">
+
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
-        <path fill="#ffc107"
-          d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917" />
-        <path fill="#ff3d00"
-          d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691" />
-        <path fill="#4caf50"
-          d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44" />
-        <path fill="#1976d2"
-          d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917" />
+        <use xlink:href="/assets/sprite.svg#google" />
       </svg> Iniciar sesión con Google
     </button>
 

@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
@@ -20,13 +20,13 @@ import { CommentPublicationService } from '../../../../core/services/commentPubl
 import { ModalUserCommentPublicationComponent } from '../modal-user-comment-publication/modal-user-comment-publication.component';
 import { Publication } from '../../../../core/interfaces/publication';
 import { debounceTime, fromEvent } from 'rxjs';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'app-publication-with-files',
   imports: [CommonModule, ReactionComponent, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ModalUsersByReactionTypeComponent, ModalUserCommentPublicationComponent],
   templateUrl: './publication-with-files.component.html',
   styleUrl: './publication-with-files.component.css'
 })
+
 export class PublicationWithFilesComponent implements OnInit {
   publications: Publication[] = [];
   currentUserId: string | null = null;
@@ -66,6 +66,12 @@ export class PublicationWithFilesComponent implements OnInit {
         .subscribe(() => this.onScroll());
     }
     
+    this.checkIfCurrentUserIsAdmin();
+
+    this.loadPublications();
+  }
+  
+  checkIfCurrentUserIsAdmin(): void {
     this.rolService.getRolByUserId(this.currentUserId!).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
@@ -77,7 +83,6 @@ export class PublicationWithFilesComponent implements OnInit {
         console.error('Error al verificar el rol del usuario actual:', error);
       }
     });
-    this.loadPublications();
   }
 
   updateReactions(idPublicacion: string): void {
@@ -368,7 +373,6 @@ export class PublicationWithFilesComponent implements OnInit {
     if (publication) {
       publication.isDropdownVisible = false;
     }
-    this.router.navigate(['/editpublication', idPublicacion]);
     this.router.navigate(['/editpublication', idPublicacion]);
   }
 
