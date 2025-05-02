@@ -20,7 +20,6 @@ export class CareerComponent implements OnInit {
 
   ngOnInit() {
    this.loadCareerById();
-    
   }
 
   loadCareerById(): void {
