@@ -8,13 +8,8 @@
 
   <div *ngIf="totalComentarios > 0" class="flex items-center gap-1 ml-auto cursor-pointer hover:text-gray-600 hover:underline" (mouseenter) ="onHoverComments($event)" (click)="navigateToDetailAndFocusComment()"
     (mouseleave)="onLeaveComments()">
-    <svg class="w-5 h-5 lg:h-6 lg:w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <g fill="none">
-        <path fill="currentColor" d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1"
-          opacity="0.16" />
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M12 21a9 9 0 1 0-9-9c0 1.488.36 2.89 1 4.127L3 21l4.873-1c1.236.639 2.64 1 4.127 1" />
-      </g>
+    <svg class="w-5 h-5 lg:h-6 lg:w-6" viewBox="0 0 24 24">
+      <use xlink:href="/assets/sprite.svg#totalcomments" />
     </svg>
     <span>{{ totalComentarios }}</span>
   </div>
