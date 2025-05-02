@@ -46,4 +46,9 @@ export class PublicationService {
     return this.httpClient.put(`${this.apiPublication}/fix`, dtoFixPublication);
   }
   
+  public updatePublication(formData: FormData): Observable<any> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    return this.httpClient.put(`${this.apiPublication}/update`, formData, { headers });
+  }
 }
