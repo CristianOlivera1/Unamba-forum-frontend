@@ -7,7 +7,7 @@ import { HoverAvatarComponent } from '../../../home/components/hover-avatar/hove
 
 @Component({
   selector: 'app-suggestion',
-  imports: [CommonModule, HoverAvatarComponent],
+  imports: [CommonModule],
   templateUrl: './suggestion.component.html',
   styleUrl: './suggestion.component.css'
 })
@@ -22,57 +22,5 @@ export class SuggestionComponent {
 
   navigateToProfileUser(idUsuario: string) {
     this.router.navigate(['/profile', idUsuario]);
-  }
-
-  showHoverModal(userId: string, event: MouseEvent): void {
-    const target = event.target as HTMLElement;
-    if (!target) {
-      console.error('El elemento objetivo no es un HTMLElement.');
-      return;
-    }
-
-    const rect = target.getBoundingClientRect();
-    this.isHoverModalVisible = true;
-    this.isHovering = true;
-
-    this.hoverPosition = {
-      top: rect.top + window.scrollY + rect.height + 5,
-      left: rect.left + window.scrollX + rect.width / 2 - 160
-    };
-
-    this.profileService.getUserProfileHover(userId).subscribe({
-      next: (response: any) => {
-        if (response.type === 'success') {
-          this.hoverProfileData = response.data;
-        }
-      },
-      error: (error) => {
-        console.error('Error al cargar la información del perfil:', error);
-      }
-    });
-  }
-
-  hideHoverModal(): void {
-    this.isHovering = false;
-    setTimeout(() => {
-      if (!this.isHovering) {
-        this.isHoverModalVisible = false;
-        this.hoverProfileData = null;
-      }
-    }, 200);
-  }
-  
-  onModalMouseEnter(): void {
-    this.isHovering = true;
-  }
-
-  onModalMouseLeave(): void {
-    this.isHovering = false;
-    setTimeout(() => {
-      if (!this.isHovering) {
-        this.isHoverModalVisible = false;
-        this.hoverProfileData = null;
-      }
-    }, 200);
   }
 }

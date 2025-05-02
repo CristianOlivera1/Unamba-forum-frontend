@@ -1,38 +1,28 @@
 <header (click)="onClickOutside($event)">
   <nav class="flex items-center justify-between p-4 md:px-8" aria-label="Global">
-        <div class="flex md:flex-1">
+    <div class="flex md:flex-1">
 
       <a href="#" class="relative -m-1.5 p-1.5 md:flex">
 
-        <svg class="absolute opacity-30 -z-10" width="64" height="44" viewBox="0 0 64 44" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M6.03774 3.40015H43.5746C52.9851 3.40015 57.6903 3.40015 60.1045 6.46684C62.5187 9.53353 61.4141 14.1072 59.2049 23.2547L57.3113 31.0953C55.8849 37.0017 55.1717 39.9548 52.9835 41.6775C50.7953 43.4001 47.7572 43.4001 41.6811 43.4001H18.6889C10.0002 43.4001 5.65575 43.4001 3.24994 40.6039C0.844136 37.8077 1.49255 33.512 2.78937 24.9205L6.03774 3.40015Z"
-            stroke="currentColor" stroke-width="1.8" />
-          <path fill-rule="evenodd" clip-rule="evenodd"
-            d="M38.6865 11.6097L38.721 25.2129C38.5162 32.6571 32.6819 38.625 25.3382 38.6436C17.9281 38.6624 11.906 32.6337 11.8871 25.1777L11.8528 11.6778L18.5613 11.6607L18.5955 25.1607C18.605 28.8887 21.616 31.9031 25.321 31.8937C28.9613 31.8844 31.8878 28.907 32.0122 25.0727L31.9781 11.6267L38.6865 11.6097Z"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path
-            d="M38.8326 15.0135C40.4524 13.7238 45.018 12.3924 47.4644 14.8594C47.8399 15.34 48.4203 15.8841 48.7058 15.9072C52.1875 16.189 52.9931 12.0869 51.7517 11.0389C50.5104 9.99086 50.5104 9.99124 50.5104 9.99124C45.2674 5.24782 37.0587 7.67149 31.9378 11.0211" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M45.6169 21.0312C46.2691 20.9757 46.9233 21.112 47.499 21.4235C48.0747 21.7349 48.5468 22.2078 48.8572 22.784C49.1676 23.3602 49.3029 24.0147 49.2463 24.6667C49.1896 25.3188 48.9437 25.9401 48.5386 26.4542C48.1335 26.9683 47.5869 27.3528 46.9662 27.5603C46.3454 27.7679 45.6775 27.7894 45.0447 27.6224C44.4118 27.4553 43.8416 27.1069 43.4042 26.62C42.9668 26.1331 42.6812 25.529 42.5826 24.8819L42.5449 24.4356C42.5091 22.6866 43.8416 21.1814 45.6169 21.0312Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M32.0189 11.4984L31.9617 38.4765L38.6687 38.4907L38.7259 11.4908L32.0189 11.4766"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <svg class="absolute opacity-30 -z-10" width="64" height="44" viewBox="0 0 64 44" fill="none">
+          <use xlink:href="/assets/sprite.svg#logouffondo" />
         </svg>
 
         <svg width="64" height="44" viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path class="line"
-          d="M6.03774 3.40015H43.5746C52.9851 3.40015 57.6903 3.40015 60.1045 6.46684C62.5187 9.53353 61.4141 14.1072 59.2049 23.2547L57.3113 31.0953C55.8849 37.0017 55.1717 39.9548 52.9835 41.6775C50.7953 43.4001 47.7572 43.4001 41.6811 43.4001H18.6889C10.0002 43.4001 5.65575 43.4001 3.24994 40.6039C0.844136 37.8077 1.49255 33.512 2.78937 24.9205L6.03774 3.40015Z"
-          stroke="currentColor" stroke-width="1.8" />
-        <path class="line" fill-rule="evenodd" clip-rule="evenodd"
-          d="M38.6865 11.6097L38.721 25.2129C38.5162 32.6571 32.6819 38.625 25.3382 38.6436C17.9281 38.6624 11.906 32.6337 11.8871 25.1777L11.8528 11.6778L18.5613 11.6607L18.5955 25.1607C18.605 28.8887 21.616 31.9031 25.321 31.8937C28.9613 31.8844 31.8878 28.907 32.0122 25.0727L31.9781 11.6267L38.6865 11.6097Z"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <path class="line"
-          d="M38.8326 15.0135C40.4524 13.7238 45.018 12.3924 47.4644 14.8594C47.8399 15.34 48.4203 15.8841 48.7058 15.9072C52.1875 16.189 52.9931 12.0869 51.7517 11.0389C50.5104 9.99086 50.5104 9.99124 50.5104 9.99124C45.2674 5.24782 37.0587 7.67149 31.9378 11.0211" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <path class="line" fill-rule="evenodd" clip-rule="evenodd" d="M45.6169 21.0312C46.2691 20.9757 46.9233 21.112 47.499 21.4235C48.0747 21.7349 48.5468 22.2078 48.8572 22.784C49.1676 23.3602 49.3029 24.0147 49.2463 24.6667C49.1896 25.3188 48.9437 25.9401 48.5386 26.4542C48.1335 26.9683 47.5869 27.3528 46.9662 27.5603C46.3454 27.7679 45.6775 27.7894 45.0447 27.6224C44.4118 27.4553 43.8416 27.1069 43.4042 26.62C42.9668 26.1331 42.6812 25.529 42.5826 24.8819L42.5449 24.4356C42.5091 22.6866 43.8416 21.1814 45.6169 21.0312Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path class="line" d="M32.0189 11.4984L31.9617 38.4765L38.6687 38.4907L38.7259 11.4908L32.0189 11.4766"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            d="M6.03774 3.40015H43.5746C52.9851 3.40015 57.6903 3.40015 60.1045 6.46684C62.5187 9.53353 61.4141 14.1072 59.2049 23.2547L57.3113 31.0953C55.8849 37.0017 55.1717 39.9548 52.9835 41.6775C50.7953 43.4001 47.7572 43.4001 41.6811 43.4001H18.6889C10.0002 43.4001 5.65575 43.4001 3.24994 40.6039C0.844136 37.8077 1.49255 33.512 2.78937 24.9205L6.03774 3.40015Z"
+            stroke="currentColor" stroke-width="1.8" />
+          <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+            d="M38.6865 11.6097L38.721 25.2129C38.5162 32.6571 32.6819 38.625 25.3382 38.6436C17.9281 38.6624 11.906 32.6337 11.8871 25.1777L11.8528 11.6778L18.5613 11.6607L18.5955 25.1607C18.605 28.8887 21.616 31.9031 25.321 31.8937C28.9613 31.8844 31.8878 28.907 32.0122 25.0727L31.9781 11.6267L38.6865 11.6097Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path class="line"
+            d="M38.8326 15.0135C40.4524 13.7238 45.018 12.3924 47.4644 14.8594C47.8399 15.34 48.4203 15.8841 48.7058 15.9072C52.1875 16.189 52.9931 12.0869 51.7517 11.0389C50.5104 9.99086 50.5104 9.99124 50.5104 9.99124C45.2674 5.24782 37.0587 7.67149 31.9378 11.0211"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+            d="M45.6169 21.0312C46.2691 20.9757 46.9233 21.112 47.499 21.4235C48.0747 21.7349 48.5468 22.2078 48.8572 22.784C49.1676 23.3602 49.3029 24.0147 49.2463 24.6667C49.1896 25.3188 48.9437 25.9401 48.5386 26.4542C48.1335 26.9683 47.5869 27.3528 46.9662 27.5603C46.3454 27.7679 45.6775 27.7894 45.0447 27.6224C44.4118 27.4553 43.8416 27.1069 43.4042 26.62C42.9668 26.1331 42.6812 25.529 42.5826 24.8819L42.5449 24.4356C42.5091 22.6866 43.8416 21.1814 45.6169 21.0312Z"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path class="line" d="M32.0189 11.4984L31.9617 38.4765L38.6687 38.4907L38.7259 11.4908L32.0189 11.4766"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
         <h1 class="font-display text-[1.70rem] font-black italic hidden md:flex my-1">
           Unamba <span class="relative bg-white px-2 text-[#155FFC]" style="
@@ -53,9 +43,7 @@
         <button type="button" class="flex items-center gap-x-1 text-sm font-semibold">
           Carreras
           <svg class="size-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd"
-              d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-              clip-rule="evenodd" />
+            <use xlink:href="/assets/sprite.svg#arrowbottom" />
           </svg>
         </button>
 
@@ -106,26 +94,17 @@
             <ul>
               <li>
                 <a (click)="navigateToProfileUser(userProfile.idUsuario)"
-                  class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-900 text-sm" href="javascript:;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                      stroke-width="2">
-                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </g>
+                  class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-900 text-sm">
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="/assets/sprite.svg#user" />
                   </svg>
                   Perfil
                 </a>
               </li>
               <li>
-                <a class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-900 text-sm"
-                  href="javascript:;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                      stroke-width="2">
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M12 16v-4m0-4h.01" />
-                    </g>
+                <a class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-900 text-sm">
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="/assets/sprite.svg#aboutme" />
                   </svg>
                   Sobre nosotros
                 </a>
@@ -133,13 +112,8 @@
               <li>
                 <a class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-900 text-sm"
                   href="javascript:;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
-                      <path
-                        d="M11.199 2.587a1.65 1.65 0 0 1 1.602 0l7.2 4c.524.291.849.843.849 1.443v7.94c0 .6-.325 1.152-.849 1.443l-7.2 4a1.65 1.65 0 0 1-1.602 0l-7.2-4a1.65 1.65 0 0 1-.849-1.443V8.03c0-.6.325-1.152.849-1.443zm.874 1.312a.15.15 0 0 0-.146 0l-7.2 4a.15.15 0 0 0-.077.13v7.942c0 .054.03.104.077.13l7.2 4a.15.15 0 0 0 .146 0l7.2-4a.15.15 0 0 0 .077-.13V8.03a.15.15 0 0 0-.077-.131z" />
-                      <path
-                        d="M7.25 12a4.75 4.75 0 1 1 9.5 0a4.75 4.75 0 0 1-9.5 0M12 8.75a3.25 3.25 0 1 0 0 6.5a3.25 3.25 0 0 0 0-6.5" />
-                    </g>
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="/assets/sprite.svg#configuration" />
                   </svg>
                   Configuración
                 </a>
@@ -147,9 +121,8 @@
               <li>
                 <a class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-red-700 text-sm border-t border-gray-200"
                   (click)="logOut()">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="#DF3636"
-                      d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h6q.425 0 .713.288T12 4t-.288.713T11 5H5v14h6q.425 0 .713.288T12 20t-.288.713T11 21zm12.175-8H10q-.425 0-.712-.288T9 12t.288-.712T10 11h7.175L15.3 9.125q-.275-.275-.275-.675t.275-.7t.7-.313t.725.288L20.3 11.3q.3.3.3.7t-.3.7l-3.575 3.575q-.3.3-.712.288t-.713-.313q-.275-.3-.262-.712t.287-.688z" />
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="/assets/sprite.svg#goout" />
                   </svg>
                   Cerrar sesión
                 </a>
@@ -191,28 +164,30 @@
     </div>
   </nav>
 </header>
-<!-- Moviles -->
 
+<!-- Moviles -->
 <div *ngIf="menuAbierto" class="md:hidden fixed inset-0 z-50 bg-black/50" (click)="toggleMenu()"></div>
 
 <div *ngIf="menuAbierto"
   class="md:hidden fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white px-6 py-6 overflow-y-auto" #menuMovil>
   <div class="flex items-center justify-between">
     <a href="#" class="-m-1.5 p-1.5 flex">
-      
+
       <svg width="64" height="44" viewBox="0 0 64 44" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path class="line"
-        d="M6.03774 3.40015H43.5746C52.9851 3.40015 57.6903 3.40015 60.1045 6.46684C62.5187 9.53353 61.4141 14.1072 59.2049 23.2547L57.3113 31.0953C55.8849 37.0017 55.1717 39.9548 52.9835 41.6775C50.7953 43.4001 47.7572 43.4001 41.6811 43.4001H18.6889C10.0002 43.4001 5.65575 43.4001 3.24994 40.6039C0.844136 37.8077 1.49255 33.512 2.78937 24.9205L6.03774 3.40015Z"
-        stroke="currentColor" stroke-width="1.8" />
-      <path class="line" fill-rule="evenodd" clip-rule="evenodd"
-        d="M38.6865 11.6097L38.721 25.2129C38.5162 32.6571 32.6819 38.625 25.3382 38.6436C17.9281 38.6624 11.906 32.6337 11.8871 25.1777L11.8528 11.6778L18.5613 11.6607L18.5955 25.1607C18.605 28.8887 21.616 31.9031 25.321 31.8937C28.9613 31.8844 31.8878 28.907 32.0122 25.0727L31.9781 11.6267L38.6865 11.6097Z"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-      <path class="line"
-        d="M38.8326 15.0135C40.4524 13.7238 45.018 12.3924 47.4644 14.8594C47.8399 15.34 48.4203 15.8841 48.7058 15.9072C52.1875 16.189 52.9931 12.0869 51.7517 11.0389C50.5104 9.99086 50.5104 9.99124 50.5104 9.99124C45.2674 5.24782 37.0587 7.67149 31.9378 11.0211" stroke="currentColor"
-        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <path class="line" fill-rule="evenodd" clip-rule="evenodd" d="M45.6169 21.0312C46.2691 20.9757 46.9233 21.112 47.499 21.4235C48.0747 21.7349 48.5468 22.2078 48.8572 22.784C49.1676 23.3602 49.3029 24.0147 49.2463 24.6667C49.1896 25.3188 48.9437 25.9401 48.5386 26.4542C48.1335 26.9683 47.5869 27.3528 46.9662 27.5603C46.3454 27.7679 45.6775 27.7894 45.0447 27.6224C44.4118 27.4553 43.8416 27.1069 43.4042 26.62C42.9668 26.1331 42.6812 25.529 42.5826 24.8819L42.5449 24.4356C42.5091 22.6866 43.8416 21.1814 45.6169 21.0312Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <path class="line" d="M32.0189 11.4984L31.9617 38.4765L38.6687 38.4907L38.7259 11.4908L32.0189 11.4766"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          d="M6.03774 3.40015H43.5746C52.9851 3.40015 57.6903 3.40015 60.1045 6.46684C62.5187 9.53353 61.4141 14.1072 59.2049 23.2547L57.3113 31.0953C55.8849 37.0017 55.1717 39.9548 52.9835 41.6775C50.7953 43.4001 47.7572 43.4001 41.6811 43.4001H18.6889C10.0002 43.4001 5.65575 43.4001 3.24994 40.6039C0.844136 37.8077 1.49255 33.512 2.78937 24.9205L6.03774 3.40015Z"
+          stroke="currentColor" stroke-width="1.8" />
+        <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+          d="M38.6865 11.6097L38.721 25.2129C38.5162 32.6571 32.6819 38.625 25.3382 38.6436C17.9281 38.6624 11.906 32.6337 11.8871 25.1777L11.8528 11.6778L18.5613 11.6607L18.5955 25.1607C18.605 28.8887 21.616 31.9031 25.321 31.8937C28.9613 31.8844 31.8878 28.907 32.0122 25.0727L31.9781 11.6267L38.6865 11.6097Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="line"
+          d="M38.8326 15.0135C40.4524 13.7238 45.018 12.3924 47.4644 14.8594C47.8399 15.34 48.4203 15.8841 48.7058 15.9072C52.1875 16.189 52.9931 12.0869 51.7517 11.0389C50.5104 9.99086 50.5104 9.99124 50.5104 9.99124C45.2674 5.24782 37.0587 7.67149 31.9378 11.0211"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="line" fill-rule="evenodd" clip-rule="evenodd"
+          d="M45.6169 21.0312C46.2691 20.9757 46.9233 21.112 47.499 21.4235C48.0747 21.7349 48.5468 22.2078 48.8572 22.784C49.1676 23.3602 49.3029 24.0147 49.2463 24.6667C49.1896 25.3188 48.9437 25.9401 48.5386 26.4542C48.1335 26.9683 47.5869 27.3528 46.9662 27.5603C46.3454 27.7679 45.6775 27.7894 45.0447 27.6224C44.4118 27.4553 43.8416 27.1069 43.4042 26.62C42.9668 26.1331 42.6812 25.529 42.5826 24.8819L42.5449 24.4356C42.5091 22.6866 43.8416 21.1814 45.6169 21.0312Z"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path class="line" d="M32.0189 11.4984L31.9617 38.4765L38.6687 38.4907L38.7259 11.4908L32.0189 11.4766"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
       <h1 class="font-display text-[1.70rem] font-black italic my-1">
         Unamba <span class="relative bg-[#155FFC] px-2 text-white" style="
@@ -256,9 +231,7 @@
             aria-controls="disclosure-1" aria-expanded="false">
             Carreras
             <svg class="size-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-              <path fill-rule="evenodd"
-                d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
-                clip-rule="evenodd" />
+              <use xlink:href="/assets/sprite.svg#arrowbottom" />
             </svg>
           </button>
 
@@ -290,7 +263,6 @@
             <span class="font-medium">{{ userProfile?.nombre }} {{ userProfile?.apellidos }}</span>
           </div>
         </ng-container>
-
       </div>
 
     </div>

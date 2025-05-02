@@ -1,11 +1,7 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { Router } from 'express';
-import { ModalLoginService } from '../../../core/services/modal/modalLogin.service';
-import { GoogleAuthService } from '../../../core/services/oauth/google-auth.service';
-import { LoginService } from '../../../core/services/oauth/login.service';
+import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../../../core/services/oauth/token.service';
 import { ModalInfoCompleteService } from '../../../core/services/modal/modalCompleteInfo.service';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { CareerService } from '../../../core/services/career/career.service';
 import { FormsModule } from '@angular/forms';
 import { ProfileService } from '../../../core/services/profile/profile.service';

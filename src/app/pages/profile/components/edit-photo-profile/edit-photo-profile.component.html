@@ -4,14 +4,13 @@
       'bg-red-50 text-red-800': alert.type === 'error',
       'bg-yellow-50 text-yellow-800': alert.type === 'warning'
     }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg" role="alert">
-      <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2"
         fill="currentColor" viewBox="0 0 20 20">
-        <path d="M10 0a10 10 0 1 0 10 10A10 10 0 0 0 10 0Zm1 15H9v-2h2Zm0-4H9V5h2Z" />
+        <use xlink:href="/assets/sprite.svg#error" />
       </svg>
-      <svg *ngIf="alert.type === 'warning'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      <svg *ngIf="alert.type === 'warning'" class="shrink-0 w-6 h-6 mr-2"
         fill="currentColor" viewBox="0 0 20 20">
-        <path
-          d="M8.257 3.099c.765-1.36 2.721-1.36 3.486 0l6.518 11.6c.75 1.336-.213 3-1.743 3H3.482c-1.53 0-2.493-1.664-1.743-3l6.518-11.6ZM11 14a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-1-2a1 1 0 0 0 1-1V8a1 1 0 0 0-2 0v3a1 1 0 0 0 1 1Z" />
+        <use xlink:href="/assets/sprite.svg#alert" />
       </svg>
       <span class="text-sm font-medium">{{ alert.message }}</span>
     </div>
@@ -20,7 +19,9 @@
     <div class="flex items-center justify-between mb-2">
       <h2 class="text-xl font-semibold text-gray-800">Editar foto de perfil</h2>
       <button (click)="closeModal()" class="text-gray-500 hover:text-gray-700 text-xl font-bold">
-        ✕
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <use xlink:href="/assets/sprite.svg#close"/>
+        </svg>
       </button>
     </div>
 
@@ -36,9 +37,8 @@
       <button (click)="deletePhoto()"
         class="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white text-xs p-1 rounded-sm"
         title="Eliminar foto">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-          <path fill="currentColor"
-            d="M10 5h4a2 2 0 1 0-4 0M8.5 5a3.5 3.5 0 1 1 7 0h5.75a.75.75 0 0 1 0 1.5h-1.32l-1.17 12.111A3.75 3.75 0 0 1 15.026 22H8.974a3.75 3.75 0 0 1-3.733-3.389L4.07 6.5H2.75a.75.75 0 0 1 0-1.5zm2 4.75a.75.75 0 0 0-1.5 0v7.5a.75.75 0 0 0 1.5 0zM14.25 9a.75.75 0 0 1 .75.75v7.5a.75.75 0 0 1-1.5 0v-7.5a.75.75 0 0 1 .75-.75m-7.516 9.467a2.25 2.25 0 0 0 2.24 2.033h6.052a2.25 2.25 0 0 0 2.24-2.033L18.424 6.5H5.576z" />
+        <svg width="24" height="24" viewBox="0 0 24 24">
+          <use xlink:href="/assets/sprite.svg#delete"/>
         </svg>
       </button>
     </div>
@@ -47,7 +47,61 @@
     <div id="dropzone"
       class="dropzone mb-6 border border-dashed border-gray-300 rounded-md p-6 hover:border-gray-400 hover:bg-gray-50 transition cursor-pointer">
       <div class="dz-default dz-message text-lg mb-5 flex flex-col items-center justify-center text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"><mask id="lineMdCloudAltUploadFilledLoop0"><g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="64" stroke-dashoffset="64" d="M7 19h11c2.21 0 4 -1.79 4 -4c0 -2.21 -1.79 -4 -4 -4h-1v-1c0 -2.76 -2.24 -5 -5 -5c-2.42 0 -4.44 1.72 -4.9 4h-0.1c-2.76 0 -5 2.24 -5 5c0 2.76 2.24 5 5 5Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="64;0"/><set fill="freeze" attributeName="opacity" begin="0.7s" to="0"/></path><g fill="#fff" stroke="none" opacity="0"><circle cx="12" cy="10" r="6"><animate attributeName="cx" begin="0.7s" dur="30s" repeatCount="indefinite" values="12;11;12;13;12"/></circle><rect width="9" height="8" x="8" y="12"/><rect width="15" height="12" x="1" y="8" rx="6"><animate attributeName="x" begin="0.7s" dur="21s" repeatCount="indefinite" values="1;0;1;2;1"/></rect><rect width="13" height="10" x="10" y="10" rx="5"><animate attributeName="x" begin="0.7s" dur="17s" repeatCount="indefinite" values="10;9;10;11;10"/></rect><set fill="freeze" attributeName="opacity" begin="0.7s" to="1"/></g><g fill="#000" fill-opacity="0" stroke="none"><circle cx="12" cy="10" r="4"><animate attributeName="cx" begin="0.7s" dur="30s" repeatCount="indefinite" values="12;11;12;13;12"/></circle><rect width="9" height="6" x="8" y="12"/><rect width="11" height="8" x="3" y="10" rx="4"><animate attributeName="x" begin="0.7s" dur="21s" repeatCount="indefinite" values="3;2;3;4;3"/></rect><rect width="9" height="6" x="12" y="12" rx="3"><animate attributeName="x" begin="0.7s" dur="17s" repeatCount="indefinite" values="12;11;12;13;12"/></rect><set fill="freeze" attributeName="fill-opacity" begin="0.7s" to="1"/><animate fill="freeze" attributeName="opacity" begin="0.7s" dur="0.5s" values="1;0"/></g><g fill="#000" stroke="none"><path d="M10 17h4v0h-4z"><animate fill="freeze" attributeName="d" begin="1.3s" dur="0.2s" values="M10 17h4v0h-4z;M10 17h4v-5h-4z"/></path><path d="M7 13h10l-5 0z"><animate fill="freeze" attributeName="d" begin="1.5s" dur="0.1s" values="M7 13h10l-5 0z;M7 13h10l-5 -5z"/><animateMotion begin="1.6s" calcMode="linear" dur="1.5s" keyPoints="0;0.25;0.5;0.75;1" keyTimes="0;0.1;0.5;0.8;1" path="M0 0v-1v2z" repeatCount="indefinite"/></path></g></g></mask><rect width="24" height="24" fill="#0049ff" mask="url(#lineMdCloudAltUploadFilledLoop0)"/></svg>
+        <svg width="64" height="64" viewBox="0 0 24 24">
+          <mask id="lineMdCloudAltUploadFilledLoop0">
+            <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <path stroke-dasharray="64" stroke-dashoffset="64"
+                d="M7 19h11c2.21 0 4 -1.79 4 -4c0 -2.21 -1.79 -4 -4 -4h-1v-1c0 -2.76 -2.24 -5 -5 -5c-2.42 0 -4.44 1.72 -4.9 4h-0.1c-2.76 0 -5 2.24 -5 5c0 2.76 2.24 5 5 5Z">
+                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="64;0" />
+                <set fill="freeze" attributeName="opacity" begin="0.7s" to="0" />
+              </path>
+              <g fill="#fff" stroke="none" opacity="0">
+                <circle cx="12" cy="10" r="6">
+                  <animate attributeName="cx" begin="0.7s" dur="30s" repeatCount="indefinite"
+                    values="12;11;12;13;12" />
+                </circle>
+                <rect width="9" height="8" x="8" y="12" />
+                <rect width="15" height="12" x="1" y="8" rx="6">
+                  <animate attributeName="x" begin="0.7s" dur="21s" repeatCount="indefinite" values="1;0;1;2;1" />
+                </rect>
+                <rect width="13" height="10" x="10" y="10" rx="5">
+                  <animate attributeName="x" begin="0.7s" dur="17s" repeatCount="indefinite" values="10;9;10;11;10" />
+                </rect>
+                <set fill="freeze" attributeName="opacity" begin="0.7s" to="1" />
+              </g>
+              <g fill="#000" fill-opacity="0" stroke="none">
+                <circle cx="12" cy="10" r="4">
+                  <animate attributeName="cx" begin="0.7s" dur="30s" repeatCount="indefinite"
+                    values="12;11;12;13;12" />
+                </circle>
+                <rect width="9" height="6" x="8" y="12" />
+                <rect width="11" height="8" x="3" y="10" rx="4">
+                  <animate attributeName="x" begin="0.7s" dur="21s" repeatCount="indefinite" values="3;2;3;4;3" />
+                </rect>
+                <rect width="9" height="6" x="12" y="12" rx="3">
+                  <animate attributeName="x" begin="0.7s" dur="17s" repeatCount="indefinite"
+                    values="12;11;12;13;12" />
+                </rect>
+                <set fill="freeze" attributeName="fill-opacity" begin="0.7s" to="1" />
+                <animate fill="freeze" attributeName="opacity" begin="0.7s" dur="0.5s" values="1;0" />
+              </g>
+              <g fill="#000" stroke="none">
+                <path d="M10 17h4v0h-4z">
+                  <animate fill="freeze" attributeName="d" begin="1.3s" dur="0.2s"
+                    values="M10 17h4v0h-4z;M10 17h4v-5h-4z" />
+                </path>
+                <path d="M7 13h10l-5 0z">
+                  <animate fill="freeze" attributeName="d" begin="1.5s" dur="0.1s"
+                    values="M7 13h10l-5 0z;M7 13h10l-5 -5z" />
+                  <animateMotion begin="1.6s" calcMode="linear" dur="1.5s" keyPoints="0;0.25;0.5;0.75;1"
+                    keyTimes="0;0.1;0.5;0.8;1" path="M0 0v-1v2z" repeatCount="indefinite" />
+                </path>
+              </g>
+            </g>
+          </mask>
+          <rect width="24" height="24" fill="#0049ff" mask="url(#lineMdCloudAltUploadFilledLoop0)" />
+        </svg>
+     
         <div class="text-center">
           <p class="text-sm font-semibold text-gray-600">
            Arrastra una imagen o haz clic para subir
@@ -67,7 +121,9 @@
         <ng-container *ngIf="!isUpdateProfileInProgress">Guardar cambios</ng-container>
         <ng-container *ngIf="isUpdateProfileInProgress">
           Guardando...
-          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" data-icon="spin"><defs><linearGradient x1="0%" y1="100%" x2="100%" y2="100%" id="linearGradient-1"><stop stop-color="currentColor" stop-opacity="0" offset="0%"></stop><stop stop-color="currentColor" stop-opacity="0.50" offset="39.9430698%"></stop><stop stop-color="currentColor" offset="100%"></stop></linearGradient></defs><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect fill-opacity="0.01" fill="none" x="0" y="0" width="36" height="36"></rect><path d="M34,18 C34,9.163444 26.836556,2 18,2 C11.6597233,2 6.18078805,5.68784135 3.59122325,11.0354951" stroke="url(#linearGradient-1)" stroke-width="4" stroke-linecap="round"></path></g></svg>
+          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true" data-icon="spin"> 
+              <use xlink:href="/assets/sprite.svg#spinner" />
+          </svg>
         </ng-container>
       </button>
     </div>
