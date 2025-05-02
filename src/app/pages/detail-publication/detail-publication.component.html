@@ -63,12 +63,9 @@
                   <a class="flex items-center gap-2" (click)="navigateToProfileUser(publication.idUsuario)">
                     <p class="font-semibold text-gray-800 text-sm">{{ publication.nombreCompleto }}</p>
                     <ng-container *ngIf="publication.tipoRol === 'ADMINISTRADOR'">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                        <title>Usuario administrador</title>
-                        <path fill="#2b7fff" fill-rule="evenodd"
-                          d="M21.007 8.27C22.194 9.125 23 10.45 23 12s-.806 2.876-1.993 3.73c.24 1.442-.134 2.958-1.227 4.05c-1.095 1.095-2.61 1.459-4.046 1.225C14.883 22.196 13.546 23 12 23c-1.55 0-2.878-.807-3.731-1.996c-1.438.235-2.954-.128-4.05-1.224c-1.095-1.095-1.459-2.611-1.217-4.05C1.816 14.877 1 13.551 1 12s.816-2.878 2.002-3.73c-.242-1.439.122-2.955 1.218-4.05c1.093-1.094 2.61-1.467 4.057-1.227C9.125 1.804 10.453 1 12 1c1.545 0 2.88.803 3.732 1.993c1.442-.24 2.956.135 4.048 1.227s1.468 2.608 1.227 4.05m-4.426-.084a1 1 0 0 1 .233 1.395l-5 7a1 1 0 0 1-1.521.126l-3-3a1 1 0 0 1 1.414-1.414l2.165 2.165l4.314-6.04a1 1 0 0 1 1.395-.232"
-                          clip-rule="evenodd" />
-                      </svg>
+                      <svg width="20" height="20" viewBox="0 0 24 24">
+                        <use xlink:href="/assets/sprite.svg#verified" />
+                    </svg>
                     </ng-container>
                   </a>
                   <p class="text-xs text-gray-500">{{ publication.nombreCarrera }} &nbsp;•&nbsp; hace {{
@@ -81,11 +78,9 @@
                 }}</span>
               <!-- Mostrar ícono de publicación fijada -->
               <div *ngIf="publication.fijada" class="text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-                  <title>Publicacion fijada</title>
-                  <path fill="currentColor"
-                    d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479c-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A6 6 0 0 1 5 6.708V2.277a3 3 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354" />
-                </svg>
+                <svg width="16" height="16" viewBox="0 0 16 16" >
+                  <use xlink:href="/assets/sprite.svg#fixed" />
+              </svg>
               </div>
               <div class="relative inline-block text-left"
                 *ngIf="isCurrentUserAdmin || publication.idUsuario === currentUserId">
@@ -96,11 +91,10 @@
                       'text-gray-600 bg-gray-200': publication.isDropdownVisible
                     }" 
                     aria-expanded="true" aria-haspopup="true" (click)="toggleDropdown(publication)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0m7 0a1 1 0 1 0 2 0a1 1 0 1 0-2 0" />
-                    </svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" >
+                      <use xlink:href="/assets/sprite.svg#threedots" />
+                  </svg>
+                
                   </button>
                 </div>
                 <div *ngIf="publication.isDropdownVisible"
@@ -172,10 +166,9 @@
                 <div
                   class="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                   <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                  </svg>
+                  stroke="currentColor" aria-hidden="true">
+                    <use xlink:href="/assets/sprite.svg#alert" />
+                </svg>
                 </div>
                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <h3 class="text-base font-semibold text-gray-900" id="modal-title">Eliminar publicación</h3>

@@ -75,16 +75,7 @@ export class DetailPublicationComponent implements OnInit {
     this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
     this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
 
-    this.rolService.getRolByUserId(this.currentUserId!).subscribe({
-      next: (response: any) => {
-        if (response.type === 'success') {
-          this.isCurrentUserAdmin = response.data.tipo === 'ADMINISTRADOR';
-        }
-      },
-      error: (error) => {
-        console.error('Error al verificar el rol del usuario actual:', error);
-      }
-    });
+    this.checkIfCurrentUserIsAdmin();
 
     this.route.params.subscribe((params) => {
       const idPublicacion = params['idPublicacion'];
@@ -104,8 +95,21 @@ export class DetailPublicationComponent implements OnInit {
       }
     });
   }
-
+  checkIfCurrentUserIsAdmin(): void {
+    this.rolService.getRolByUserId(this.currentUserId!).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.isCurrentUserAdmin = response.data.tipo === 'ADMINISTRADOR';
+        }
+      },
+      error: (error) => {
+        console.error('Error al verificar el rol del usuario actual:', error);
+      }
+    });
+  }
   toggleFixPublication(publication: Publication): void {
+    publication.isDropdownVisible = false;
+
     const dtoFixPublication = {
       idPublicacion: publication.idPublicacion,
       fijada: !publication.fijada // Cambiar el estado actual
@@ -345,6 +349,7 @@ export class DetailPublicationComponent implements OnInit {
   }
 
   openDeleteModal(publication: Publication): void {
+    publication.isDropdownVisible = false;
     this.isDeleteModalVisible = true;
     this.publicationToDelete = publication;
   }
@@ -370,7 +375,6 @@ export class DetailPublicationComponent implements OnInit {
     }
   }
 
-
   goBack(): void {
     this.location.back();
   }
@@ -392,8 +396,11 @@ export class DetailPublicationComponent implements OnInit {
       this.alert = null;
     }, 5000);
   }
-
   navigateToEditPublication(idPublicacion: string) {
+    const publication = this.publications.find(p => p.idPublicacion === idPublicacion);
+    if (publication) {
+      publication.isDropdownVisible = false;
+    }
     this.router.navigate(['/editpublication', idPublicacion]);
   }
 }
