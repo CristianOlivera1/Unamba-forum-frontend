@@ -13,6 +13,9 @@
   --color-subtitle: #1e2939;
   --font-display: 'Playfair Display';
   --font-system: 'system-ui';
+  --font-caveat: 'Caveat';
+  --font-decog: 'Decog';
+  --font-deezer: 'Deezer';
 }
 
 body {
@@ -35,27 +38,12 @@ button {
   overflow: hidden;
 }
 
-/*Loader spinner*/
-.spinner {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .hover-img-avatar {
   transition: opacity 0.4s ease-in-out;
 }
 
 .hover-img-avatar:hover {
-  opacity: 0.8; 
+  opacity: 0.8;
 }
 
 /*Check*/
@@ -84,41 +72,50 @@ button {
 }
 
 @keyframes outline {
-from {
-  stroke-dasharray: 0, 345.576px;
-}
-to {
-  stroke-dasharray: 345.576px, 345.576px;
-}
-}
-@keyframes circle {
-from {
-  transform: scale(1);
-}
-to {
-  transform: scale(0);
-}
-}
-@keyframes check {
-from {
-  stroke-dasharray: 0, 75px;
-}
-to {
-  stroke-dasharray: 75px, 75px;
-}
-}
-@keyframes check-group {
-from {
-  transform: scale(1);
-}
-50% {
-  transform: scale(1.09);
-}
-to {
-  transform: scale(1);
-}
+  from {
+    stroke-dasharray: 0, 345.576px;
+  }
+
+  to {
+    stroke-dasharray: 345.576px, 345.576px;
+  }
 }
 
+@keyframes circle {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(0);
+  }
+}
+
+@keyframes check {
+  from {
+    stroke-dasharray: 0, 75px;
+  }
+
+  to {
+    stroke-dasharray: 75px, 75px;
+  }
+}
+
+@keyframes check-group {
+  from {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.09);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+/*Marcar sintaxis markdown en el contenido*/
 .contenido-publicacion h1 {
   font-size: 1.2rem;
   font-weight: bold;
@@ -134,15 +131,19 @@ to {
 .contenido-publicacion p {
   margin-bottom: 0.1rem;
 }
-.contenido-publicacion ol{
+
+.contenido-publicacion ol {
   list-style-type: decimal;
 
 }
-.contenido-publicacion ul{
+
+.contenido-publicacion ul {
   list-style-type: disc;
 
 }
-.contenido-publicacion ol, .contenido-publicacion ul {
+
+.contenido-publicacion ol,
+.contenido-publicacion ul {
   margin-left: 1.5rem;
   margin-bottom: 1rem;
 }
@@ -154,7 +155,58 @@ to {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
-  -ms-overflow-style: none; 
-  scrollbar-width: none; 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/*Fuente personalizadas*/
+@font-face {
+  font-family: 'Caveat';
+  src: url('/assets/fonts/caveat/Caveat.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Decog';
+  src: url('/assets/fonts/decog/decog.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 900;
+}
+
+@font-face{
+  font-family:'Deezer';
+  src: url('/assets/fonts/deezerproduct/DeezerProduct-Bold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: bold;
+}
+
+@font-face{
+  font-family:'Deezer';
+  src: url('/assets/fonts/deezerproduct/DeezerProduct-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face{
+  font-family:'Deezer';
+  src: url('/assets/fonts/deezerproduct/DeezerProduct-Medium.woff2') format('woff2');
+  font-style: normal;
+  font-weight: medium;
+}
+
+@font-face{
+  font-family:'Deezer';
+  src: url('/assets/fonts/deezerproduct/DeezerProduct-Light.woff2') format('woff2');
+  font-style: normal;
+  font-weight: light;
+}
+
+@font-face{
+  font-family:'Deezer';
+  src: url('/assets/fonts/deezerproduct/DeezerProduct-Extrabold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 900;
 }
