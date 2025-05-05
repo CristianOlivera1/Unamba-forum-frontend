@@ -4,7 +4,7 @@
     <div *ngIf="alert" [ngClass]="{
         'bg-red-50 text-red-800': alert.type === 'error',
         'bg-yellow-50 text-yellow-800': alert.type === 'warning'
-      }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg" role="alert">
+      }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg w-auto" role="alert">
       <svg *ngIf="alert.type === 'warning'" class="shrink-0 w-6 h-6 mr-2"
         fill="currentColor" viewBox="0 0 20 20">
         <use xlink:href="/assets/sprite.svg#alert" />
@@ -48,7 +48,58 @@
     <div id="dropzone" class="dropzone mb-6 border border-dashed border-gray-300 rounded-md p-6 hover:border-gray-400 transition cursor-pointer">
       <div class="dz-default dz-message text-lg mb-5 flex flex-col items-center justify-center text-center">
         <svg width="64" height="64" viewBox="0 0 24 24">
-            <use xlink:href="/assets/sprite.svg#uploadfile" />
+          <mask id="lineMdCloudAltUploadFilledLoop0">
+            <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <path stroke-dasharray="64" stroke-dashoffset="64"
+                d="M7 19h11c2.21 0 4 -1.79 4 -4c0 -2.21 -1.79 -4 -4 -4h-1v-1c0 -2.76 -2.24 -5 -5 -5c-2.42 0 -4.44 1.72 -4.9 4h-0.1c-2.76 0 -5 2.24 -5 5c0 2.76 2.24 5 5 5Z">
+                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.6s" values="64;0" />
+                <set fill="freeze" attributeName="opacity" begin="0.7s" to="0" />
+              </path>
+              <g fill="#fff" stroke="none" opacity="0">
+                <circle cx="12" cy="10" r="6">
+                  <animate attributeName="cx" begin="0.7s" dur="30s" repeatCount="indefinite"
+                    values="12;11;12;13;12" />
+                </circle>
+                <rect width="9" height="8" x="8" y="12" />
+                <rect width="15" height="12" x="1" y="8" rx="6">
+                  <animate attributeName="x" begin="0.7s" dur="21s" repeatCount="indefinite" values="1;0;1;2;1" />
+                </rect>
+                <rect width="13" height="10" x="10" y="10" rx="5">
+                  <animate attributeName="x" begin="0.7s" dur="17s" repeatCount="indefinite" values="10;9;10;11;10" />
+                </rect>
+                <set fill="freeze" attributeName="opacity" begin="0.7s" to="1" />
+              </g>
+              <g fill="#000" fill-opacity="0" stroke="none">
+                <circle cx="12" cy="10" r="4">
+                  <animate attributeName="cx" begin="0.7s" dur="30s" repeatCount="indefinite"
+                    values="12;11;12;13;12" />
+                </circle>
+                <rect width="9" height="6" x="8" y="12" />
+                <rect width="11" height="8" x="3" y="10" rx="4">
+                  <animate attributeName="x" begin="0.7s" dur="21s" repeatCount="indefinite" values="3;2;3;4;3" />
+                </rect>
+                <rect width="9" height="6" x="12" y="12" rx="3">
+                  <animate attributeName="x" begin="0.7s" dur="17s" repeatCount="indefinite"
+                    values="12;11;12;13;12" />
+                </rect>
+                <set fill="freeze" attributeName="fill-opacity" begin="0.7s" to="1" />
+                <animate fill="freeze" attributeName="opacity" begin="0.7s" dur="0.5s" values="1;0" />
+              </g>
+              <g fill="#000" stroke="none">
+                <path d="M10 17h4v0h-4z">
+                  <animate fill="freeze" attributeName="d" begin="1.3s" dur="0.2s"
+                    values="M10 17h4v0h-4z;M10 17h4v-5h-4z" />
+                </path>
+                <path d="M7 13h10l-5 0z">
+                  <animate fill="freeze" attributeName="d" begin="1.5s" dur="0.1s"
+                    values="M7 13h10l-5 0z;M7 13h10l-5 -5z" />
+                  <animateMotion begin="1.6s" calcMode="linear" dur="1.5s" keyPoints="0;0.25;0.5;0.75;1"
+                    keyTimes="0;0.1;0.5;0.8;1" path="M0 0v-1v2z" repeatCount="indefinite" />
+                </path>
+              </g>
+            </g>
+          </mask>
+          <rect width="24" height="24" fill="#0049ff" mask="url(#lineMdCloudAltUploadFilledLoop0)" />
         </svg>
         <div class="text-center">
           <p class="text-sm font-semibold text-gray-600">
@@ -66,7 +117,7 @@
         <ng-container *ngIf="!isUpdateFrontPageInProgress">Guardar cambios</ng-container>
         <ng-container *ngIf="isUpdateFrontPageInProgress">
           Guardando... 
-          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true" data-icon="spin"> 
+          <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true" data-icon="spin"> 
                <use xlink:href="/assets/sprite.svg#spinner" />
           </svg>
         </ng-container>
