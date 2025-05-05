@@ -4,12 +4,10 @@ import { CareerService } from '../../../core/services/career/career.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { TokenService } from '../../../core/services/oauth/token.service';
 import { CustomValidators } from '../../../Validators/CustomValidators';
 import { isPlatformBrowser } from '@angular/common';
 import { GoogleAuthService } from '../../../core/services/oauth/google-auth.service';
-import { ModalInfoCompleteService } from '../../../core/services/modal/modalCompleteInfo.service';
 
 @Component({
   selector: 'app-register',
