@@ -74,7 +74,7 @@
 
         <div class=" flex items-center gap-4 relative">
           <img *ngIf="userProfile?.fotoPerfil" [src]="userProfile.fotoPerfil" alt="Foto de perfil"
-            class="w-12 h-12 rounded-full cursor-pointer hover-img-avatar" (click)="togglePopover()" />
+            class="w-12 h-12 rounded-full cursor-pointer hover-img-avatar object-cover" (click)="togglePopover()" />
           <!-- Menú desplegable -->
           <div *ngIf="showPopover" #popoverMenu
             class="absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-lg z-50 pt-2 pb-3">
@@ -244,7 +244,7 @@
                 <img [src]="c.logo" [alt]="c.nombre">
               </div>
               <div class="flex-auto">
-                <a class="block font-semibold text-gray-600 cursor-pointer" (click)="navigateToCareer(c.idCarrera)">
+                <a class="block font-semibold text-gray-600 cursor-pointer clamped" (click)="navigateToCareer(c.idCarrera)">
                   {{c.nombre}}
                   <span class="absolute inset-0"></span>
                 </a>
@@ -259,7 +259,7 @@
         <ng-container *ngIf="isLoggedIn">
           <div class="flex items-center gap-4">
             <img *ngIf="userProfile?.fotoPerfil" [src]="userProfile.fotoPerfil" alt="Foto de perfil"
-              class="w-10 h-10 rounded-full" />
+              class="w-10 h-10 rounded-full object-cover" />
             <span class="font-medium">{{ userProfile?.nombre }} {{ userProfile?.apellidos }}</span>
           </div>
         </ng-container>
