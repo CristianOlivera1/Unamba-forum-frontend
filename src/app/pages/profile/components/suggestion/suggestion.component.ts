@@ -23,4 +23,5 @@ export class SuggestionComponent {
   navigateToProfileUser(idUsuario: string) {
     this.router.navigate(['/profile', idUsuario]);
   }
+  
 }
