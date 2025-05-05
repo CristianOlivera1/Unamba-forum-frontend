@@ -1,38 +1,39 @@
 <app-header></app-header>
+<div *ngIf="alert" [ngClass]="{
+  'bg-green-50 text-green-800': alert.type === 'success',
+      'bg-red-50 text-red-800': alert.type === 'error',
+      'bg-yellow-50 text-yellow-800': alert.type === 'warning'
+    }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg z-50 w-auto" role="alert">
+  <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor" viewBox="0 0 20 20">
+    <path
+      d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
+  </svg>
+  <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+    <use xlink:href="/assets/sprite.svg#error" />
+  </svg>
+  <svg *ngIf="alert.type === 'warning'" class="shrink-0 w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+    <use xlink:href="/assets/sprite.svg#alert" />
+  </svg>
+  <span class="text-sm font-medium">{{ alert.message }}</span>
+</div>
 <div class="container mx-auto">
-
-  <div *ngIf="alert" [ngClass]="{
-    'bg-green-50 text-green-800': alert.type === 'success',
-    'bg-red-50 text-red-800': alert.type === 'error'
-  }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg" role="alert">
-    <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
-      fill="currentColor" viewBox="0 0 20 20">
-      <path
-        d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
-    </svg>
-    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
-      <use xlink:href="/assets/sprite.svg#error" />
-    </svg>
-    <span class="text-sm font-medium">{{ alert.message }}</span>
-  </div>
-
   <div (click)="openPhotoSlider([{ tipo: 'imagen', rutaArchivo: userProfile?.fotoPortada }], 0)"
-    class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl cursor-pointer"
+    class="relative bg-yellow-500 rounded-b-3xl h-65 md:rounded-b-2xl cursor-pointer z-10"
     [style.backgroundImage]="'url(' + userProfile?.fotoPortada + ')'"
     style="background-size: cover; background-position: center;">
     <button *ngIf="currentUserId === userId" (click)="openEditPhotoFrontPageModal(); $event.stopPropagation()"
       title="Editar foto de portada"
-      class="absolute top-28 right-8 bg-black-50 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 hover:bg-gray-700">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path
-          d="M15.232 5.232l3.536 3.536M9 11l6.536-6.536a2 2 0 112.828 2.828L11.828 13.828A4 4 0 019 15H5v-4a4 4 0 014-4z" />
+      class="absolute top-28 right-8 bg-black-50 text-white px-4 py-2 rounded-full text-sm flex items-center gap-2 hover:bg-black/70">
+      <svg width="24" height="24" viewBox="0 0 20 20">
+        <use xlink:href="/assets/sprite.svg#camerarelleno" />
       </svg>
       Editar portada
     </button>
   </div>
 
   <div
-    class="bg-white shadow-md rounded-xl p-10 -mt-23 mx-8 relative flex flex-col md:flex-row md:items-center justify-between gap-6">
+    class="bg-white shadow-md rounded-xl p-10 -mt-23 mx-8 relative flex flex-col md:flex-row md:items-center justify-between gap-6 z-20">
     <!-- Info usuario -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
       <div class="relative shrink-0">
@@ -45,8 +46,8 @@
             <button (click)="openEditPhotoModal()"
               class="w-7 h-7 flex items-center justify-center rounded-full bg-black hover:bg-black/70 transition"
               title="Editar foto de perfil">
-              <svg class="w-4 h-4" viewBox="0 0 32 32">
-                <use xlink:href="/assets/sprite.svg#editpencil"/>
+              <svg width="24" height="24" viewBox="0 0 20 20">
+                <use xlink:href="/assets/sprite.svg#camera" />
               </svg>
             </button>
           </div>
@@ -57,7 +58,7 @@
           <h2 class="text-xl font-semibold text-subtitle">{{ userProfile?.nombreCompleto }}</h2>
           <ng-container *ngIf="userProfile.rol === 'ADMINISTRADOR'">
             <svg width="20" height="20" viewBox="0 0 24 24">
-              <use xlink:href="/assets/sprite.svg#verified"/>
+              <use xlink:href="/assets/sprite.svg#verified" />
             </svg>
           </ng-container>
         </div>
@@ -76,8 +77,8 @@
       <button
         class="w-full justify-center bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2"
         title="Editar perfil">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <use xlink:href="/assets/sprite.svg#editpencil"/>
+        <svg class="w-4 h-4" viewBox="0 0 32 32">
+          <use xlink:href="/assets/sprite.svg#editpencil" />
         </svg>
         Editar perfil
       </button>
@@ -159,7 +160,7 @@
               'text-gray-600 bg-gray-200': publication.isDropdownVisible
             }" aria-expanded="true" aria-haspopup="true" (click)="toggleDropdown(publication)">
                 <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="/assets/sprite.svg#threedots"/>
+                  <use xlink:href="/assets/sprite.svg#threedots" />
                 </svg>
               </button>
             </div>
@@ -239,9 +240,9 @@
         <!-- Contenido publicación -->
         <div>
           <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
-            <h4 class="font-semibold truncate text-gray-900 text-sm">{{ publication.titulo }}</h4>
-            <p class="text-gray-600 text-sm mt-1 truncate w-80 sm:w-120 xl:w-100">
-              {{ publication.contenido }}
+            <h4 class="font-semibold truncate text-gray-900 text-sm w-80 sm:w-120 xl:w-100">{{ publication.titulo }}
+            </h4>
+            <p class="text-gray-600 text-sm mt-1 truncate w-80 sm:w-120 xl:w-100" [innerHTML]="publication.contenido">
             </p>
           </a>
         </div>
