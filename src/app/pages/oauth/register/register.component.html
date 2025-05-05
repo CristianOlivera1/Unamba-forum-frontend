@@ -3,7 +3,7 @@
   <div *ngIf="alert" [ngClass]="{
         'bg-green-50 text-green-800': alert.type === 'success',
         'bg-red-50 text-red-800': alert.type === 'error'
-      }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg" role="alert">
+      }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg w-auto" role="alert">
     <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
       fill="currentColor" viewBox="0 0 20 20">
       <path
