@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, OnInit, Output, signal, ViewChild } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 import { HeaderComponent } from '../../shared/components/header/header.component';
@@ -16,7 +16,9 @@ import { environment } from '../../../environments/environment';
   imports: [CommonModule, FormsModule, QuillModule, HeaderComponent, FooterComponent
   ],
   templateUrl: './new-publication.component.html',
-  styleUrl: './new-publication.component.css'
+  styleUrl: './new-publication.component.css',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+
 })
 export class NewPublicationComponent implements OnInit {
   category: any[] = [];
@@ -39,6 +41,8 @@ export class NewPublicationComponent implements OnInit {
   apiCat = environment.apiCat;
   isPublishing: boolean = false;
 
+  showEmojiPicker: boolean = false;
+
   alert: { type: 'success' | 'error' | 'warning'; message: string } | null = null;
   updateCharacterCount(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -48,11 +52,15 @@ export class NewPublicationComponent implements OnInit {
   }
 
   constructor(private http: HttpClient, private categoryService: CategoryService,
-    private tokenService: TokenService, private publicationService: PublicationService, private router: Router) { }
+    private tokenService: TokenService, private publicationService: PublicationService, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit(): void {
     this.getCategories();
     this.newPublicationData.idUsuario = this.tokenService.getUserId();
+
+    if (isPlatformBrowser(this.platformId)) {
+      import('emoji-picker-element');
+    }
   }
 
   getCategories(): void {
@@ -122,6 +130,16 @@ export class NewPublicationComponent implements OnInit {
 
       this.showToast(`${validFiles.length} archivo(s) cargado(s) con éxito.`, 'success');
     }
+  }
+
+  toggleEmojiPicker(): void {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any): void {
+    const emoji = event.detail.unicode;
+    this.newPublicationData.contenido += emoji;
+    this.showEmojiPicker = false;
   }
 
   addMedia(newMedia: File[]): void {
