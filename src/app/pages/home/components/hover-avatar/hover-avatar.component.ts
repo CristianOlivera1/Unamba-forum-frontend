@@ -18,17 +18,21 @@ export class HoverAvatarComponent implements OnChanges {
 
   constructor(private router: Router, private followService: FollowService,    private tokenService: TokenService
   ) {}
+  
   ngOnInit(): void {
     this.currentUserId = this.tokenService.getUserId();
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['profileData'] && changes['profileData'].currentValue) {
       this.checkIfFollowing();
     }
   }
+
   navigateToProfileUser(idPerfil: string) {
     this.router.navigate(['/profile', idPerfil]);
   }
+
   checkIfFollowing(): void {
     if (!this.currentUserId || !this.profileData?.idUsuario) return;
 
