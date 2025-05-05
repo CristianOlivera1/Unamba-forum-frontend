@@ -78,7 +78,7 @@ export class HeaderComponent implements OnInit {
   }
 
   loadUserProfile(): void {
-    const userId = this.extractUserIdFromToken();
+    const userId = this.tokenService.getUserId();
     if (userId) {
       this.profileService.getProfileByUserId(userId).subscribe(
         (response) => {
@@ -95,30 +95,23 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  extractUserIdFromToken(): string | null {
-    const token = this.tokenService.getToken();
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica el payload del JWT
-      return payload.idUsuario || null;
-    }
-    return null;
-  }
-
   logOut(): void {
     this.tokenService.logOut();
     this.isLoggedIn = false;
     this.userProfile = null;
     this.router.navigate(['/']);
   }
+  
   navigateToLogin(): void {
     window.location.href = '/login';
   }
+  
   navigateToRegister(): void {
     window.location.href = '/register';
   }
 
   navigateToCareer(idCarrera: string) {
-    this.router.navigate(['/carrera', idCarrera]);
+    this.router.navigate(['/career', idCarrera]);
   }
 
   showPopover=false;
