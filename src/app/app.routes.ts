@@ -12,14 +12,15 @@ import { PhotoSliderComponent } from './pages/home/components/photo-slider/photo
 import { EditPhotoProfileComponent } from './pages/profile/components/edit-photo-profile/edit-photo-profile.component';
 import { ModalFollowerComponent } from './pages/profile/components/modal-follower/modal-follower.component';
 import { NewPublicationComponent } from './pages/new-publication/new-publication.component';
-import { EditPublicationComponent } from './pages/home/edit-publication/edit-publication.component';
+import { EditPublicationComponent } from './pages/edit-publication/edit-publication.component';
+import { AboutMeComponent } from './pages/about-me/about-me.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent },
-    { path: 'carrera/:idCarrera', component: CareerComponent },
+    { path: 'career/:idCarrera', component: CareerComponent },
     { path: 'publication/:idPublicacion', component: DetailPublicationComponent },
     { path: 'profile/:idUsuario', component: ProfileComponent },
     { path: 'login2', component: LoginModalComponent },
@@ -32,7 +33,8 @@ export const routes: Routes = [
     { path: 'publication', component: DetailPublicationComponent },
     { path: 'newpublication', component: NewPublicationComponent },
     { path: 'editpublication/:idPublicacion', component: EditPublicationComponent },
+    { path: 'career', component: CareerComponent },
+    { path: 'aboutme', component: AboutMeComponent },
 
-    
     { path: '**', redirectTo: '' }
 ];
