@@ -108,7 +108,7 @@ export class PublicationWithFilesComponent implements OnInit {
     publication.isDropdownVisible = false;
     const dtoFixPublication = {
       idPublicacion: publication.idPublicacion,
-      fijada: !publication.fijada // Cambiar el estado actual
+      fijada: !publication.fijada
     };
   
     this.publicationService.fixPublication(dtoFixPublication).subscribe({
