@@ -1,0 +1,46 @@
+.green {
+    background-color: #a8d5ba;
+    background: radial-gradient(rgba(168, 213, 186, 1) 0%,
+            rgb(137, 179, 154) 100%);
+
+}
+
+.yellow {
+    background-color: #fff3b0;
+    background: radial-gradient(rgba(255, 243, 176, 1) 0%,
+            rgb(223, 212, 150) 100%);
+}
+
+.orange {
+    background-color: #ffc078;
+    background: radial-gradient(rgba(255, 192, 120, 1) 0%,
+            rgb(238, 179, 112) 100%);
+}
+
+.red {
+    background-color: #ff6b6b;
+    background: radial-gradient(rgba(255, 107, 107, 1) 0%,
+            rgb(252, 103, 103) 100%);
+
+}
+
+.bg-canva {
+    background: #00ffe1;
+    background: linear-gradient(90deg, rgba(2, 6, 23, 1)0%, rgba(2, 6, 23, 1) 16%, rgba(23, 2, 22, 1) 52%, rgba(2, 6, 23, 1) 75%, rgba(23, 19, 2, 1) 94%);
+}
+
+#canvas-container {
+    height: 85vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+  @media (max-width: 640px) {
+    #note-form {
+      width: 100%;
+      bottom: 0;
+      right: 0;
+      border-radius: 0;
+    }
+  }

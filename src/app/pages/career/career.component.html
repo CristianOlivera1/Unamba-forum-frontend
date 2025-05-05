@@ -1,9 +1,113 @@
-<div class="welcome-message">
-    <p>¡Bienvenido a esta carrera!</p>
-    <p>Career works!</p>
+<app-header></app-header>
+
+<div *ngIf="career"
+class="flex mx-5 flex-col md:flex-row items-center justify-center md:items-start my-6 mt-12 space-y-6 md:space-y-0 md:space-x-6">
+  <!-- Columna de la imagen -->
+  <img [src]="career.logo" alt="{{ career.nombre }}" class="w-30 hidden lg:block">
+  <div class="absolute max-w-screen w-4xl h-full -top-60 -z-1 bg-[url('/assets/img/career/lineback.svg')] bg-no-repeat bg-center -ml-4 sm:ml-20 opacity-70">
   </div>
-  <div *ngIf="career">
-    <h1>{{ career.nombre }}</h1>
-    <p>{{ career.descripcion }}</p>
+  <!-- Columna del texto -->
+  <div class="text-center relative">
+    <h1 class="text-3xl sm:text-4xl font-bold bg-gradient-to-r text-gray-700 font-deezer tracking-wider">
+      {{ career.nombre }}
+    </h1>
+    <p class="text-sm text-gray-600 font-deezer sm:text-lg leading-relaxed max-w-xl">{{ career.descripcion }}</p>
   </div>
-  
+</div>
+
+
+<div #canvasContainer id="canvas-container" class="relative w-full h-80vh overflow-hidden">
+  <canvas #miCanvas id="miCanvas" class="block bg-canva"></canvas>
+
+  <!-- Formulario de crear nota -->
+  <div id="note-form"
+    class="fixed bottom-0 right-0 w-full sm:w-80 px-5 py-3 rounded-t-lg sm:rounded-lg shadow-lg space-y-2.5 text-xs transition-all duration-300 z-10 border border-gray-300 bg-white"
+    [ngClass]="{
+  'h-auto sm:bottom-5 sm:right-5 sm:rounded-lg': isNoteFormVisible,
+  'h-12 sm:h-auto sm:bottom-5 sm:right-5 sm:rounded-lg': !isNoteFormVisible
+}">
+    <h2 class="text-center text-sm font-semibold text-gray-700 cursor-pointer hover:text-black" title="Crear nueva nota"
+      (click)="toggleNoteForm()">
+      Crear Nueva Nota
+    </h2>
+    <hr *ngIf="isNoteFormVisible" class="border-t border-gray-300 w-100% -mx-5">
+    <div *ngIf="isNoteFormVisible" class="transition-opacity duration-300 my-4">
+      <div class="flex gap-2 items-center">
+        <img class="h-10 w-10 object-cover rounded-full hover-img-avatar"
+          [src]="userProfile?.fotoPerfil || '/assets/img/profile/avatar-perfil-uf.avif'"
+          alt="avatar usuario logueado" />
+        <div class="flex flex-col">
+          <h3 class="font-semibold truncate" title="{{ userProfile?.nombreCompleto }}">
+            {{ userProfile?.nombreCompleto }}
+          </h3>
+          <span class="text-gray-500 truncate" title="{{ userProfile?.nombreCarrera }}">
+            {{ userProfile?.carrera }}
+          </span>
+        </div>
+      </div>
+      <div class="relative">
+        <textarea id="message" [(ngModel)]="message" placeholder="Tu mensaje" required
+          class="w-full p-2 mt-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue h-16 placeholder-gray-500"></textarea>
+
+        <div class="absolute bottom-1 right-3 flex gap-2" *ngIf="currentUserId">
+          <button type="button" class="text-gray-500 p-1 hover:text-gray-700 hover:bg-gray-100 hover:rounded-sm"
+            [ngClass]="{'bg-gray-200 rounded-md': showEmojiPicker}" (click)="toggleEmojiPicker()" title="Agregar emoji">
+            <svg width="21" height="21" viewBox="0 0 24 24">
+              <use xlink:href="/assets/sprite.svg#addemoji" />
+            </svg>
+          </button>
+          <div *ngIf="showEmojiPicker" class="absolute bottom-12 right-0 bg-white shadow-lg rounded-lg z-50">
+            <emoji-picker (emoji-click)="addEmoji($event)"></emoji-picker>
+          </div>
+        </div>
+      </div>
+      <!-- Selector de color -->
+      <label for="color-picker" class="block text-gray-700 font-medium my-2">Selecciona un color para la
+        tarjeta:</label>
+      <input type="color" id="color-picker" [(ngModel)]="selectedColor"
+        class="w-full h-10 p-1 rounded-md border border-gray-300 cursor-pointer" />
+      <!-- Colores predeterminados -->
+      <div class="flex gap-2 my-4">
+        <div class="w-full h-8 rounded-md cursor-pointer border-2 green"
+          [ngClass]="{'border-black': selectedCategory === 'green', 'border-transparent': selectedCategory !== 'green'}"
+          (click)="selectedCategory = 'green'; selectedColor = ''" title="Verde"></div>
+        <div class="w-full h-8 rounded-md cursor-pointer border-2 yellow"
+          [ngClass]="{'border-black': selectedCategory === 'yellow', 'border-transparent': selectedCategory !== 'yellow'}"
+          (click)="selectedCategory = 'yellow'; selectedColor = ''" title="Amarillo"></div>
+        <div class="w-full h-8 rounded-md cursor-pointer border-2 orange"
+          [ngClass]="{'border-black': selectedCategory === 'orange', 'border-transparent': selectedCategory !== 'orange'}"
+          (click)="selectedCategory = 'orange'; selectedColor = ''" title="Naranja"></div>
+        <div class="w-full h-8 rounded-md cursor-pointer border-2 red"
+          [ngClass]="{'border-black': selectedCategory === 'red', 'border-transparent': selectedCategory !== 'red'}"
+          (click)="selectedCategory = 'red'; selectedColor = ''" title="Rojo">
+        </div>
+      </div>
+      <button id="submit-button"
+        class="w-full p-2 bg-secondary-blue text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
+        (click)="addNote(message)">
+        Añadir Nota
+      </button>
+    </div>
+  </div>
+
+  <div id="zoom-controls"
+    class="zoom-controls bg-white/5 backdrop-blur-md rounded-full px-1 flex items-center gap-1 border border-white/10 absolute bottom-4 left-1/2 transform -translate-x-1/2 z-1">
+    <button id="zoom-out-btn" class="size-7 sm:size-10 flex items-center justify-center text-gray-100">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <use xlink:href="/assets/sprite.svg#menos" />
+      </svg>
+    </button>
+
+    <!-- Indicador de zoom -->
+    <div id="zoom-indicator" class="text-xs font-medium text-gray-300 px-2 min-w-[50px] text-center">
+      100%
+    </div>
+
+    <button id="zoom-in-btn" class="size-7 sm:size-10 flex items-center justify-center text-gray-100">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <use xlink:href="/assets/sprite.svg#add" />
+      </svg>
+    </button>
+  </div>
+</div>
+<app-footer></app-footer>
