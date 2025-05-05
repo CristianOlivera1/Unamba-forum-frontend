@@ -11,11 +11,11 @@
 
     <div class="pt-14 pb-6 px-4 text-center">
         <button *ngIf="!isFollowing" (click)="followUser()"
-            class="absolute top-27 right-4 bg-black text-white text-sm px-4 py-1 rounded-full hover:bg-gray-900">
+            class="absolute top-27 right-4 bg-black text-white text-sm px-4 py-1 rounded-full hover:bg-gray-900" title="Seguir a este usuario">
             Seguir
         </button>
         <button *ngIf="isFollowing" (click)="unfollowUser()"
-            class="absolute top-27 right-4 bg-gray-300 text-black text-sm px-4 py-1 rounded-full hover:bg-gray-400">
+            class="absolute top-27 right-4 border border-gray-300 text-black text-sm px-3 py-1 rounded-full hover:bg-gray-200" title="Estas siguiendo a este usuario">
             Siguiendo
         </button>
         <a (click)="navigateToProfileUser(profileData.idUsuario)" class="flex items-center justify-center gap-2">
@@ -47,9 +47,6 @@
                     <svg *ngSwitchCase="'ESTUDIANTE'" width="24" height="24"
                         viewBox="0 0 256 256">
                         <use xlink:href="/assets/sprite.svg#student" />
-                    </svg>
-                    <svg>
-
                     </svg>
                     <svg *ngSwitchCase="'INVITADO'" width="24" height="24"
                         viewBox="0 0 24 24">
