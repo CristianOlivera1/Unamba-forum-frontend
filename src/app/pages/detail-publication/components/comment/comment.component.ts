@@ -38,11 +38,12 @@ export class CommentComponent implements OnInit {
 
   isLoginModalVisible: boolean = false;
   isInfoCompleteModalVisible$: any;
+  userReactions: { [idComentario: string]: string } = {};
 
   constructor(
     private commentPublicationService: CommentPublicationService,
     private tokenService: TokenService,
-    private profileService: ProfileService, private reactionCommentAndResponse: ReactionCommentAndResponse, @Inject(PLATFORM_ID) private platformId: Object, private router: Router,    private modalLoginService: ModalLoginService,private modalInfoCompleteService: ModalInfoCompleteService,
+    private profileService: ProfileService, private reactionCommentAndResponse: ReactionCommentAndResponse, @Inject(PLATFORM_ID) private platformId: Object, private router: Router, private modalLoginService: ModalLoginService,private modalInfoCompleteService: ModalInfoCompleteService,
   ) { }
 
   ngOnInit(): void {
@@ -92,7 +93,7 @@ export class CommentComponent implements OnInit {
 
   loadUserProfile(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const userId = this.extractUserIdFromToken();
+      const userId = this.tokenService.getUserId();
       if (userId) {
         this.profileService.getProfileByUserId(userId).subscribe(
           (response) => {
@@ -122,7 +123,6 @@ export class CommentComponent implements OnInit {
     this.newCommentContent += emoji;
     this.showEmojiPicker = false;
   }
-  userReactions: { [idComentario: string]: string } = {};
   loadUserReactions(): void {
     if (!this.isLoggedIn) {
       return;
@@ -150,14 +150,7 @@ export class CommentComponent implements OnInit {
       this.modalLoginService.showLoginModal();
     }
   }
-  extractUserIdFromToken(): string | null {
-    const token = this.tokenService.getToken();
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.idUsuario || null;
-    }
-    return null;
-  }
+
 
   loadComments(): void {
     this.commentPublicationService.getCommentsByPublication(this.idPublicacion).subscribe({
