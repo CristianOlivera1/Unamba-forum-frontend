@@ -39,7 +39,7 @@
         <label class="block text-sm font-semibold text-gray-700">Categoría</label>
         <div class="relative">
           <select [(ngModel)]="newPublicationData.idCategoria" name="idCategoria" id="idCategoria"
-            class="w-full h-10 pl-3 pr-8 text-sm bg-white border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all border appearance-none">
+            class="w-full h-10 pl-3 py-2 pr-8 text-sm bg-white border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition-all border">
             <option value="" disabled selected hidden>Seleccione una categoría</option>
             <option *ngFor="let c of category" [value]="c.idCategoria">{{ c.nombre }}</option>
           </select>
@@ -148,7 +148,7 @@
         <ng-container *ngIf="!isPublishing">Publicar</ng-container>
         <ng-container *ngIf="isPublishing">
           Publicando...
-          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true"
+          <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true"
             data-icon="spin">
             <use xlink:href="/assets/sprite.svg#spinner" />
           </svg>
