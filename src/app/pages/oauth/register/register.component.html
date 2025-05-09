@@ -38,7 +38,7 @@
 
       <div class="relative z-0 w-full mb-5 group">
         <select [(ngModel)]="registerData.idCarrera" name="idCarrera" id="idCarrera"
-          class="block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
+          class="block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-primary-blue peer"
           required>
           <option value="" disabled selected hidden>Seleccione una carrera</option>
           <option *ngFor="let c of career" [value]="c.idCarrera">{{ c.nombre }}</option>
@@ -138,7 +138,7 @@
         <ng-container *ngIf="!isRegistering">Registrarse</ng-container>
         <ng-container *ngIf="isRegistering">
           Registrando...
-          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true" data-icon="spin">
+          <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true" data-icon="spin">
             <use xlink:href="/assets/sprite.svg#spinner"/>
           </svg>
         </ng-container>
