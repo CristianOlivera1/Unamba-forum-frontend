@@ -1,7 +1,7 @@
 <div class="rounded-xl p-4 border border-gray-200 space-y-3" >
   <h2 class="text-lg font-semibold">✨ Más Publicaciones!</h2>
 
-  <div #scrollPubli class="flex flex-row md:flex-col gap-4 overflow-x-auto md:overflow-visible whitespace-nowrap scrollbar-hide
+  <div #scrollPubli class="flex flex-row md:flex-col overflow-x-auto md:overflow-visible whitespace-nowrap scrollbar-hide
              cursor-grab active:cursor-grabbing select-none
              md:cursor-default md:active:cursor-default -mx-4 px-4 md:mx-0 md:px-0"
     (mousedown)="startDrag($event, 'publi')" (mouseup)="stopDrag('publi')" (mouseleave)="stopDrag('publi')"
