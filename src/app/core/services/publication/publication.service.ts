@@ -10,16 +10,16 @@ export class PublicationService {
 
   private apiPublication = environment.apiPublication;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   public getPublicationsWithFilesPaginated(page: number = 0): Observable<any> {
     return this.httpClient.get(`${this.apiPublication}/withfiles/paginated?page=${page}`);
   }
 
   public getAllPublicationwithoutFile(): Observable<any> {
-		return this.httpClient.get(`${this.apiPublication}/withoutfiles/paginated`);
-	}
-  
+    return this.httpClient.get(`${this.apiPublication}/withoutfiles/paginated`);
+  }
+
   getPublicationById(idPublication: string): Observable<any> {
     return this.httpClient.get(`${this.apiPublication}/details/${idPublication}`);
   }
@@ -45,10 +45,22 @@ export class PublicationService {
   public fixPublication(dtoFixPublication: any): Observable<any> {
     return this.httpClient.put(`${this.apiPublication}/fix`, dtoFixPublication);
   }
-  
+
   public updatePublication(formData: FormData): Observable<any> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
     return this.httpClient.put(`${this.apiPublication}/update`, formData, { headers });
+  }
+
+  public getPublicationsWithoutFilesByCareerPaginated(idCarrera: string, page: number = 0): Observable<any> {
+    return this.httpClient.get(`${this.apiPublication}/withoutfiles/career/paginated/${idCarrera}`, {
+      params: { page: page.toString() }
+    });
+  }
+
+  public getPublicationsWithFilesByCareerPaginated(idCarrera: string, page: number = 0): Observable<any> {
+    return this.httpClient.get(`${this.apiPublication}/withfiles/career/paginated/${idCarrera}`, {
+      params: { page: page.toString() }
+    });
   }
 }
