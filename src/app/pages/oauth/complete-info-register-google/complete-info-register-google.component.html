@@ -89,7 +89,7 @@
       <button type="submit" [disabled]="isLoading"
         class="w-full bg-secondary-blue text-white py-3 rounded-md hover:bg-[#256EDD] transition-colors duration-200 mt-2 flex items-center justify-center gap-2">
         <ng-container *ngIf="isLoading; else defaultText">
-          <svg class="spinner" width="24" height="24" viewBox="0 0 36 36" aria-hidden="true">
+          <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" aria-hidden="true">
             <use xlink:href="/assets/sprite.svg#spinner" />
           </svg>
           Guardando...
