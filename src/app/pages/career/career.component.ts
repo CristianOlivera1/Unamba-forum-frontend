@@ -12,11 +12,14 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { TimeUtils } from '../../Utils/TimeElapsed';
 import { RolService } from '../../core/services/rol/rol.service';
+import { PublicationWithFilesCareerComponent } from './components/publication-with-files-career/publication-with-files-career.component';
+import { PublicationWithoutFilesCareerComponent } from './components/publication-without-files-career/publication-without-files-career.component';
+import { FilterCareerComponent } from './components/filter-career/filter-career.component';
 
 @Component({
   selector: 'app-career',
   standalone: true,
-  imports: [CommonModule, FooterComponent, CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FooterComponent, CommonModule, FormsModule, HeaderComponent, PublicationWithFilesCareerComponent, PublicationWithoutFilesCareerComponent, FilterCareerComponent],
   templateUrl: './career.component.html',
   styleUrl: './career.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -57,8 +60,8 @@ export class CareerComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-
   }
+
   ngAfterViewInit() {
     this.currentUserId = this.tokenService.getUserId();
     if (this.currentUserId) {
@@ -82,7 +85,23 @@ export class CareerComponent implements OnInit, AfterViewInit {
 
     this.route.params.subscribe(params => {
       const newidCareer = params['idCarrera'];
-      if (newidCareer && newidCareer !== this.careerId) {
+      if (newidCareer === 'all') {
+        // Cargar todas las notas
+        this.loadAllNotes();
+        this.loadUserProfile();
+        this.initCanvas();
+        this.setupEventListeners();
+        this.setupZoomControls();
+        this.renderCanvas();
+        this.career = {
+          nombre: 'Todas las Carreras',
+          descripcion: 'Explora las notas de todas las carreras disponibles.',
+          logo: '/assets/img/career/todascarreras.webp'
+        };
+        this.careerId = 'all';
+        this.cdr.detectChanges();
+
+      } else if (newidCareer && newidCareer !== this.careerId) {
         this.careerId = newidCareer;
         this.loadUserProfile();
         this.initCanvas();
@@ -91,7 +110,26 @@ export class CareerComponent implements OnInit, AfterViewInit {
         this.loadNotesByCareer();
         this.renderCanvas();
         this.loadCareerById();
+        this.cdr.detectChanges();
       }
+    });
+  }
+
+  loadAllNotes(): void {
+    this.notesService.getAllNotes().subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.notes = response.data.map((note: any) => ({
+            ...note,
+            x: Math.random() * this.canvas.nativeElement.width / this.scale,
+            y: Math.random() * this.canvas.nativeElement.height / this.scale,
+          }));
+          this.renderCanvas();
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar todas las notas:', err);
+      },
     });
   }
 
@@ -100,6 +138,42 @@ export class CareerComponent implements OnInit, AfterViewInit {
       cancelAnimationFrame(this.animationFrameId);
     }
   }
+
+  loadNotesByCareer(): void {
+    const idCarrera = this.route.snapshot.paramMap.get('idCarrera');
+    if (idCarrera) {
+      this.notesService.getNotesByCareer(idCarrera).subscribe({
+        next: (response: any) => {
+          if (response.type === 'success') {
+            this.notes = response.data.map((note: any) => ({
+              ...note,
+              x: Math.random() * this.canvas.nativeElement.width / this.scale, 
+              y: Math.random() * this.canvas.nativeElement.height / this.scale,
+            }));
+            this.renderCanvas();
+          }
+        },
+        error: (err) => {
+          console.error('Error al cargar las notas:', err);
+        },
+      });
+    }
+  }
+
+  loadCareerById(): void {
+    const idCarrera = this.route.snapshot.paramMap.get('idCarrera');
+    if (idCarrera) {
+      this.careerService.getCareerById(idCarrera).subscribe({
+        next: (response: any) => {
+          this.career = response.data;
+        },
+        error: (err) => {
+          console.error('Error al obtener la carrera:', err);
+        },
+      });
+    }
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
     const width = event.target.innerWidth;
@@ -108,20 +182,20 @@ export class CareerComponent implements OnInit, AfterViewInit {
       this.isNoteFormVisible = false;
     }
   }
+
   toggleNoteForm(): void {
     this.isNoteFormVisible = !this.isNoteFormVisible;
   }
+
   setupZoomControls() {
     const zoomInBtn = document.getElementById('zoom-in-btn')!;
     const zoomOutBtn = document.getElementById('zoom-out-btn')!;
     const zoomIndicator = document.getElementById('zoom-indicator')!;
 
-    // Manejar Zoom In
     zoomInBtn.addEventListener('click', () => {
       const zoomIntensity = 0.1;
       const newScale = this.scale * (1 + zoomIntensity);
 
-      // Limitar el zoom máximo
       if (newScale <= 5) {
         this.scale = newScale;
         this.renderCanvas();
@@ -129,12 +203,10 @@ export class CareerComponent implements OnInit, AfterViewInit {
       }
     });
 
-    // Manejar Zoom Out
     zoomOutBtn.addEventListener('click', () => {
       const zoomIntensity = 0.1;
       const newScale = this.scale / (1 + zoomIntensity);
 
-      // Limitar el zoom mínimo
       if (newScale >= 0.1) {
         this.scale = newScale;
         this.renderCanvas();
@@ -142,11 +214,41 @@ export class CareerComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  initCanvas() {
-    if (!isPlatformBrowser(this.platformId)) {
-      console.warn('El canvas no se inicializa porque no estamos en el navegador.');
-      return;
+  renderCanvas() {
+    // if (!isPlatformBrowser(this.platformId)) {
+    //   // Si no estamos en el navegador, no ejecutar la animación
+    //   return;
+    // }
+
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
     }
+
+    this.animationFrameId = requestAnimationFrame(() => {
+      const canvas = this.canvas.nativeElement;
+      const ctx = this.ctx;
+
+      // Limpiar canvas
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Aplicar transformaciones
+      ctx.scale(this.scale, this.scale);
+      ctx.translate(this.translateX, this.translateY);
+
+      this.drawGrid();
+
+      // Dibujar notas
+      this.notes.forEach((note, index) => {
+        this.drawNote(note, index === this.draggedNoteIndex);
+      });
+    });
+  }
+  initCanvas() {
+    // if (!isPlatformBrowser(this.platformId)) {
+    //   console.warn('El canvas no se inicializa porque no estamos en el navegador.');
+    //   return;
+    // }
 
     if (!this.canvas) {
       console.error('El elemento canvas no está disponible.');
@@ -188,7 +290,7 @@ export class CareerComponent implements OnInit, AfterViewInit {
     const gradientColors = this.extractGradientColors(note.radialGradient);
     const gradient = ctx.createRadialGradient(
       note.x + 75, note.y + 50, 10,
-      note.x + 75, note.y + 50, 75 
+      note.x + 75, note.y + 50, 75
     );
 
     gradient.addColorStop(0, gradientColors[0]);
@@ -254,10 +356,10 @@ export class CareerComponent implements OnInit, AfterViewInit {
       ctx.fillStyle = 'rgba(255, 204, 21, 0.9)';
       ctx.font = `${12 / this.scale}px Deezer`;
       ctx.beginPath();
-      ctx.roundRect(note.x , note.y - 20, 40, 15, 1); 
+      ctx.roundRect(note.x, note.y - 20, 40, 15, 1);
       ctx.fill();
       ctx.fillStyle = '#ffffff';
-      ctx.fillText('Nuevo', note.x + 5, note.y - 8);
+      ctx.fillText('NUEVO', note.x + 5, note.y - 8);
     }
 
     // Fecha de publicación
@@ -292,6 +394,7 @@ export class CareerComponent implements OnInit, AfterViewInit {
       },
     });
   }
+
   extractGradientColors(gradient: string): [string, string] {
     const regex = /rgba?\([^)]+\)/g;
     const matches = gradient.match(regex);
@@ -322,7 +425,9 @@ export class CareerComponent implements OnInit, AfterViewInit {
     this.notesService.createNote(formData).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
+          this.message="";
           this.loadNotesByCareer();
+         this.loadAllNotes();
         }
       },
       error: (err) => {
@@ -334,7 +439,7 @@ export class CareerComponent implements OnInit, AfterViewInit {
   generateRadialGradient(color: string): string {
     // Convertimos el color base a formato rgba
     const rgbaColor = this.hexToRgba(color, 1);
-    const darkerColor = this.adjustBrightness(color, -20); // Color más oscuro
+    const darkerColor = this.adjustBrightness(color, -20);
 
     return `radial-gradient(${rgbaColor} 0%, ${darkerColor} 100%)`;
   }
@@ -395,20 +500,6 @@ export class CareerComponent implements OnInit, AfterViewInit {
     return colors[this.selectedCategory] || colors["yellow"]; // Por defecto, amarillo
   }
 
-  loadCareerById(): void {
-    const idCarrera = this.route.snapshot.paramMap.get('idCarrera');
-    if (idCarrera) {
-      this.careerService.getCareerById(idCarrera).subscribe({
-        next: (response: any) => {
-          this.career = response.data;
-        },
-        error: (err) => {
-          console.error('Error al obtener la carrera:', err);
-        },
-      });
-    }
-  }
-
   toggleEmojiPicker(): void {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
@@ -437,31 +528,6 @@ export class CareerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  loadNotesByCareer(): void {
-    if (!this.canvas || !this.ctx) {
-      console.error('El canvas no está inicializado.');
-      return;
-    }
-
-    const idCarrera = this.route.snapshot.paramMap.get('idCarrera');
-    if (idCarrera) {
-      this.notesService.getNotesByCareer(idCarrera).subscribe({
-        next: (response: any) => {
-          if (response.type === 'success') {
-            this.notes = response.data.map((note: any) => ({
-              ...note,
-              x: Math.random() * this.canvas.nativeElement.width / this.scale, // Posición aleatoria en X
-              y: Math.random() * this.canvas.nativeElement.height / this.scale, // Posición aleatoria en Y
-            }));
-            this.renderCanvas();
-          }
-        },
-        error: (err) => {
-          console.error('Error al cargar las notas:', err);
-        },
-      });
-    }
-  }
 
   @HostListener('window:resize')
   resizeCanvas() {
@@ -512,8 +578,8 @@ export class CareerComponent implements OnInit, AfterViewInit {
         this.startPan = { x: e.clientX, y: e.clientY };
         this.renderCanvas();
       } else if (this.isDraggingNote && this.draggedNoteIndex !== null) {
-        this.notes[this.draggedNoteIndex].x = mousePos.x - 75; 
-        this.notes[this.draggedNoteIndex].y = mousePos.y - 50; 
+        this.notes[this.draggedNoteIndex].x = mousePos.x - 75;
+        this.notes[this.draggedNoteIndex].y = mousePos.y - 50;
         this.renderCanvas();
       } else if (noteIndex !== null) {
         canvasEl.style.cursor = 'pointer';
@@ -599,37 +665,6 @@ export class CareerComponent implements OnInit, AfterViewInit {
       }
     }
     return null;
-  }
-
-  renderCanvas() {
-    if (!isPlatformBrowser(this.platformId)) {
-      // Si no estamos en el navegador, no ejecutar la animación
-      return;
-    }
-
-    if (this.animationFrameId) {
-      cancelAnimationFrame(this.animationFrameId);
-    }
-
-    this.animationFrameId = requestAnimationFrame(() => {
-      const canvas = this.canvas.nativeElement;
-      const ctx = this.ctx;
-
-      // Limpiar canvas
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Aplicar transformaciones
-      ctx.scale(this.scale, this.scale);
-      ctx.translate(this.translateX, this.translateY);
-
-      this.drawGrid();
-
-      // Dibujar notas
-      this.notes.forEach((note, index) => {
-        this.drawNote(note, index === this.draggedNoteIndex);
-      });
-    });
   }
 
   drawGrid() {

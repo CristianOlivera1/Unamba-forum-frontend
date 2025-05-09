@@ -1,12 +1,11 @@
 <app-header></app-header>
 
 <div *ngIf="career"
-class="flex mx-5 flex-col md:flex-row items-center justify-center md:items-start my-6 mt-12 space-y-6 md:space-y-0 md:space-x-6">
-  <!-- Columna de la imagen -->
+  class="flex mx-5 flex-col md:flex-row items-center justify-center md:items-start my-6 mt-12 space-y-6 md:space-y-0 md:space-x-6">
   <img [src]="career.logo" alt="{{ career.nombre }}" class="w-30 hidden lg:block">
-  <div class="absolute max-w-screen w-4xl h-full -top-60 -z-1 bg-[url('/assets/img/career/lineback.svg')] bg-no-repeat bg-center -ml-4 sm:ml-20 opacity-70">
+  <div
+    class="absolute max-w-screen w-4xl h-full -top-60 -z-1 bg-[url('/assets/img/career/lineback.svg')] bg-no-repeat bg-center -ml-4 sm:ml-20 opacity-70">
   </div>
-  <!-- Columna del texto -->
   <div class="text-center relative">
     <h1 class="text-3xl sm:text-4xl font-bold bg-gradient-to-r text-gray-700 font-deezer tracking-wider">
       {{ career.nombre }}
@@ -14,7 +13,6 @@ class="flex mx-5 flex-col md:flex-row items-center justify-center md:items-start
     <p class="text-sm text-gray-600 font-deezer sm:text-lg leading-relaxed max-w-xl">{{ career.descripcion }}</p>
   </div>
 </div>
-
 
 <div #canvasContainer id="canvas-container" class="relative w-full h-80vh overflow-hidden">
   <canvas #miCanvas id="miCanvas" class="block bg-canva"></canvas>
@@ -49,7 +47,7 @@ class="flex mx-5 flex-col md:flex-row items-center justify-center md:items-start
         <textarea id="message" [(ngModel)]="message" placeholder="Tu mensaje" required
           class="w-full p-2 mt-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue h-16 placeholder-gray-500"></textarea>
 
-        <div class="absolute bottom-1 right-3 flex gap-2" *ngIf="currentUserId">
+        <div class="absolute bottom-1 right-3 flex gap-2">
           <button type="button" class="text-gray-500 p-1 hover:text-gray-700 hover:bg-gray-100 hover:rounded-sm"
             [ngClass]="{'bg-gray-200 rounded-md': showEmojiPicker}" (click)="toggleEmojiPicker()" title="Agregar emoji">
             <svg width="21" height="21" viewBox="0 0 24 24">
@@ -108,6 +106,23 @@ class="flex mx-5 flex-col md:flex-row items-center justify-center md:items-start
         <use xlink:href="/assets/sprite.svg#add" />
       </svg>
     </button>
+  </div>
+</div>
+
+<div class="container mx-auto mt-15 mb-20">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mx-3 lg:mx-0">
+    <!-- Columna lateral -->
+    <div class="md:col-span-1">
+      <div class="h-full max-h-[80vh] overflow-y-auto space-y-6  sticky top-29 no-scrollbar">
+        <app-filter-career></app-filter-career>
+        <app-publication-without-files-career [idCarrera]="careerId"></app-publication-without-files-career>
+      </div>
+    </div>
+
+    <!-- Publicaciones -->
+    <div class="md:col-span-2">
+      <app-publication-with-files-career [idCarrera]="careerId"></app-publication-with-files-career>
+    </div>
   </div>
 </div>
 <app-footer></app-footer>
