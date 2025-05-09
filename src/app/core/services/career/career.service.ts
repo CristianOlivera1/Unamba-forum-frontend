@@ -17,5 +17,4 @@ export class CareerService {
   getCareerById(idCarrera: string): Observable<any> {
     return this.httpClient.get(`${this.apiCareer}/${idCarrera}`);
   }
-
 }
