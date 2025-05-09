@@ -35,9 +35,9 @@
         <!-- Reacciones y comentarios -->
         <div class="flex gap-2 mt-2 text-xs text-gray-500"
           *ngIf="related.totalReacciones > 0 || related.totalComentarios > 0">
-          <span *ngIf="related.totalReacciones > 0">{{ related.totalReacciones }}</span>
+          <span *ngIf="related.totalReacciones > 0">{{ related.totalReacciones }} Reacciones</span>
           <span *ngIf="related.totalReacciones > 0 && related.totalComentarios > 0">•</span>
-          <span *ngIf="related.totalComentarios > 0">{{ related.totalComentarios }}</span>
+          <span *ngIf="related.totalComentarios > 0">{{ related.totalComentarios }} Comentarios</span>
         </div>
       </a>
     </div>
