@@ -210,3 +210,61 @@ button {
   font-style: normal;
   font-weight: 900;
 }
+
+/*Estilos para el select*/
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
+.sel {
+  width: 100%;
+  padding: 0 10px;
+  max-width: 480px;
+  display: grid;
+  place-items: center;
+}
+
+::picker(select) {
+  border: none;
+}
+
+select::picker-icon {
+ display: none;
+  }
+
+option {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+border: 1px solid #ddd;
+border-top: none;
+  padding: 8px;
+  transition: 0.4s;
+}
+
+option:first-of-type {
+  border-radius: 8px 8px 0 0;
+
+}
+
+option:last-of-type {
+  border-radius: 0 0 8px 8px;
+}
+
+option:not(option:last-of-type) {
+  border-bottom: none;
+}
+
+option:nth-of-type(odd) {
+  background: #fff;
+}
+
+option:hover{
+  background: #eeeff1;
+}
+
+option:focus {
+  background: #2b7fff;
+  color:white;
+}
