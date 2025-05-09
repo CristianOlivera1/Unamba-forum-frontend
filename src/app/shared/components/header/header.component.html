@@ -50,6 +50,19 @@
         <div
           class="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md rounded-3xl bg-white ring-1 ring-gray-900/5 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-y-scroll max-h-150">
           <div class="p-4">
+            <div class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm hover:bg-gray-50">
+              <div
+                class="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                <img src="/assets/img/career/todascarreras.webp" alt="Todas">
+              </div>
+              <div class="flex-auto">
+                <a class="block font-semibold text-gray-600 cursor-pointer" (click)="navigateToAllCareers()">
+                  Todas
+                  <span class="absolute inset-0"></span>
+                </a>
+                <p class="mt-1 text-gray-600">Ver todas las carreras disponibles</p>
+              </div>
+            </div>
             <div *ngFor="let c of career"
               class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm hover:bg-gray-50">
               <div
@@ -72,9 +85,16 @@
     <div class="flex flex-1 justify-end mr-3 ">
       <ng-container *ngIf="isLoggedIn; else guestButtons">
 
-        <div class=" flex items-center gap-4 relative">
-          <img *ngIf="userProfile?.fotoPerfil" [src]="userProfile.fotoPerfil" alt="Foto de perfil"
-            class="w-12 h-12 rounded-full cursor-pointer hover-img-avatar object-cover" (click)="togglePopover()" />
+        <div class="flex items-center gap-4 relative">
+          <div class="inline-block group cursor-pointer" (click)="togglePopover()" >
+            <img *ngIf="userProfile?.fotoPerfil" [src]="userProfile.fotoPerfil" alt="Foto de perfil"
+              class="size-10 rounded-full hover-img-avatar object-cover"/>
+            <div class="absolute bottom-0 -right-1.5 w-5 h-5 flex items-center justify-center bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-gray-300">
+              <svg class="size-5 text-gray-600" viewBox="0 0 20 20"  aria-hidden="true">
+                <use xlink:href="/assets/sprite.svg#arrowbottom" />
+              </svg>
+            </div>
+          </div>
           <!-- Menú desplegable -->
           <div *ngIf="showPopover" #popoverMenu
             class="absolute top-full right-0 mt-2 w-72 bg-white rounded-xl shadow-lg z-50 pt-2 pb-3">
@@ -244,7 +264,8 @@
                 <img [src]="c.logo" [alt]="c.nombre">
               </div>
               <div class="flex-auto">
-                <a class="block font-semibold text-gray-600 cursor-pointer clamped" (click)="navigateToCareer(c.idCarrera)">
+                <a class="block font-semibold text-gray-600 cursor-pointer clamped"
+                  (click)="navigateToCareer(c.idCarrera)">
                   {{c.nombre}}
                   <span class="absolute inset-0"></span>
                 </a>
@@ -253,7 +274,6 @@
             </div>
           </div>
         </div>
-
       </div>
       <div class="py-6">
         <ng-container *ngIf="isLoggedIn">
