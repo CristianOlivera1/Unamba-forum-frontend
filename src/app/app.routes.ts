@@ -33,8 +33,7 @@ export const routes: Routes = [
     { path: 'publication', component: DetailPublicationComponent },
     { path: 'newpublication', component: NewPublicationComponent },
     { path: 'editpublication/:idPublicacion', component: EditPublicationComponent },
-    { path: 'career', component: CareerComponent },
+    { path: 'career/all', component: CareerComponent },
     { path: 'aboutme', component: AboutMeComponent },
-
     { path: '**', redirectTo: '' }
 ];
