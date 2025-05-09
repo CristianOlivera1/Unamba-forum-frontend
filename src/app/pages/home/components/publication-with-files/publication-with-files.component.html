@@ -44,7 +44,7 @@
         <div class="flex items-center gap-2">
           <p class="text-xs text-gray-500">{{ publication.nombreCarrera }}</p>
           <div class="flex items-center gap-1 ml-auto">
-            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{{ publication.nombreCategoria
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full truncate">{{ publication.nombreCategoria
               }}</span>
             <span class="text-xs text-gray-400">• {{ getTimeElapsedWrapper(publication.fechaRegistro) }}</span>
           </div>
@@ -117,7 +117,7 @@
             </ng-container>
             <!-- Condición para múltiples archivos -->
             <ng-container *ngIf="publication.archivos.length > 1">
-              <div class="flex sm:overflow-visible overflow-x-auto gap-4 px-1">
+              <div class="flex sm:overflow-visible overflow-x-auto overflow-y-hidden gap-4 px-1">
 
                 <figure *ngFor="let archivo of publication.archivos; let i = index" class="shrink-0">
                   <div class="overflow-hidden rounded-md">
@@ -141,9 +141,9 @@
       </div>
     </a>
     <!-- Contenido -->
-    <div>
+    <div class="group">
       <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
-        <h4 class="font-semibold truncate text-gray-900 text-sm">{{ publication.titulo }}</h4>
+        <h4 class="font-semibold truncate text-gray-900 text-sm group-hover:text-primary-blue group-hover:underline">{{ publication.titulo }}</h4>
         <div class="text-gray-600 text-sm mt-1 clamped" [innerHTML]="publication.contenido"></div>
       </a>
     </div>
