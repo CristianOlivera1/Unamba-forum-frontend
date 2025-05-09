@@ -1,0 +1,219 @@
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+  <div *ngIf="alert" [ngClass]="{
+    'bg-green-50 text-green-800': alert.type === 'success',
+    'bg-red-50 text-red-800': alert.type === 'error'
+  }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg" role="alert">
+    <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <path
+        d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
+    </svg>
+    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor" viewBox="0 0 20 20">
+      <use xlink:href="/assets/sprite.svg#error"/>
+    </svg>
+    <span class="text-sm font-medium">{{ alert.message }}</span>
+  </div>
+
+  <div *ngFor="let publication of publications"
+    class="border border-gray-200 rounded-xl hover:shadow-md hover:bg-gradient-to-r from-gray-50 to-transparent p-4 space-y-4 hover:border-gray-300 transition-all duration-300 ease-in-out">
+    <!-- Mostrar ícono de publicación fijada -->
+    <div class="relative">
+      <div *ngIf="publication.fijada" class="absolute -top-6 right-0 text-gray-500">
+        <svg width="20" height="20" viewBox="0 0 16 16" >
+          <use xlink:href="/assets/sprite.svg#fixed" />
+      </svg>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <a (click)="navigateToProfileUser(publication.idUsuario)">
+        <img [src]="publication.avatar" alt="Avatar" class="w-10 h-10 rounded-full hover-img-avatar"
+          (mouseenter)="showHoverModal(publication.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
+      </a>
+      <div class="flex-1">
+        <div class="flex items-center gap-2">
+          <a (click)="navigateToProfileUser(publication.idUsuario)">
+            <h3 class="text-sm font-semibold text-gray-800 hover:underline">{{ publication.nombreCompleto }}</h3>
+          </a>
+          <ng-container *ngIf="publication.tipoRol === 'ADMINISTRADOR'">
+            <svg width="20" height="20" viewBox="0 0 24 24">
+              <use xlink:href="/assets/sprite.svg#verified" />
+            </svg>
+          </ng-container>
+        </div>
+        <div class="flex items-center gap-2">
+          <p class="text-xs text-gray-500">{{ publication.nombreCarrera }}</p>
+          <div class="flex items-center gap-1 ml-auto">
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full truncate">{{ publication.nombreCategoria
+              }}</span>
+            <span class="text-xs text-gray-400">• {{ getTimeElapsedWrapper(publication.fechaRegistro) }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="relative inline-block text-left"
+        *ngIf="isCurrentUserAdmin || publication.idUsuario === currentUserId">
+        <div>
+          <button type="button" id="option-publication"
+            class="hover:bg-gray-100 p-1 rounded-lg transition-colors duration-300" [ngClass]="{
+              'text-gray-500': !publication.isDropdownVisible,
+              'text-gray-600 bg-gray-200': publication.isDropdownVisible
+            }" aria-expanded="true" aria-haspopup="true" (click)="toggleDropdown(publication)">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <use xlink:href="/assets/sprite.svg#threedots" />
+            </svg>
+          </button>
+        </div>
+        <div *ngIf="publication.isDropdownVisible"
+          class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden">
+          <div class="py-1">
+            <!-- Opciones para el administrador -->
+            <ng-container *ngIf="isCurrentUserAdmin">
+              <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                (click)="openDeleteModal(publication)">Eliminar</a>
+              <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                (click)="navigateToEditPublication(publication.idPublicacion)">Actualizar</a>
+              <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                (click)="toggleFixPublication(publication)">{{ publication.fijada ? 'Desfijar' : 'Fijar' }}</a>
+            </ng-container>
+
+            <!-- Opciones para el propietario de la publicación -->
+            <ng-container *ngIf="publication.idUsuario === currentUserId && !isCurrentUserAdmin">
+              <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                (click)="openDeleteModal(publication)">Eliminar</a>
+              <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                (click)="navigateToEditPublication(publication.idPublicacion)">Actualizar</a>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
+      (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
+
+    <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
+      <div class="w-full overflow-hidden">
+        <div class="group relative h-[260px]" style="scrollbar-gutter: stable both-edges;">
+          <div
+            class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
+
+            <!-- Condición para una sola imagen, video o GIF -->
+            <ng-container *ngIf="publication.archivos.length === 1">
+              <figure *ngFor="let archivo of publication.archivos; let i = index" class="shrink-0 w-full scroll-touch">
+                <div class="overflow-hidden rounded-md">
+                  <img *ngIf="archivo.tipo === 'imagen' && !archivo.rutaArchivo.endsWith('.gif')"
+                    [src]="archivo.rutaArchivo" alt="Media" class="aspect-square h-54 w-full object-cover" />
+
+                  <img *ngIf="archivo.tipo === 'gif' && archivo.rutaArchivo.endsWith('.gif')"
+                    [src]="archivo.rutaArchivo" alt="GIF" class="aspect-square h-54 w-full object-cover" />
+
+                  <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-full object-cover">
+                    <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                    Tu navegador no soporta la etiqueta de video.
+                  </video>
+                </div>
+              </figure>
+            </ng-container>
+            <!-- Condición para múltiples archivos -->
+            <ng-container *ngIf="publication.archivos.length > 1">
+              <div class="flex sm:overflow-visible overflow-x-auto overflow-y-hidden gap-4 px-1">
+
+                <figure *ngFor="let archivo of publication.archivos; let i = index" class="shrink-0">
+                  <div class="overflow-hidden rounded-md">
+
+                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
+                      class="aspect-square h-54 w-54 object-cover" />
+
+                    <img *ngIf="archivo.tipo === 'gif' && archivo.rutaArchivo.endsWith('.gif')"
+                      [src]="archivo.rutaArchivo" alt="GIF" class="aspect-square h-54 w-54 object-cover" />
+
+                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-54 object-cover">
+                      <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                      Tu navegador no soporta la etiqueta de video.
+                    </video>
+                  </div>
+                </figure>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </a>
+    <!-- Contenido -->
+    <div class="group">
+      <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
+        <h4 class="font-semibold truncate text-gray-900 text-sm group-hover:text-primary-blue group-hover:underline">{{ publication.titulo }}</h4>
+        <div class="text-gray-600 text-sm mt-1 clamped" [innerHTML]="publication.contenido"></div>
+      </a>
+    </div>
+
+    <app-modal-users-by-reaction-type *ngIf="publication.isReactionModalVisible"
+      [reactionType]="publication.reactionType" [users]="publication.reactionUsers"
+      [position]="publication.hoverPosition" (mouseenter)="onModalMouseEnter()"
+      (mouseleave)="onModalMouseLeaveReaction(publication)">
+    </app-modal-users-by-reaction-type>
+
+    <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
+      [totalComentarios]="publication.totalComentarios ?? 0" [reacciones]="publication.reacciones"
+      (hoverReaction)="openReactionHover($event, publication)" (leaveReaction)="closeReactionHover(publication)"
+      (hoverComments)="openCommentHover($event, publication)" (leaveComments)="closeCommentHover(publication)">
+    </app-totals-reaction-comment>
+
+    <app-modal-user-comment-publication *ngIf="publication.isCommentModalVisible"
+      [usersComment]="publication.usersComment ?? []" [position]="publication.commentHoverPosition ?? null"
+      (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveComment(publication)">
+    </app-modal-user-comment-publication>
+
+    <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"
+      (reactionChanged)="updateReactions(publication.idPublicacion)">
+    </app-reaction>
+
+    <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
+
+    <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
+  </div>
+
+  <div *ngIf="isDeleteModalVisible" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div class="sm:flex sm:items-start">
+              <div
+                class="mx-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" aria-hidden="true">
+                  <use xlink:href="/assets/sprite.svg#alert" />
+                </svg>
+              </div>
+              <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h3 class="text-base font-semibold text-gray-900" id="modal-title">Eliminar publicación</h3>
+                <div class="mt-2">
+                  <p class="text-sm text-gray-500">¿Estás seguro de que deseas eliminar esta publicación? Esta acción no
+                    se puede deshacer.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+            <button type="button"
+              class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
+              (click)="confirmDelete()">Eliminar</button>
+            <button type="button"
+              class="mt-3 inline-flex w-full justify-center rounded-md px-4 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:ring-gray-400 sm:mt-0 sm:w-auto"
+              (click)="closeDeleteModal()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="flex justify-center items-center mt-4">
+    <svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24">
+      <use xlink:href="/assets/sprite.svg#spinner" />
+    </svg>
+  </div>
+</div>
