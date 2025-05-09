@@ -113,6 +113,10 @@ export class HeaderComponent implements OnInit {
   navigateToCareer(idCarrera: string) {
     this.router.navigate(['/career', idCarrera]);
   }
+  
+  navigateToAllCareers(){
+    this.router.navigate(['/career/all']);
+  }
 
   showPopover=false;
   @ViewChild('popoverMenu') popoverMenu!: ElementRef;
