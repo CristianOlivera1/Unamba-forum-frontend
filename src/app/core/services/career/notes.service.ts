@@ -26,4 +26,7 @@ export class NotesService {
     return this.httpClient.delete(`${this.apiNotes}/delete/${idNota}`);
   }
 
+  public getAllNotes(): Observable<any> {
+    return this.httpClient.get(`${this.apiNotes}/getall`);
+  }
 }
