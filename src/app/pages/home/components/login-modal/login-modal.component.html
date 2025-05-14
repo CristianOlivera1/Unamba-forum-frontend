@@ -16,8 +16,7 @@
       <path
         d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
     </svg>
-    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2"
-      fill="currentColor" viewBox="0 0 20 20">
+    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
       <use xlink:href="/assets/sprite.svg#error" />
     </svg>
     <span class="text-sm font-medium">{{ alert.message }}</span>
@@ -36,11 +35,28 @@
       </div>
 
       <div class="relative z-0 w-full mb-5 group">
-        <input type="password" [(ngModel)]="loginData.contrasenha" name="contrasenha" id="contrasenha"
+        <input [type]="showPassword ? 'text' : 'password'" type="password" [(ngModel)]="loginData.contrasenha" name="contrasenha" id="contrasenha"
           class="block py-3 px-0 w-full text-sm text-[#1D242F] bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
           placeholder=" " required />
         <label for="contrasenha"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contraseña</label>
+
+        <button *ngIf="loginData.contrasenha?.trim()" type="button"
+          class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          (click)="togglePasswordVisibility()">
+          <ng-container *ngIf="showPassword">
+            <!-- Icono para ocultar contraseña -->
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <use xlink:href="/assets/sprite.svg#eyeslash" />
+            </svg>
+          </ng-container>
+          <ng-container *ngIf="!showPassword">
+            <!-- Icono para mostrar contraseña -->
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <use xlink:href="/assets/sprite.svg#eye" />
+            </svg>
+          </ng-container>
+        </button>
       </div>
 
       <button
@@ -49,7 +65,8 @@
         <ng-container *ngIf="!isLoggingIn">Iniciar sesión</ng-container>
         <ng-container *ngIf="isLoggingIn">
           Iniciando sesión...
-          <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true" data-icon="spin">
+          <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true"
+            data-icon="spin">
             <use xlink:href="/assets/sprite.svg#spinner" />
           </svg>
         </ng-container>

@@ -20,7 +20,8 @@
 </div>
 
 <div class="flex flex-col items-center min-h-screen pb-20 px-4 sm:px-6 lg:px-8 mesh ">
-  <div class="w-full max-w-4xl mx-auto space-y-10 mt-6 p-4 sm:p-8 shadow-lg rounded-xl bg-gray-50">
+
+  <div class="w-full max-w-4xl mx-auto space-y-10 mt-6 p-4 sm:p-8 shadow-md rounded-sm bg-white">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       <!-- Título -->
       <div class="space-y-2">
@@ -28,7 +29,7 @@
         <div class="relative">
           <input id="title" name="title" [(ngModel)]="publication.titulo" placeholder="Escribe un título atractivo..."
             (input)="updateCharacterCount($event)" maxlength="100" class="w-full h-10 pl-3 pr-3 text-sm bg-white border border-gray-300 rounded-lg 
-            focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-gray-500">
+            focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
           <span class="absolute -bottom-6 right-0 text-xs text-gray-500">{{ characterCount() }}/100
             caracteres</span>
         </div>
@@ -76,7 +77,13 @@
       </div>
       <p class="text-xs text-gray-500 mt-2">Usa los botones de formato o escribe directamente en el editor</p>
     </div>
-
+   <div class="space-y-2">
+      <label for="career" class="block text-sm font-semibold text-gray-700">Carrera</label>
+      <input id="career" name="career" type="text" [value]="userDetails?.carrera || 'Cargando...'"
+        class="w-full h-10 pl-3 pr-3 text-sm bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-not-allowed"
+        readonly />
+      <p class="text-xs text-gray-500 mt-1">Tu publicación será almacenada en esta carrera por defecto.</p>
+    </div>
     <!-- Subida de archivos -->
     <div class="space-y-2">
       <div class="flex justify-between items-center">

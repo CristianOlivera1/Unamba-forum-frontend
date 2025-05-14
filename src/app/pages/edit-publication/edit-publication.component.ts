@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
+import { ProfileService } from '../../core/services/profile/profile.service';
 
 @Component({
   selector: 'app-edit-publication',
@@ -40,12 +41,12 @@ export class EditPublicationComponent implements OnInit {
   characterCount = signal<number>(0);
 
   showEmojiPicker: boolean = false;
-  
+    userDetails: any = null; 
   constructor(
     private route: ActivatedRoute,
     private publicationService: PublicationService,
     private categoryService: CategoryService,
-    private router: Router, private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object
+    private router: Router, private http: HttpClient,@Inject(PLATFORM_ID) private platformId: Object,private profileService:ProfileService
   ) { }
 
   ngOnInit() {
@@ -160,7 +161,20 @@ export class EditPublicationComponent implements OnInit {
       this.showToast(`${validFiles.length} archivo(s) cargado(s) con éxito.`, "success");
     }
   }
-
+ loadUserDetails(userId: string): void {
+    this.profileService.getUserProfileDetail(userId).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.userDetails = response.data;
+        } else {
+          console.error('Error al cargar los detalles:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de los detalles:', error);
+      }
+    });
+  }
   addMedia(newMedia: File[]): void {
     this.mediaFiles = [...this.mediaFiles, ...newMedia];
 

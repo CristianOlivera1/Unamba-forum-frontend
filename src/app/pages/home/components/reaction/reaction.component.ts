@@ -105,6 +105,7 @@ export class ReactionComponent implements OnInit {
         }
         });
       }
+      
       },
       error: (err) => {
       console.error('Error al verificar el perfil del usuario:', err);

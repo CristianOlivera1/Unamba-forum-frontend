@@ -11,16 +11,17 @@ export class TokenService  {
   private loggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.loggedInSubject.asObservable();
 
-
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
     this.initLoggedInState();
   }
+
   private initLoggedInState() {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem(TOKEN_KEY);
       this.loggedInSubject.next(!!token);
     }
   }
+
   public getToken(): string {
     if (isPlatformBrowser(this.platformId)) {
       return localStorage.getItem(TOKEN_KEY) || '';
@@ -63,7 +64,7 @@ export class TokenService  {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(TOKEN_KEY);
       sessionStorage.clear();
-      this.loggedInSubject.next(false); // Actualiza el estado
+      this.loggedInSubject.next(false);
     }
   }
 }

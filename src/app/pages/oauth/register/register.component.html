@@ -1,5 +1,5 @@
-<div
-  class="flex items-center justify-center min-h-screen bg-[rgb(243,244,246)] bg-[url('/assets/img/oauth/grid.svg')] bg-cover bg-no-repeat bg-center bg-fixed">
+<app-header></app-header>
+<div class="flex items-center justify-center min-h-screen bg-[rgb(243,244,246)] bg-[url('/assets/img/oauth/grid.svg')] bg-cover bg-no-repeat bg-center bg-fixed">
   <div *ngIf="alert" [ngClass]="{
         'bg-green-50 text-green-800': alert.type === 'success',
         'bg-red-50 text-red-800': alert.type === 'error'
@@ -16,7 +16,7 @@
     <span class="text-sm font-medium">{{ alert.message }}</span>
   </div>
 
-  <div class="bg-white p-12 pt-10 mt-5 mb-5 rounded-lg shadow-lg w-[30rem]">
+  <div class="bg-white p-12 pt-10 mt-7 mb-25 rounded-lg shadow-md w-[30rem]">
     <h2 class="text-xl font-semibold text-center mb-6 xl:text-2xl">Crear una cuenta</h2>
 
     <form (ngSubmit)="register()">
@@ -161,4 +161,5 @@
         class="text-primary-blue font-semibold underline">Iniciar sesión</a></p>
   </div>
 </div>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+<app-footer></app-footer>

@@ -8,29 +8,29 @@
 
     </svg>
     <svg *ngSwitchCase="'ADMINISTRADOR'" width="24" height="24" viewBox="0 0 24 24">
-      <use xlink:href="/assets/sprite.svg#admincrown"/>
+      <use xlink:href="/assets/sprite.svg#admincrown" />
     </svg>
   </ng-container>
   {{ userDetails?.rol | titlecase }}
 </li>
 
 <li *ngIf="userDetails?.carrera" class="flex items-center gap-2 mb-3">
-  <svg width="24" height="24" viewBox="0 0 24 24">
-    <use xlink:href="/assets/sprite.svg#career"/>
+  <svg width="24" height="24" viewBox="0 0 256 256">
+    <use xlink:href="/assets/sprite.svg#career" />
   </svg>
   {{ userDetails?.carrera }}
 </li>
 
 <li *ngIf="userDetails?.fechaRegistro" class="flex items-center gap-2 mb-3">
   <svg width="24" height="24" viewBox="0 0 24 24">
-    <use xlink:href="/assets/sprite.svg#calendar"/>
+    <use xlink:href="/assets/sprite.svg#calendar" />
   </svg>
   <span>Miembro desde <strong>{{ userDetails?.fechaRegistro | date: 'longDate':'':'es' }}</strong></span>
 </li>
 
 <li *ngIf="userDetails?.fechNacimiento" class="flex items-center gap-2 mb-3">
   <svg width="24" height="24" viewBox="0 0 48 48">
-    <use xlink:href="/assets/sprite.svg#birthday"/>
+    <use xlink:href="/assets/sprite.svg#birthday" />
   </svg>
   <span>Cumpleaños <strong>{{ userDetails?.fechNacimiento | date: 'longDate':'':'es' }}</strong></span>
 </li>
@@ -38,11 +38,11 @@
 <li *ngIf="userDetails?.genero !== null" class="flex items-center gap-2 mb-3">
   <ng-container [ngSwitch]="userDetails.genero">
     <svg *ngSwitchCase="1" width="24" height="24" viewBox="0 0 24 24">
-    <use xlink:href="/assets/sprite.svg#men"/>
+      <use xlink:href="/assets/sprite.svg#men" />
     </svg>
 
     <svg *ngSwitchCase="0" width="24" height="24" viewBox="0 0 24 24">
-    <use xlink:href="/assets/sprite.svg#woman"/>
+      <use xlink:href="/assets/sprite.svg#woman" />
     </svg>
   </ng-container>
   {{ userDetails?.genero === 1 ? 'Masculino' : 'Femenino' }}

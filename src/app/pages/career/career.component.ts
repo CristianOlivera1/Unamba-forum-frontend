@@ -15,11 +15,15 @@ import { RolService } from '../../core/services/rol/rol.service';
 import { PublicationWithFilesCareerComponent } from './components/publication-with-files-career/publication-with-files-career.component';
 import { PublicationWithoutFilesCareerComponent } from './components/publication-without-files-career/publication-without-files-career.component';
 import { FilterCareerComponent } from './components/filter-career/filter-career.component';
+import { LoginModalComponent } from '../home/components/login-modal/login-modal.component';
+import { CompleteInfoRegisterGoogleComponent } from '../oauth/complete-info-register-google/complete-info-register-google.component';
+import { ModalInfoCompleteService } from '../../core/services/modal/modalCompleteInfo.service';
+import { ModalLoginService } from '../../core/services/modal/modalLogin.service';
 
 @Component({
   selector: 'app-career',
   standalone: true,
-  imports: [CommonModule, FooterComponent, CommonModule, FormsModule, HeaderComponent, PublicationWithFilesCareerComponent, PublicationWithoutFilesCareerComponent, FilterCareerComponent],
+  imports: [CommonModule, FooterComponent, CommonModule, FormsModule, HeaderComponent, PublicationWithFilesCareerComponent, PublicationWithoutFilesCareerComponent, FilterCareerComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent],
   templateUrl: './career.component.html',
   styleUrl: './career.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -54,9 +58,16 @@ export class CareerComponent implements OnInit, AfterViewInit {
 
   isNoteFormVisible: boolean = true;
   screenSize: string = '';
+
+  isLoginModalVisible$: any;
+  isInfoCompleteModalVisible$: any;
+
+  isPublishing: boolean = false;
+  alert: { type: 'success' | 'error' | 'warning'; message: string } | null = null;
+
   constructor(
     private route: ActivatedRoute, private tokenService: TokenService, private notesService: NotesService,
-    private careerService: CareerService, private profileService: ProfileService, @Inject(PLATFORM_ID) private platformId: Object, private rolService: RolService, private cdr: ChangeDetectorRef
+    private careerService: CareerService, private profileService: ProfileService, @Inject(PLATFORM_ID) private platformId: Object, private rolService: RolService, private cdr: ChangeDetectorRef, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService
   ) { }
 
   ngOnInit() {
@@ -64,6 +75,9 @@ export class CareerComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.currentUserId = this.tokenService.getUserId();
+    this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
+    this.isInfoCompleteModalVisible$ = this.modalInfoCompleteService.isInfoCompleteModalVisible$;
+
     if (this.currentUserId) {
       this.checkIfCurrentUserIsAdmin();
     }
@@ -114,7 +128,12 @@ export class CareerComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
+  handleTextareaClick(): void {
+    if (!this.tokenService.isLoggedIn()) {
+      this.modalService.showLoginModal();
+      return;
+    }
+  }
   loadAllNotes(): void {
     this.notesService.getAllNotes().subscribe({
       next: (response: any) => {
@@ -147,7 +166,7 @@ export class CareerComponent implements OnInit, AfterViewInit {
           if (response.type === 'success') {
             this.notes = response.data.map((note: any) => ({
               ...note,
-              x: Math.random() * this.canvas.nativeElement.width / this.scale, 
+              x: Math.random() * this.canvas.nativeElement.width / this.scale,
               y: Math.random() * this.canvas.nativeElement.height / this.scale,
             }));
             this.renderCanvas();
@@ -408,32 +427,78 @@ export class CareerComponent implements OnInit, AfterViewInit {
   }
 
   addNote(message: string) {
-    const idUsuario = this.tokenService.getUserId();
-    const { backgroundColor, radialGradient } = this.getSelectedColors();
-
-    const formData = new FormData();
-    if (idUsuario) {
-      formData.append('idUsuario', idUsuario);
-    } else {
-      console.error('idUsuario is null');
+    if (!this.tokenService.isLoggedIn()) {
+      this.modalService.showLoginModal();
+      return;
     }
 
-    formData.append('contenido', message);
-    formData.append('backgroundColor', backgroundColor);
-    formData.append('radialGradient', radialGradient);
+    // Validar que el mensaje no esté vacío
+    if (!message || message.trim() === '') {
+      this.showToast('Por favor, completa el contenido de la nota.', 'warning');
+      return;
+    }
 
-    this.notesService.createNote(formData).subscribe({
+    const idUsuario = this.tokenService.getUserId();
+    if (!idUsuario) {
+      console.error('idUsuario is null');
+      return;
+    }
+
+    // Verificar si el perfil del usuario tiene idCarrera para que pueda agregar una nota
+    this.profileService.getProfileByUserId(idUsuario).subscribe({
       next: (response: any) => {
-        if (response.type === 'success') {
-          this.message="";
-          this.loadNotesByCareer();
-         this.loadAllNotes();
+        if (response.type === 'success' && !response.data.idCarrera) {
+          this.modalInfoCompleteService.showInfoCompleteModal();
+          return;
         }
+
+        const { backgroundColor, radialGradient } = this.getSelectedColors();
+        this.isPublishing = true;
+
+        const formData = new FormData();
+        formData.append('idUsuario', idUsuario);
+        formData.append('contenido', message);
+        formData.append('backgroundColor', backgroundColor);
+        formData.append('radialGradient', radialGradient);
+
+        this.notesService.createNote(formData).subscribe({
+          next: (response: any) => {
+            if (response.type === 'success') {
+              this.message = "";
+              this.isPublishing = false;
+              // Verificar si el usuario está en su propia carrera o en otra
+              if (this.careerId === 'all' || this.careerId === this.userProfile.idCarrera) {
+                this.showToast('Nota creada con éxito.', 'success');
+              } else {
+                this.showToast('Nota creada con éxito, para visualizarlo ve a la opcion de tu carrera.', 'success');
+              }
+
+              if (this.careerId === 'all') {
+                this.loadAllNotes();
+              } else {
+                this.loadNotesByCareer();
+              }
+            }
+          },
+          error: (err) => {
+            console.error('Error al insertar la nota:', err);
+            this.showToast('Error al insertar la nota.', 'error');
+            this.isPublishing = false;
+
+          },
+        });
       },
       error: (err) => {
-        console.error('Error al insertar la nota:', err);
+        console.error('Error al verificar el perfil del usuario:', err);
       },
     });
+  }
+
+  showToast(message: string, type: 'success' | 'error' | 'warning'): void {
+    this.alert = { type, message };
+    setTimeout(() => {
+      this.alert = null;
+    }, 5000);
   }
 
   generateRadialGradient(color: string): string {
@@ -496,8 +561,7 @@ export class CareerComponent implements OnInit, AfterViewInit {
         radialGradient: 'radial-gradient(rgba(255, 107, 107, 1) 0%, rgb(252, 103, 103) 100%)',
       },
     };
-
-    return colors[this.selectedCategory] || colors["yellow"]; // Por defecto, amarillo
+    return colors[this.selectedCategory] || colors["yellow"];
   }
 
   toggleEmojiPicker(): void {

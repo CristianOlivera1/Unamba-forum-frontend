@@ -20,15 +20,15 @@
 </div>
 
 <div class="flex flex-col items-center min-h-screen pb-20 px-4 sm:px-6 lg:px-8 mesh ">
-  <div class="w-full max-w-4xl mx-auto space-y-10 mt-6 p-4 sm:p-8 shadow-lg rounded-xl bg-gray-50">
+  <div class="w-full max-w-4xl mx-auto space-y-10 mt-6 p-4 sm:p-8 shadow-md rounded-sm bg-white">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       <!-- Input de título -->
       <div class="space-y-2">
         <label for="title" class="block text-sm font-semibold text-gray-700">Título</label>
         <div class="relative">
           <input id="title" name="title" [(ngModel)]="newPublicationData.titulo" (input)="updateCharacterCount($event)"
-            placeholder="Escribe un título atractivo..." maxlength="100" class="w-full h-10 pl-3 pr-3 text-sm bg-white border border-gray-300 rounded-lg 
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all placeholder:text-gray-500">
+            placeholder="Escribe un título atractivo..." maxlength="100"
+            class="w-full h-10 pl-3 pr-3 text-sm bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
           <span class="absolute -bottom-6 right-0 text-xs text-gray-500">{{ characterCount() }}/100
             caracteres</span>
         </div>
@@ -57,7 +57,7 @@
         <label class="block text-sm text-gray-700 font-semibold mb-2">Contenido</label>
         <quill-editor [(ngModel)]="newPublicationData.contenido" [modules]="editorConfig"
           placeholder="Escribe tu contenido aquí..."
-          class="w-full h-64 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pb-10">
+          class="w-full h-64 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 pb-10">
         </quill-editor>
 
         <div class="absolute top-9 right-5">
@@ -74,13 +74,20 @@
       </div>
       <p class="text-xs text-gray-500 mt-2">Usa los botones de formato o escribe directamente en el editor</p>
     </div>
-
+    <!-- Campo de carrera -->
+    <div class="space-y-2">
+      <label for="career" class="block text-sm font-semibold text-gray-700">Carrera</label>
+      <input id="career" name="career" type="text" [value]="userDetails?.carrera || 'Cargando...'" class="w-full h-10 pl-3 pr-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-not-allowed"
+        readonly />
+      <p class="text-xs text-gray-500 mt-1">Tu publicación será almacenada en tu carrera por defecto.</p>
+    </div>
     <!-- Subida de archivos -->
     <div class="space-y-2">
       <div class="flex justify-between items-center">
         <label class="block text-sm font-semibold text-gray-700">Multimedia <span
             class="text-gray-500 font-normal">(opcional)</span></label>
-        <div class="flex items-center space-x-2 border border-gray-300 rounded-lg p-1 sm:p-2 bg-white" title="Añadir una imagen aleatoria generada por el sistema">
+        <div class="flex items-center space-x-2 border border-gray-300 rounded-lg p-1 sm:p-2 bg-white"
+          title="Añadir una imagen aleatoria generada por el sistema">
           <input type="checkbox" id="enableButton" (change)="toggleButton($event)"
             class="w-4 h-4 shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500">
           <label class="flex items-center text-sm" [ngClass]="isChecked ? 'text-blue-600' : 'text-gray-500'">
@@ -89,7 +96,8 @@
         </div>
       </div>
 
-      <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors hover:border-blue-400 bg-white"
+      <div
+        class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition-colors hover:border-blue-400 bg-white"
         [class.border-blue-500]="isDragging" [class.bg-blue-50]="isDragging" (dragover)="handleDragOver($event)"
         (dragleave)="handleDragLeave($event)" (drop)="handleDrop($event)">
         <div class="space-y-3">
@@ -143,11 +151,12 @@
     </div>
     <!-- Botón para publicar -->
     <div class="mt-6">
-      <button class="w-full bg-secondary-blue mt-6 text-white py-3 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2 transition-all"
+      <button
+        class="w-full bg-secondary-blue mt-6 text-white py-3 rounded-lg hover:bg-blue-600 flex items-center justify-center gap-2 transition-all"
         [disabled]="isPublishing" (click)="insertPublication()">
         <ng-container *ngIf="!isPublishing">Publicar</ng-container>
         <ng-container *ngIf="isPublishing">
-          Publicando...
+          Publicando..
           <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true"
             data-icon="spin">
             <use xlink:href="/assets/sprite.svg#spinner" />

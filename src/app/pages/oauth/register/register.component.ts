@@ -8,11 +8,13 @@ import { TokenService } from '../../../core/services/oauth/token.service';
 import { CustomValidators } from '../../../Validators/CustomValidators';
 import { isPlatformBrowser } from '@angular/common';
 import { GoogleAuthService } from '../../../core/services/oauth/google-auth.service';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,HeaderComponent,FooterComponent],
   providers: [CustomValidators],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
