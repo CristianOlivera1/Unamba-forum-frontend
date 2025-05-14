@@ -218,6 +218,7 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+  
   loadUserDetails(userId: string): void {
     this.profileService.getUserProfileDetail(userId).subscribe({
       next: (response: any) => {

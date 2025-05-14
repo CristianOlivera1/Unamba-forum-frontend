@@ -21,6 +21,9 @@ export class LoginModalComponent implements OnInit {
 
   alert: { type: string; message: string } | null = null;
   isLoggingIn: boolean = false;
+
+  showPassword: boolean = false;
+
   constructor(
     private loginService: LoginService,
     private tokenService: TokenService,
@@ -100,4 +103,9 @@ export class LoginModalComponent implements OnInit {
   initiateGoogleLogin(): void {
     this.googleAuthService.loginWithGoogleModalOauth();
   }
+
+    togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
 }

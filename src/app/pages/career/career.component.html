@@ -1,31 +1,50 @@
 <app-header></app-header>
+<div *ngIf="alert" [ngClass]="{
+    'bg-green-50 text-green-800 border border-green-100': alert.type === 'success',
+    'bg-red-50 text-red-800 border border-red-100': alert.type === 'error',
+    'bg-yellow-50 text-yellow-800 border border-yellow-100': alert.type === 'warning'
+  }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg z-50 w-auto" role="alert">
+  <svg *ngIf="alert.type === 'success'" class="shrink-0 size-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor" viewBox="0 0 20 20">
+    <path
+      d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
+  </svg>
+  <svg *ngIf="alert.type === 'error'" class="shrink-0 size-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+    <use xlink:href="/assets/sprite.svg#error" />
+  </svg>
+  <svg *ngIf="alert.type === 'warning'" class="shrink-0 size-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+    <use xlink:href="/assets/sprite.svg#alert" />
+  </svg>
+  <span class="text-sm font-medium">{{ alert.message }}</span>
+</div>
 
-<div *ngIf="career"
-  class="flex mx-5 flex-col md:flex-row items-center justify-center md:items-start my-6 mt-12 space-y-6 md:space-y-0 md:space-x-6">
-  <img [src]="career.logo" alt="{{ career.nombre }}" class="w-30 hidden lg:block">
-  <div
-    class="absolute max-w-screen w-4xl h-full -top-60 -z-1 bg-[url('/assets/img/career/lineback.svg')] bg-no-repeat bg-center -ml-4 sm:ml-20 opacity-70">
-  </div>
-  <div class="text-center relative">
-    <h1 class="text-3xl sm:text-4xl font-bold bg-gradient-to-r text-gray-700 font-deezer tracking-wider">
-      {{ career.nombre }}
-    </h1>
-    <p class="text-sm text-gray-600 font-deezer sm:text-lg leading-relaxed max-w-xl">{{ career.descripcion }}</p>
+<div class="flex justify-center items-center w-full">
+  <div *ngIf="career" class="inline-flex mx-4 flex-col md:flex-row items-center justify-center md:items-start my-6 mt-12 space-y-6 md:space-y-0 md:space-x-6 bg-white rounded-sm px-14 py-7">
+    <img [src]="career.logo" alt="{{ career.nombre }}" class="w-30 hidden lg:block">
+    <div
+      class="absolute max-w-screen w-4xl h-full -top-60 -z-1 bg-[url('/assets/img/career/lineback.svg')] bg-no-repeat bg-center -ml-4 sm:ml-20 opacity-70">
+    </div>
+    <div class="text-center relative">
+      <h1 class="text-3xl sm:text-4xl font-bold bg-gradient-to-r text-gray-700 font-deezer tracking-wider">
+        {{ career.nombre }}
+      </h1>
+      <p class="text-sm text-gray-600 font-deezer sm:text-lg leading-relaxed max-w-xl">{{ career.descripcion }}</p>
+    </div>
   </div>
 </div>
+
 
 <div #canvasContainer id="canvas-container" class="relative w-full h-80vh overflow-hidden">
   <canvas #miCanvas id="miCanvas" class="block bg-canva"></canvas>
 
   <!-- Formulario de crear nota -->
-  <div id="note-form"
-    class="fixed bottom-0 right-0 w-full sm:w-80 px-5 py-3 rounded-t-lg sm:rounded-lg shadow-lg space-y-2.5 text-xs transition-all duration-300 z-10 border border-gray-300 bg-white"
+  <div id="note-form" class="fixed bottom-0 right-0 w-full sm:w-80 px-5 pb-1 rounded-t-lg sm:rounded-lg shadow-md space-y-2.5 text-xs transition-all duration-300 z-10 border border-gray-300 bg-white"
     [ngClass]="{
   'h-auto sm:bottom-5 sm:right-5 sm:rounded-lg': isNoteFormVisible,
   'h-12 sm:h-auto sm:bottom-5 sm:right-5 sm:rounded-lg': !isNoteFormVisible
 }">
-    <h2 class="text-center text-sm font-semibold text-gray-700 cursor-pointer hover:text-black" title="Crear nueva nota"
-      (click)="toggleNoteForm()">
+    <h2 class="text-center text-sm font-semibold text-gray-700 cursor-pointer hover:text-black pt-3 w-100% -mx-5 mb-0 pb-2"
+      title="Crear nueva nota" (click)="toggleNoteForm()">
       Crear Nueva Nota
     </h2>
     <hr *ngIf="isNoteFormVisible" class="border-t border-gray-300 w-100% -mx-5">
@@ -36,16 +55,17 @@
           alt="avatar usuario logueado" />
         <div class="flex flex-col">
           <h3 class="font-semibold truncate" title="{{ userProfile?.nombreCompleto }}">
-            {{ userProfile?.nombreCompleto }}
+            {{ userProfile?.nombreCompleto || 'Unamba forum hub' }}
           </h3>
           <span class="text-gray-500 truncate" title="{{ userProfile?.nombreCarrera }}">
-            {{ userProfile?.carrera }}
+            {{ userProfile?.carrera || 'Ingeniería informática y sistemas' }}
           </span>
         </div>
       </div>
       <div class="relative">
         <textarea id="message" [(ngModel)]="message" placeholder="Tu mensaje" required
-          class="w-full p-2 mt-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue h-16 placeholder-gray-500"></textarea>
+          class="w-full p-2 mt-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-blue h-16"
+          (click)="handleTextareaClick()"></textarea>
 
         <div class="absolute bottom-1 right-3 flex gap-2">
           <button type="button" class="text-gray-500 p-1 hover:text-gray-700 hover:bg-gray-100 hover:rounded-sm"
@@ -82,9 +102,18 @@
       </div>
       <button id="submit-button"
         class="w-full p-2 bg-secondary-blue text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
-        (click)="addNote(message)">
-        Añadir Nota
+        [disabled]="isPublishing" (click)="addNote(message)">
+        <ng-container *ngIf="!isPublishing">Añadir nota</ng-container>
+        <ng-container *ngIf="isPublishing">
+          Publicando..
+          <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true"
+            data-icon="spin">
+            <use xlink:href="/assets/sprite.svg#spinner" />
+          </svg>
+        </ng-container>
+
       </button>
+
     </div>
   </div>
 
@@ -113,7 +142,7 @@
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mx-3 lg:mx-0">
     <!-- Columna lateral -->
     <div class="md:col-span-1">
-      <div class="h-full max-h-[80vh] overflow-y-auto space-y-6  sticky top-29 no-scrollbar">
+      <div class="h-full max-h-[100vh] overflow-y-auto space-y-6  sticky top-28 no-scrollbar">
         <app-filter-career></app-filter-career>
         <app-publication-without-files-career [idCarrera]="careerId"></app-publication-without-files-career>
       </div>
@@ -124,5 +153,7 @@
       <app-publication-with-files-career [idCarrera]="careerId"></app-publication-with-files-career>
     </div>
   </div>
+  <app-login-modal *ngIf="isLoginModalVisible$ | async"></app-login-modal>
+  <app-complete-info-register-google *ngIf="isInfoCompleteModalVisible$ | async"></app-complete-info-register-google>
 </div>
 <app-footer></app-footer>

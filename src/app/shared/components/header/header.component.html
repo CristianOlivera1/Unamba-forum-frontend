@@ -40,12 +40,12 @@
         <a href="#" class="text-sm font-semibold">Nuevo</a>
       </ng-container>
       <div class="relative group">
-        <button type="button" class="flex items-center gap-x-1 text-sm font-semibold">
+        <a type="button" class="flex items-center gap-x-1 text-sm font-semibold">
           Carreras
           <svg class="size-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <use xlink:href="/assets/sprite.svg#arrowbottom" />
           </svg>
-        </button>
+        </a>
 
         <div
           class="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md rounded-3xl bg-white ring-1 ring-gray-900/5 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-y-scroll max-h-150">
@@ -88,7 +88,7 @@
         <div class="flex items-center gap-4 relative">
           <div class="inline-block group cursor-pointer" (click)="togglePopover()" >
             <img *ngIf="userProfile?.fotoPerfil" [src]="userProfile.fotoPerfil" alt="Foto de perfil"
-              class="size-10 rounded-full hover-img-avatar object-cover"/>
+              class="size-11 rounded-full hover-img-avatar object-cover"/>
             <div class="absolute bottom-0 -right-1.5 w-5 h-5 flex items-center justify-center bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-gray-300">
               <svg class="size-5 text-gray-600" viewBox="0 0 20 20"  aria-hidden="true">
                 <use xlink:href="/assets/sprite.svg#arrowbottom" />
@@ -155,11 +155,10 @@
       </ng-container>
       <ng-template #guestButtons>
         <div>
-          <button class="px-4 py-2 rounded md:mr-2 hover:text-gray-400 cursor-pointer" (click)="navigateToLogin()">
+          <button class="px-4 py-2 rounded md:mr-2 hover:text-gray-400" (click)="navigateToLogin()">
             Iniciar sesión
           </button>
-          <button
-            class="button-scroll-animate text-[#2b7fff] px-2 py-1 md:px-4 md:py-2 cursor-pointer rounded hover:bg-gray-300"
+          <button class="button-scroll-animate text-[#2b7fff] px-2 py-1 md:px-4 md:py-2 rounded hover:bg-gray-300 font-semibold"
             (click)="navigateToRegister()">
             Registrarse
           </button>
@@ -229,10 +228,10 @@
       <div class="space-y-2 py-6">
         <ng-container *ngIf="!isLoggedIn">
           <div class="flex flex-col items-center justify-center space-y-2">
-            <button class="px-4 py-2 rounded hover:text-blue-600 cursor-pointer w-full" (click)="navigateToLogin()">
+            <button class="px-4 py-2 rounded hover:text-blue-600 w-full" (click)="navigateToLogin()">
               Iniciar sesión
             </button>
-            <button class="text-white bg-secondary-blue px-4 py-2 cursor-pointer rounded w-full hover:bg-gray-300"
+            <button class="text-white bg-secondary-blue px-4 py-2 rounded w-full hover:bg-gray-300 font-semibold"
               (click)="navigateToRegister()">
               Registrarse
             </button>
@@ -246,14 +245,13 @@
         </ng-container>
 
         <div class="-mx-3">
-          <button type="button"
-            class="flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+          <a type="button" class="flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
             aria-controls="disclosure-1" aria-expanded="false">
             Carreras
             <svg class="size-5 flex-none" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
               <use xlink:href="/assets/sprite.svg#arrowbottom" />
             </svg>
-          </button>
+          </a>
 
           <!-- Contenedor de Carreras con scroll vertical -->
           <div class="mt-2 space-y-2 max-h-[300px] overflow-y-auto" id="disclosure-1">

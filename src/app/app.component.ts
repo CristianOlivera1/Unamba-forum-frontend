@@ -29,7 +29,7 @@ export class AppComponent implements OnInit{
             if (response.type === 'success') {
               const jwtToken = response.data.jwtToken;
               this.tokenService.setToken(jwtToken);
-              this.router.navigate(['/']); // Redirigir al inicio después de iniciar sesión
+              this.router.navigate(['/']);
             } else {
               console.error('Error al iniciar sesión:', response.listMessage[0]);
             }

@@ -10,6 +10,7 @@ import { TokenService } from '../../core/services/oauth/token.service';
 import { PublicationService } from '../../core/services/publication/publication.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { ProfileService } from '../../core/services/profile/profile.service';
 
 @Component({
   selector: 'app-new-publication',
@@ -40,6 +41,7 @@ export class NewPublicationComponent implements OnInit {
   randomImage: string | null = null;
   apiCat = environment.apiCat;
   isPublishing: boolean = false;
+  userDetails: any = null; 
 
   showEmojiPicker: boolean = false;
 
@@ -52,15 +54,34 @@ export class NewPublicationComponent implements OnInit {
   }
 
   constructor(private http: HttpClient, private categoryService: CategoryService,
-    private tokenService: TokenService, private publicationService: PublicationService, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) { }
+    private tokenService: TokenService, private publicationService: PublicationService, private router: Router, @Inject(PLATFORM_ID) private platformId: Object, private profileService: ProfileService,) { }
 
   ngOnInit(): void {
     this.getCategories();
     this.newPublicationData.idUsuario = this.tokenService.getUserId();
 
+   if (this.newPublicationData.idUsuario) {
+      this.loadUserDetails(this.newPublicationData.idUsuario);
+    }
+
     if (isPlatformBrowser(this.platformId)) {
       import('emoji-picker-element');
     }
+  }
+
+  loadUserDetails(userId: string): void {
+    this.profileService.getUserProfileDetail(userId).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          this.userDetails = response.data;
+        } else {
+          console.error('Error al cargar los detalles:', response.listMessage);
+        }
+      },
+      error: (error) => {
+        console.error('Error en la solicitud de los detalles:', error);
+      }
+    });
   }
 
   getCategories(): void {
@@ -155,7 +176,6 @@ export class NewPublicationComponent implements OnInit {
   }
 
   insertPublication(): void {
-    console.log(this.newPublicationData.contenido);
     if (!this.newPublicationData.idCategoria || !this.newPublicationData.titulo || !this.newPublicationData.contenido) {
       this.showToast('Por favor, completa todos los campos obligatorios.', 'warning');
       return;

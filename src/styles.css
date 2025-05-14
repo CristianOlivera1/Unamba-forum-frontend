@@ -20,6 +20,7 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
+  background-color: #F3F4F6;
 }
 
 a {
@@ -29,6 +30,10 @@ a {
 button {
   cursor: pointer;
   font-family: var(--font-system), sans-serif;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #6B7280; 
 }
 
 .clamped {
