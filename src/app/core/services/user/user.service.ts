@@ -15,5 +15,10 @@ export class UserService {
     const url = `${this.apiUser}/suggested/${userId}?count=${count}`;
     return this.httpClient.get<any>(url);
   }
+
+  updateUserPassword(formData: FormData): Observable<any> {
+    const url = `${this.apiUser}/update`;
+    return this.httpClient.put<any>(url, formData);
+  }
   
 }
