@@ -30,7 +30,8 @@ export class RegisterComponent implements OnInit{
     email: '',
     contrasenha: '',
     confirmarContrasenha: '', 
-    idCarrera: ''
+    idCarrera: '',
+    genero: ''
   };
 
   alert: { type: string; message: string } | null = null;
@@ -51,11 +52,11 @@ export class RegisterComponent implements OnInit{
     }
   }
 
-  showAlert(type: string, messages: string[]): void {
-    const message = messages.join(', ');
+
+  showAlert(type: string, message: string): void {
     this.alert = { type, message };
     setTimeout(() => {
-      this.alert = null; 
+      this.alert = null;
     }, 5000);
   }
 
@@ -66,7 +67,7 @@ export class RegisterComponent implements OnInit{
           this.career = response.data;
     
         } else {
-          this.showAlert('error', ['Error al cargar las carreras: ' + response.listMessage]);
+          this.showAlert('error', 'Error al cargar las carreras: ' + response.listMessage);
         }
       },
       error: (error: any) => {
@@ -76,29 +77,43 @@ export class RegisterComponent implements OnInit{
   }
 
   register(): void {
-    const errors: string[] = [];
 
   // Validaciones
+  const errors: string[] = [];
+
   const emailError = this.customValidators.validateEmail(this.registerData.email);
-  if (emailError) errors.push(emailError);
+  if (emailError) {
+    this.showAlert('warning', emailError);
+    return;
+  }
 
   const passwordError = this.customValidators.validatePassword(
     this.registerData.contrasenha,
     this.registerData.confirmarContrasenha
   );
-  if (passwordError) errors.push(passwordError);
+  if (passwordError) {
+    this.showAlert('warning', passwordError);
+    return;
+  }
 
   if (!this.registerData.nombre || !this.registerData.apellidos) {
-    errors.push('Todos los campos son obligatorios.');
+    this.showAlert('warning', 'Todos los campos son obligatorios.');
+    return;
   }
 
   const careerError = this.customValidators.validateCareer(this.registerData.idCarrera);
-  if (careerError) errors.push(careerError);
-
-  if (errors.length > 0) {
-    this.showAlert('error', errors);
+  if (careerError) {
+    this.showAlert('warning', careerError);
     return;
   }
+
+  const genderError = this.customValidators.validateGender(this.registerData.genero);
+  if (genderError) {
+    this.showAlert('warning', genderError);
+    return;
+  }
+
+
   this.isRegistering = true;
 
     const formData = new FormData();
@@ -107,7 +122,7 @@ export class RegisterComponent implements OnInit{
     formData.append('email', this.registerData.email);
     formData.append('contrasenha', this.registerData.contrasenha);
     formData.append('idCarrera', this.registerData.idCarrera);
-  
+    formData.append('genero', this.registerData.genero);
     this.registerService.registerUser(formData).subscribe(
       (response) => {
         if (response.type === 'success') {
@@ -123,7 +138,7 @@ export class RegisterComponent implements OnInit{
       },
       (error) => {
         console.error('Error al registrar:', error);
-        this.showAlert('error', ['Error al registrar el usuario.']);
+        this.showAlert('error', 'Error al registrar el usuario.');
         this.isRegistering = false; 
       }
     );
@@ -144,7 +159,7 @@ export class RegisterComponent implements OnInit{
       },
       (error) => {
         console.error('Error al registrar con Google:', error);
-        this.showAlert('error', ['Error al registrar con Google.']);
+        this.showAlert('error', 'Error al registrar con Google.');
       }
     );
   }

@@ -1,17 +1,21 @@
 <app-header></app-header>
-<div class="flex items-center justify-center min-h-screen bg-[rgb(243,244,246)] bg-[url('/assets/img/oauth/grid.svg')] bg-cover bg-no-repeat bg-center bg-fixed">
+<div
+  class="flex items-center justify-center min-h-screen bg-[rgb(243,244,246)] bg-[url('/assets/img/oauth/grid.svg')] bg-cover bg-no-repeat bg-center bg-fixed">
   <div *ngIf="alert" [ngClass]="{
-        'bg-green-50 text-green-800': alert.type === 'success',
-        'bg-red-50 text-red-800': alert.type === 'error'
-      }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg w-auto" role="alert">
-    <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
+  'bg-green-50 text-green-800 border border-green-100': alert.type === 'success',
+      'bg-red-50 text-red-800 border border-red-100': alert.type === 'error',
+      'bg-yellow-50 text-yellow-800 border border-yellow-100': alert.type === 'warning'
+    }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg z-50 w-auto" role="alert">
+    <svg *ngIf="alert.type === 'success'" class="shrink-0 size-6 mr-2" xmlns="http://www.w3.org/2000/svg"
       fill="currentColor" viewBox="0 0 20 20">
       <path
         d="M16.707 5.293a1 1 0 0 0-1.414 0L9 11.586 6.707 9.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l7-7a1 1 0 0 0 0-1.414Z" />
     </svg>
-    <svg *ngIf="alert.type === 'error'" class="shrink-0 w-6 h-6 mr-2"
-      fill="currentColor" viewBox="0 0 20 20">
-      <use xlink:href="/assets/sprite.svg#error"/>
+    <svg *ngIf="alert.type === 'error'" class="shrink-0 size-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+      <use xlink:href="/assets/sprite.svg#error" />
+    </svg>
+    <svg *ngIf="alert.type === 'warning'" class="shrink-0 size-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+      <use xlink:href="/assets/sprite.svg#alert" />
     </svg>
     <span class="text-sm font-medium">{{ alert.message }}</span>
   </div>
@@ -43,12 +47,29 @@
           <option value="" disabled selected hidden>Seleccione una carrera</option>
           <option *ngFor="let c of career" [value]="c.idCarrera">{{ c.nombre }}</option>
         </select>
-        
+
         <label for="idCarrera"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Carrera</label>
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
           class="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none">
-          <use xlink:href="/assets/sprite.svg#select"/>
+          <use xlink:href="/assets/sprite.svg#select" />
+        </svg>
+      </div>
+
+      <div class="relative z-0 w-full mb-5 group">
+        <select [(ngModel)]="registerData.genero" name="genero" id="genero"
+          class="block py-3 px-2 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 focus:outline-none focus:ring-0 focus:border-primary-blue peer"
+          required>
+          <option value="" disabled selected hidden>Seleccione tu género</option>
+          <option [value]="1">Masculino</option>
+          <option [value]="0">Femenino</option>
+        </select>
+
+        <label for="genero"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Género</label>
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none">
+          <use xlink:href="/assets/sprite.svg#select" />
         </svg>
       </div>
 
@@ -61,72 +82,56 @@
       </div>
 
       <div class="relative z-0 w-full mb-5 group">
-        <input 
-          [type]="showPassword ? 'text' : 'password'" 
-          [(ngModel)]="registerData.contrasenha" 
-          name="contrasenha" 
+        <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="registerData.contrasenha" name="contrasenha"
           id="contrasenha"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
-          placeholder=" " 
-          required 
-        />
-        <label 
-          for="contrasenha"
+          placeholder=" " required />
+        <label for="contrasenha"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
           Contraseña
         </label>
         <!-- Botón para mostrar/ocultar contraseña -->
-        <button 
-          *ngIf="registerData.contrasenha?.trim()"
-          type="button" 
+        <button *ngIf="registerData.contrasenha?.trim()" type="button"
           class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
           (click)="togglePasswordVisibility()">
           <ng-container *ngIf="showPassword">
             <!-- Icono para ocultar contraseña -->
             <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="/assets/sprite.svg#eyeslash"/>
+              <use xlink:href="/assets/sprite.svg#eyeslash" />
             </svg>
           </ng-container>
           <ng-container *ngIf="!showPassword">
             <!-- Icono para mostrar contraseña -->
             <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="/assets/sprite.svg#eye"/>
+              <use xlink:href="/assets/sprite.svg#eye" />
             </svg>
           </ng-container>
         </button>
       </div>
-      
+
       <div class="relative z-0 w-full mb-5 group">
-        <input 
-          [type]="showConfirmPassword ? 'text' : 'password'" 
-          [(ngModel)]="registerData.confirmarContrasenha" 
-          name="confirmarContrasenha" 
-          id="confirmarContrasenha"
+        <input [type]="showConfirmPassword ? 'text' : 'password'" [(ngModel)]="registerData.confirmarContrasenha"
+          name="confirmarContrasenha" id="confirmarContrasenha"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2B7FFF] peer"
-          placeholder=" " 
-          required 
-        />
-        <label 
-          for="confirmarContrasenha"
+          placeholder=" " required />
+        <label for="confirmarContrasenha"
           class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
           Confirmar contraseña
         </label>
         <!-- Botón para mostrar/ocultar contraseña -->
-        <button 
-          *ngIf="registerData.confirmarContrasenha?.trim()"
-          type="button" 
+        <button *ngIf="registerData.confirmarContrasenha?.trim()" type="button"
           class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
           (click)="toggleConfirmPasswordVisibility()">
           <ng-container *ngIf="showConfirmPassword">
             <!-- Icono para ocultar contraseña -->
             <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="/assets/sprite.svg#eyeslash"/>
+              <use xlink:href="/assets/sprite.svg#eyeslash" />
             </svg>
           </ng-container>
           <ng-container *ngIf="!showConfirmPassword">
             <!-- Icono para mostrar contraseña -->
             <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="/assets/sprite.svg#eye"/>
+              <use xlink:href="/assets/sprite.svg#eye" />
             </svg>
           </ng-container>
         </button>
@@ -138,8 +143,9 @@
         <ng-container *ngIf="!isRegistering">Registrarse</ng-container>
         <ng-container *ngIf="isRegistering">
           Registrando...
-          <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true" data-icon="spin">
-            <use xlink:href="/assets/sprite.svg#spinner"/>
+          <svg class="animate-spin" width="24" height="24" viewBox="0 0 36 36" version="1.1" aria-hidden="true"
+            data-icon="spin">
+            <use xlink:href="/assets/sprite.svg#spinner" />
           </svg>
         </ng-container>
       </button>
@@ -153,7 +159,7 @@
     <button (click)="loginWithGoogle()"
       class="w-full flex items-center justify-center gap-2 border py-3 border-gray-300 rounded text-gray-700 hover:bg-gray-200">
       <svg width="24" height="24" viewBox="0 0 48 48">
-        <use xlink:href="/assets/sprite.svg#google"/>
+        <use xlink:href="/assets/sprite.svg#google" />
       </svg> Registrarse con Google
     </button>
 
