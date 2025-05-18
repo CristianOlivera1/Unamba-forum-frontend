@@ -14,6 +14,7 @@ import { ModalFollowerComponent } from './pages/profile/components/modal-followe
 import { NewPublicationComponent } from './pages/new-publication/new-publication.component';
 import { EditPublicationComponent } from './pages/edit-publication/edit-publication.component';
 import { AboutMeComponent } from './pages/about-me/about-me.component';
+import { ConfigComponent } from './pages/config/config.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -35,5 +36,7 @@ export const routes: Routes = [
     { path: 'editpublication/:idPublicacion', component: EditPublicationComponent },
     { path: 'career/all', component: CareerComponent },
     { path: 'aboutme', component: AboutMeComponent },
+    { path: 'config', component: ConfigComponent },
+
     { path: '**', redirectTo: '' }
 ];
