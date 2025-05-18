@@ -1,8 +1,8 @@
 <app-header></app-header>
 <div *ngIf="alert" [ngClass]="{
-  'bg-green-50 text-green-800': alert.type === 'success',
-      'bg-red-50 text-red-800': alert.type === 'error',
-      'bg-yellow-50 text-yellow-800': alert.type === 'warning'
+  'bg-green-50 text-green-800 border border-green-100': alert.type === 'success',
+      'bg-red-50 text-red-800 border border-red-100': alert.type === 'error',
+      'bg-yellow-50 text-yellow-800 border border-yellow-100': alert.type === 'warning'
     }" class="fixed top-5 right-5 flex items-center p-4 rounded-lg shadow-lg z-50 w-auto" role="alert">
   <svg *ngIf="alert.type === 'success'" class="shrink-0 w-6 h-6 mr-2" xmlns="http://www.w3.org/2000/svg"
     fill="currentColor" viewBox="0 0 20 20">
@@ -32,8 +32,7 @@
     </button>
   </div>
 
-  <div
-    class="bg-white shadow-md rounded-xl p-10 -mt-23 mx-8 relative flex flex-col md:flex-row md:items-center justify-between gap-6 z-20">
+  <div class="bg-white shadow-md rounded-xl p-10 -mt-23 mx-8 relative flex flex-col md:flex-row md:items-center justify-between gap-6 z-10">
     <!-- Info usuario -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
       <div class="relative shrink-0">
@@ -74,8 +73,7 @@
     </div>
 
     <div *ngIf="currentUserId === userId" class="xl:self-start">
-      <button
-        class="w-full justify-center bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2"
+      <button class="w-full justify-center bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2" (click)="navigateToEditProfile()"
         title="Editar perfil">
         <svg class="w-4 h-4" viewBox="0 0 32 32">
           <use xlink:href="/assets/sprite.svg#editpencil" />
@@ -106,7 +104,7 @@
 
   <!-- Contenedor de columnas -->
   <div class="mt-15 mb-30 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr_1fr] gap-6 items-start">
-    <aside class="border border-gray-200 rounded-xl p-5 lg:sticky lg:top-28">
+    <aside class="border border-gray-200 rounded-xl p-5 lg:sticky lg:top-28 bg-white">
       <h2 class="font-semibold text-lg mb-4 text-subtitle">Detalles</h2>
       <ul class="space-y-3 text-sm text-gray-700">
         <app-detail [userDetails]="userDetails"></app-detail>
@@ -114,161 +112,173 @@
     </aside>
 
     <div class="flex flex-col gap-4">
-      <div *ngFor="let publication of userPublications"
-        class="border border-gray-200 rounded-xl hover:shadow-md hover:bg-gradient-to-r from-gray-50 to-transparent p-4 space-y-4 hover:border-gray-300 transition-all duration-300 ease-in-out">
-        <div class="relative">
-          <div *ngIf="publication.fijada" class="absolute -top-6 right-0 text-gray-500">
-            <svg width="20" height="20" viewBox="0 0 16 16">
-              <use xlink:href="/assets/sprite.svg#fixed" />
-            </svg>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <a (click)="navigateToProfileUser(publication.idUsuario)">
-            <img [src]="publication.avatar" alt="Avatar"
-              class="w-10 h-10 rounded-full transition-opacity hover:opacity-90"
-              (mouseenter)="showHoverModal(publication.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
-          </a>
-          <div class="flex-1">
-            <div class="flex items-center gap-2">
-              <a (click)="navigateToProfileUser(publication.idUsuario)">
-                <h3 class="text-sm font-semibold text-gray-800 hover:underline transition-all duration-300">{{
-                  publication.nombreCompleto }}</h3>
-              </a>
-              <ng-container *ngIf="userProfile?.rol === 'ADMINISTRADOR'">
-                <svg width="20" height="20" viewBox="0 0 24 24">
-                  <use xlink:href="/assets/sprite.svg#verified" />
-                </svg>
-              </ng-container>
+      <ng-container *ngIf="userPublications.length > 0; else noPublications">
+        <div *ngFor="let publication of userPublications"
+          class="border border-gray-200 bg-white rounded-xl hover:shadow-md p-4 space-y-4 hover:border-gray-300 transition-all duration-300 ease-in-out">
+          <div class="relative">
+            <div *ngIf="publication.fijada" class="absolute -top-6 right-0 text-gray-500">
+              <svg width="20" height="20" viewBox="0 0 16 16">
+                <use xlink:href="/assets/sprite.svg#fixed" />
+              </svg>
             </div>
-            <div class="flex items-center gap-2">
-              <p class="text-xs text-gray-500 truncate">{{ publication.nombreCarrera }}</p>
-              <div class="flex items-center gap-1 ml-auto">
-                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{{ publication.nombreCategoria
-                  }}</span>
-                <span class="text-xs text-gray-400">• {{ getTimeElapsedWrapper(publication.fechaRegistro) }}</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <a (click)="navigateToProfileUser(publication.idUsuario)">
+              <img [src]="publication.avatar" alt="Avatar"
+                class="w-10 h-10 rounded-full transition-opacity hover:opacity-90"
+                (mouseenter)="showHoverModal(publication.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
+            </a>
+            <div class="flex-1">
+              <div class="flex items-center gap-2">
+                <a (click)="navigateToProfileUser(publication.idUsuario)">
+                  <h3 class="text-sm font-semibold text-gray-800 hover:underline transition-all duration-300">{{
+                    publication.nombreCompleto }}</h3>
+                </a>
+                <ng-container *ngIf="userProfile?.rol === 'ADMINISTRADOR'">
+                  <svg width="20" height="20" viewBox="0 0 24 24">
+                    <use xlink:href="/assets/sprite.svg#verified" />
+                  </svg>
+                </ng-container>
+              </div>
+              <div class="flex items-center gap-2">
+                <p class="text-xs text-gray-500 truncate">{{ publication.nombreCarrera }}</p>
+                <div class="flex items-center gap-1 ml-auto">
+                  <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{{ publication.nombreCategoria
+                    }}</span>
+                  <span class="text-xs text-gray-400">• {{ getTimeElapsedWrapper(publication.fechaRegistro) }}</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="relative inline-block text-left"
-            *ngIf="isCurrentUserAdmin || publication.idUsuario === currentUserId">
-            <div>
-              <button type="button" id="option-publication"
-                class="hover:bg-gray-100 p-1 rounded-lg transition-colors duration-300" [ngClass]="{
+            <div class="relative inline-block text-left"
+              *ngIf="isCurrentUserAdmin || publication.idUsuario === currentUserId">
+              <div>
+                <button type="button" id="option-publication"
+                  class="hover:bg-gray-100 p-1 rounded-lg transition-colors duration-300" [ngClass]="{
               'text-gray-500': !publication.isDropdownVisible,
               'text-gray-600 bg-gray-200': publication.isDropdownVisible
             }" aria-expanded="true" aria-haspopup="true" (click)="toggleDropdown(publication)">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                  <use xlink:href="/assets/sprite.svg#threedots" />
-                </svg>
-              </button>
+                  <svg width="24" height="24" viewBox="0 0 24 24">
+                    <use xlink:href="/assets/sprite.svg#threedots" />
+                  </svg>
+                </button>
+              </div>
+              <div *ngIf="publication.isDropdownVisible" class="fixed inset-0 z-40"
+                (click)="closeDropdown(publication)"></div>
+
+              <div *ngIf="publication.isDropdownVisible"
+                class="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden">
+                <div class="py-1">
+                  <!-- Opciones para el administrador -->
+                  <ng-container *ngIf="isCurrentUserAdmin">
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                      (click)="openDeleteModal(publication)">Eliminar</a>
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                      (click)="navigateToEditPublication(publication.idPublicacion)">Actualizar</a>
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                      (click)="toggleFixPublication(publication)">{{ publication.fijada ? 'Desfijar' : 'Fijar' }}</a>
+                  </ng-container>
+
+                  <!-- Opciones para el propietario de la publicación -->
+                  <ng-container *ngIf="publication.idUsuario === currentUserId && !isCurrentUserAdmin">
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                      (click)="openDeleteModal(publication)">Eliminar</a>
+                    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
+                      (click)="navigateToEditPublication(publication.idPublicacion)">Actualizar</a>
+                  </ng-container>
+                </div>
+              </div>
             </div>
 
-            <div *ngIf="publication.isDropdownVisible"
-              class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden">
-              <div class="py-1">
-                <!-- Opciones para el administrador -->
-                <ng-container *ngIf="isCurrentUserAdmin">
-                  <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
-                    (click)="openDeleteModal(publication)">Eliminar</a>
-                  <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
-                    (click)="navigateToEditPublication(publication.idPublicacion)">Actualizar</a>
-                  <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
-                    (click)="toggleFixPublication(publication)">{{ publication.fijada ? 'Desfijar' : 'Fijar' }}</a>
+          </div>
+
+          <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
+            (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
+
+          <div *ngIf="publication.archivos.length > 0" class="w-full overflow-hidden">
+            <div class="group relative h-[260px]">
+              <div
+                class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
+                <ng-container *ngIf="publication.archivos.length === 1">
+                  <figure *ngFor="let archivo of publication.archivos ; let i = index" class="shrink-0 w-full">
+                    <div class="overflow-hidden rounded-md">
+                      <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
+                        class="aspect-square h-54 w-full object-cover"
+                        (click)="openPhotoSlider(publication.archivos,i)" />
+
+                      <img *ngIf="archivo.tipo === 'gif' && archivo.rutaArchivo.endsWith('.gif')"
+                        [src]="archivo.rutaArchivo" alt="GIF" class="aspect-square h-54 w-full object-cover" />
+
+                      <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-full object-cover"
+                        (click)="openPhotoSlider(publication.archivos,i)">
+                        <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                        Tu navegador no soporta la etiqueta de video.
+                      </video>
+                    </div>
+                  </figure>
                 </ng-container>
 
-                <!-- Opciones para el propietario de la publicación -->
-                <ng-container *ngIf="publication.idUsuario === currentUserId && !isCurrentUserAdmin">
-                  <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
-                    (click)="openDeleteModal(publication)">Eliminar</a>
-                  <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-300"
-                    (click)="navigateToEditPublication(publication.idPublicacion)">Actualizar</a>
+                <ng-container *ngIf="publication.archivos.length > 1">
+                  <figure *ngFor="let archivo of publication.archivos; let i= index" class="shrink-0">
+                    <div class="overflow-hidden rounded-md">
+                      <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="media"
+                        class="aspect-square h-54 w-54 object-cover"
+                        (click)="openPhotoSlider(publication.archivos,i)" />
+                      <img *ngIf="archivo.tipo === 'gif' && archivo.rutaArchivo.endsWith('.gif')"
+                        [src]="archivo.rutaArchivo" alt="GIF" class="aspect-square h-54 w-full object-cover" />
+
+                      <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-54 object-cover"
+                        (click)="openPhotoSlider(publication.archivos,i)">
+                        <source [src]="archivo.rutaArchivo" type="video/mp4" />
+                        Tu navegador no soporta la etiqueta de video.
+                      </video>
+                    </div>
+                  </figure>
                 </ng-container>
               </div>
             </div>
           </div>
 
-        </div>
-
-        <app-hover-avatar *ngIf="isHoverModalVisible" [profileData]="hoverProfileData" [position]="hoverPosition"
-          (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeave()"></app-hover-avatar>
-
-        <div *ngIf="publication.archivos.length > 0" class="w-full overflow-hidden">
-          <div class="group relative h-[260px]">
-            <div
-              class="flex gap-4 overflow-hidden group-hover:overflow-x-auto group-hover:scrollbar-thin group-hover:scrollbar-thumb-blue-500 py-4 h-full">
-              <ng-container *ngIf="publication.archivos.length === 1">
-                <figure *ngFor="let archivo of publication.archivos ; let i = index" class="shrink-0 w-full">
-                  <div class="overflow-hidden rounded-md">
-                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="Media"
-                      class="aspect-square h-54 w-full object-cover"
-                      (click)="openPhotoSlider(publication.archivos,i)" />
-
-                    <img *ngIf="archivo.tipo === 'gif' && archivo.rutaArchivo.endsWith('.gif')"
-                      [src]="archivo.rutaArchivo" alt="GIF" class="aspect-square h-54 w-full object-cover" />
-
-                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-full object-cover"
-                      (click)="openPhotoSlider(publication.archivos,i)">
-                      <source [src]="archivo.rutaArchivo" type="video/mp4" />
-                      Tu navegador no soporta la etiqueta de video.
-                    </video>
-                  </div>
-                </figure>
-              </ng-container>
-
-              <ng-container *ngIf="publication.archivos.length > 1">
-                <figure *ngFor="let archivo of publication.archivos; let i= index" class="shrink-0">
-                  <div class="overflow-hidden rounded-md">
-                    <img *ngIf="archivo.tipo === 'imagen'" [src]="archivo.rutaArchivo" alt="media"
-                      class="aspect-square h-54 w-54 object-cover" (click)="openPhotoSlider(publication.archivos,i)" />
-                    <img *ngIf="archivo.tipo === 'gif' && archivo.rutaArchivo.endsWith('.gif')"
-                      [src]="archivo.rutaArchivo" alt="GIF" class="aspect-square h-54 w-full object-cover" />
-
-                    <video *ngIf="archivo.tipo === 'video'" controls class="aspect-square h-54 w-54 object-cover"
-                      (click)="openPhotoSlider(publication.archivos,i)">
-                      <source [src]="archivo.rutaArchivo" type="video/mp4" />
-                      Tu navegador no soporta la etiqueta de video.
-                    </video>
-                  </div>
-                </figure>
-              </ng-container>
-            </div>
+          <!-- Contenido publicación -->
+          <div>
+            <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas..." class="group">
+              <h4
+                class="group-hover:text-secondary-blue font-semibold truncate text-gray-900 text-sm w-80 sm:w-120 xl:w-100">
+                {{ publication.titulo }}
+              </h4>
+              <p class="text-gray-600 text-sm mt-1 truncate w-80 sm:w-120 xl:w-100" [innerHTML]="publication.contenido">
+              </p>
+            </a>
           </div>
+          <app-modal-users-by-reaction-type *ngIf="publication.isReactionModalVisible"
+            [reactionType]="publication.reactionType" [users]="publication.reactionUsers"
+            [position]="publication.hoverPosition" (mouseenter)="onModalMouseEnter()"
+            (mouseleave)="onModalMouseLeaveReaction(publication)">
+          </app-modal-users-by-reaction-type>
+
+          <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
+            [totalComentarios]="publication.totalComentarios" (hoverReaction)="openReactionHover($event, publication)"
+            (leaveReaction)="closeReactionHover(publication)" (hoverComments)="openCommentHover($event, publication)"
+            (leaveComments)="closeCommentHover(publication)">
+          </app-totals-reaction-comment>
+
+          <app-modal-user-comment-publication *ngIf="publication.isCommentModalVisible"
+            [usersComment]="publication.usersComment" [position]="publication.commentHoverPosition"
+            (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveComment(publication)">
+          </app-modal-user-comment-publication>
+
+          <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
         </div>
-
-        <!-- Contenido publicación -->
-        <div>
-          <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
-            <h4 class="font-semibold truncate text-gray-900 text-sm w-80 sm:w-120 xl:w-100">{{ publication.titulo }}
-            </h4>
-            <p class="text-gray-600 text-sm mt-1 truncate w-80 sm:w-120 xl:w-100" [innerHTML]="publication.contenido">
-            </p>
-          </a>
+      </ng-container>
+      <ng-template #noPublications>
+        <div class="text-center text-gray-500 mt-4">
+          <p>No tienes ninguna publicación.</p>
         </div>
-        <app-modal-users-by-reaction-type *ngIf="publication.isReactionModalVisible"
-          [reactionType]="publication.reactionType" [users]="publication.reactionUsers"
-          [position]="publication.hoverPosition" (mouseenter)="onModalMouseEnter()"
-          (mouseleave)="onModalMouseLeaveReaction(publication)">
-        </app-modal-users-by-reaction-type>
-
-        <app-totals-reaction-comment [idPublicacion]="publication.idPublicacion"
-          [totalComentarios]="publication.totalComentarios" (hoverReaction)="openReactionHover($event, publication)"
-          (leaveReaction)="closeReactionHover(publication)" (hoverComments)="openCommentHover($event, publication)"
-          (leaveComments)="closeCommentHover(publication)">
-        </app-totals-reaction-comment>
-
-        <app-modal-user-comment-publication *ngIf="publication.isCommentModalVisible"
-          [usersComment]="publication.usersComment" [position]="publication.commentHoverPosition"
-          (mouseenter)="onModalMouseEnter()" (mouseleave)="onModalMouseLeaveComment(publication)">
-        </app-modal-user-comment-publication>
-
-        <app-reaction [idUsuario]="currentUserId ?? ''" [idPublicacion]="publication.idPublicacion"></app-reaction>
-      </div>
+      </ng-template>
     </div>
 
     <!-- Columna derecha (Sugerencias) -->
-    <div class="border border-gray-200 rounded-xl p-5 xl:sticky xl:top-28">
+    <div class="border border-gray-200 bg-white rounded-xl p-5 xl:sticky xl:top-28">
       <app-suggestion [suggestedUsers]="suggestedUsers"></app-suggestion>
     </div>
   </div>

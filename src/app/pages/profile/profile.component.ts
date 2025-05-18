@@ -179,7 +179,9 @@ export class ProfileComponent implements OnInit {
     this.isDeleteModalVisible = false;
     this.publicationToDelete = null;
   }
-
+closeDropdown(publication: any) {
+  publication.isDropdownVisible = false;
+}
   confirmDelete(): void {
     if (this.publicationToDelete) {
       this.publicationService.deletePublication(this.publicationToDelete.idPublicacion).subscribe({
@@ -529,6 +531,9 @@ export class ProfileComponent implements OnInit {
       publication.isDropdownVisible = false;
     }
     this.router.navigate(['/editpublication', idPublicacion]);
-    this.router.navigate(['/editpublication', idPublicacion]);
+  }
+
+  navigateToEditProfile(){
+    this.router.navigate(['/config']);
   }
 }
