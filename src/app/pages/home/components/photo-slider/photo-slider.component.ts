@@ -50,6 +50,7 @@ export class PhotoSliderComponent implements OnInit {
   closeSlider() {
     this.close.emit();
   }
+  
   zoomIn() {
     this.scale += 0.3;
   }
