@@ -375,5 +375,7 @@ export class PublicationWithFilesComponent implements OnInit {
     }
     this.router.navigate(['/editpublication', idPublicacion]);
   }
-
+closeDropdown(publication: any) {
+  publication.isDropdownVisible = false;
+}
 }
