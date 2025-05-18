@@ -63,9 +63,9 @@ export class PublicationWithFilesCareerComponent implements OnChanges {
       this.publications = [];
       this.hasMorePublications = true;
       if (this.idCarrera === 'all') {
-        this.loadAllPublicationsWithFiles(); 
+        this.loadAllPublicationsWithFiles();
       } else {
-        this.loadPublications(); 
+        this.loadPublications();
       }
     }
 
@@ -94,7 +94,7 @@ export class PublicationWithFilesCareerComponent implements OnChanges {
       }
     });
   }
-  
+
   loadPublications(page: number = 0): void {
     if (this.isLoading || !this.hasMorePublications) {
       return;
@@ -147,11 +147,11 @@ export class PublicationWithFilesCareerComponent implements OnChanges {
   }
   loadAllPublicationsWithFiles(page: number = 0): void {
     if (this.isLoading || !this.hasMorePublications) {
-      return; 
+      return;
     }
-  
+
     this.isLoading = true;
-  
+
     this.publicationService.getPublicationsWithFilesPaginated(page).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
@@ -163,14 +163,14 @@ export class PublicationWithFilesCareerComponent implements OnChanges {
             reactionType: '',
             hoverPosition: { top: 0, left: 0 }
           }));
-  
+
           if (newPublications.length === 0) {
             this.hasMorePublications = false;
           } else {
             this.publications = [...this.publications, ...newPublications];
             this.currentPage++;
           }
-  
+
           // Obtener el rol de cada usuario en las publicaciones
           newPublications.forEach((publication: Publication) => {
             this.rolService.getRolByUserId(publication.idUsuario).subscribe({
@@ -434,5 +434,7 @@ export class PublicationWithFilesCareerComponent implements OnChanges {
     }
     this.router.navigate(['/editpublication', idPublicacion]);
   }
-
+  closeDropdown(publication: any) {
+    publication.isDropdownVisible = false;
+  }
 }
