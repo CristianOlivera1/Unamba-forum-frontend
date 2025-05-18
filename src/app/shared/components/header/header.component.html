@@ -1,5 +1,5 @@
 <header (click)="onClickOutside($event)">
-  <nav class="flex items-center justify-between p-4 md:px-8" aria-label="Global">
+  <nav class="flex items-center justify-between p-4 md:px-8 z-10" aria-label="Global">
     <div class="flex md:flex-1">
 
       <a href="#" class="relative -m-1.5 p-1.5 md:flex">
@@ -82,15 +82,15 @@
       </div>
     </div>
 
-    <div class="flex flex-1 justify-end mr-3 ">
+    <div class="flex flex-1 justify-end mr-3 sm:mr-0">
       <ng-container *ngIf="isLoggedIn; else guestButtons">
 
         <div class="flex items-center gap-4 relative">
           <div class="inline-block group cursor-pointer" (click)="togglePopover()" >
             <img *ngIf="userProfile?.fotoPerfil" [src]="userProfile.fotoPerfil" alt="Foto de perfil"
               class="size-11 rounded-full hover-img-avatar object-cover"/>
-            <div class="absolute bottom-0 -right-1.5 w-5 h-5 flex items-center justify-center bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-gray-300">
-              <svg class="size-5 text-gray-600" viewBox="0 0 20 20"  aria-hidden="true">
+            <div class="absolute bottom-0 -right-1.5 w-5 h-5 flex items-center justify-center bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-gray-300" [ngClass]="{'opacity-100': showPopover, 'opacity-0': !showPopover}">
+              <svg class="size-5 text-gray-600"p viewBox="0 0 20 20"  aria-hidden="true">
                 <use xlink:href="/assets/sprite.svg#arrowbottom" />
               </svg>
             </div>
@@ -131,7 +131,7 @@
               </li>
               <li>
                 <a class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-900 text-sm"
-                  href="javascript:;">
+                  (click)="navigateToConfiguration()">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="/assets/sprite.svg#configuration" />
                   </svg>
