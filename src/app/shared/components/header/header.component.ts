@@ -117,6 +117,9 @@ export class HeaderComponent implements OnInit {
   navigateToAllCareers(){
     this.router.navigate(['/career/all']);
   }
+  navigateToConfiguration(){
+    this.router.navigate(['/config']);
+  }
 
   showPopover=false;
   @ViewChild('popoverMenu') popoverMenu!: ElementRef;
