@@ -15,4 +15,7 @@ export class CustomValidators {
     return career ? null : 'Por favor selecciona una carrera válida.';
   }
 
+  validateGender(gender: string): string | null {
+    return gender ? null : 'Por favor selecciona un género válido.';
+  }
 }
