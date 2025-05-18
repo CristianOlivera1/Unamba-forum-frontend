@@ -16,7 +16,7 @@
   </div>
 
   <div *ngFor="let publication of publications"
-    class="border border-gray-200 rounded-lg hover:shadow-md bg-white p-4 space-y-4 hover:border-gray-300 transition-all duration-300 ease-in-out">
+    class="border border-gray-200 rounded-xl hover:shadow-md bg-white p-4 space-y-4 hover:border-gray-300 transition-all duration-300 ease-in-out">
     <!-- Mostrar ícono de publicación fijada -->
     <div class="relative">
       <div *ngIf="publication.fijada" class="absolute -top-6 right-0 text-gray-500">
@@ -54,7 +54,7 @@
         *ngIf="isCurrentUserAdmin || publication.idUsuario === currentUserId">
         <div>
           <button type="button" id="option-publication"
-            class="hover:bg-gray-100 p-1 rounded-lg transition-colors duration-300" [ngClass]="{
+            class="hover:bg-gray-100 p-1 rounded-xl transition-colors duration-300" [ngClass]="{
               'text-gray-500': !publication.isDropdownVisible,
               'text-gray-600 bg-gray-200': publication.isDropdownVisible
             }" aria-expanded="true" aria-haspopup="true" (click)="toggleDropdown(publication)">
@@ -63,8 +63,10 @@
             </svg>
           </button>
         </div>
+          <div *ngIf="publication.isDropdownVisible" class="fixed inset-0 z-40" (click)="closeDropdown(publication)"></div>
+
         <div *ngIf="publication.isDropdownVisible"
-          class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden">
+          class="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden">
           <div class="py-1">
             <!-- Opciones para el administrador -->
             <ng-container *ngIf="isCurrentUserAdmin">
@@ -143,7 +145,7 @@
     <!-- Contenido -->
     <div class="group">
       <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas...">
-        <h4 class="font-semibold truncate text-gray-900 text-sm group-hover:text-primary-blue group-hover:underline">{{ publication.titulo }}</h4>
+        <h4 class="font-semibold truncate text-gray-900 text-sm group-hover:text-secondary-blue group-hover:underline">{{ publication.titulo }}</h4>
         <div class="text-gray-600 text-sm mt-1 clamped" [innerHTML]="publication.contenido"></div>
       </a>
     </div>

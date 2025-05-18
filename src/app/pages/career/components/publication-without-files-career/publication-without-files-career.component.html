@@ -8,7 +8,7 @@
     <div *ngFor="let publication of publications"
       class="group flex-shrink-0 md:shrink md:w-full w-[85%] min-w-[280px] bg-white border border-gray-300 md:border-x-0 md:border-t-0 rounded-lg md:border-b p-4 hover:bg-gray-100 transition duration-300" title="Ver mas...">
       <a (click)="navigateToDetailPublication(publication.idPublicacion)">
-      <h3 class="text-lg font-medium truncate group-hover:text-primary-blue group-hover:underline">{{ publication.titulo }}</h3>
+      <h3 class="text-lg font-medium truncate group-hover:text-secondary-blue group-hover:underline">{{ publication.titulo }}</h3>
       <p class="text-gray-500 text-sm mb-3 truncate">
         {{ publication.nombreCompleto }} • {{ getTimeElapsedWrapper(publication.fechaRegistro) }}
       </p>
