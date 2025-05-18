@@ -1,5 +1,4 @@
-<div
-  class="PhotoView-Portal fixed inset-0 z-50 flex flex-col items-center justify-center bg-black-40 transition-all duration-500"
+<div class="PhotoView-Portal fixed inset-0 z-50 flex flex-col items-center justify-center bg-black transition-all duration-500"
   role="dialog" (wheel)="onWheel($event)">
   <div class="absolute inset-0" (click)="closeSlider()"></div>
 
@@ -31,40 +30,43 @@
   </div>
 
   <div class="flex gap-3 justify-center">
-    <div class="relative w-full h-full"
-         (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)" (touchend)="onTouchEnd()"
-         (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp()"
-         (mouseleave)="onMouseUp()">
-    <ng-container *ngIf="currentPhoto">
-      <img *ngIf="currentPhoto.tipo === 'imagen'" [src]="currentPhoto.rutaArchivo"
-        class="max-h-full w-auto max-w-full object-contain transition-transform duration-300 ease-in-out"
-        [class.cursor-grab]="!isDragging && !isZoomed"
-        [class.cursor-grabbing]="isDragging"
-        [style.transform]="'scale(' + scale + ') translate(' + translateX + 'px, ' + translateY + 'px)'"
-        (click)="handleImageClick($event)" />
+    <div class="relative w-full h-full" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd()" (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)"
+      (mouseup)="onMouseUp()" (mouseleave)="onMouseUp()">
+      <ng-container *ngIf="currentPhoto">
+        <img *ngIf="currentPhoto.tipo === 'imagen'" [src]="currentPhoto.rutaArchivo"
+          class="max-h-full w-auto max-w-full object-contain transition-transform duration-300 ease-in-out"
+          [class.cursor-grab]="!isDragging && !isZoomed" [class.cursor-grabbing]="isDragging"
+          [style.transform]="'scale(' + scale + ') translate(' + translateX + 'px, ' + translateY + 'px)'"
+          (click)="handleImageClick($event)" />
 
-      <video *ngIf="currentPhoto.tipo === 'video'" controls autoplay
-        class="max-h-full object-contain transition-all duration-500">
-        <source [src]="currentPhoto.rutaArchivo" type="video/mp4" />
-        Tu navegador no soporta la etiqueta de video.
-      </video>
-    </ng-container>
+        <img *ngIf="currentPhoto.tipo === 'gif'" [src]="currentPhoto.rutaArchivo"
+          class="max-h-full w-auto max-w-full object-contain transition-transform duration-300 ease-in-out"
+          [class.cursor-grab]="!isDragging && !isZoomed" [class.cursor-grabbing]="isDragging"
+          [style.transform]="'scale(' + scale + ') translate(' + translateX + 'px, ' + translateY + 'px)'"
+          (click)="handleImageClick($event)" />
+
+        <video *ngIf="currentPhoto.tipo === 'video'" controls autoplay
+          class="max-h-full object-contain transition-all duration-500">
+          <source [src]="currentPhoto.rutaArchivo" type="video/mp4" />
+          Tu navegador no soporta la etiqueta de video.
+        </video>
+      </ng-container>
     </div>
   </div>
 
-  <!-- Zoom Controls -->
-  <div class="absolute bottom-20 flex gap-4">
-    <button (click)="zoomIn()" class="bg-white text-black px-4 py-2 rounded-md">Zoom In</button>
-    <button (click)="zoomOut()" class="bg-white text-black px-4 py-2 rounded-md">Zoom Out</button>
-    <button (click)="resetZoom()" class="bg-white text-black px-4 py-2 rounded-md">Reset</button>
-  </div>
-  
   <!-- Mini Carousel -->
   <div class="absolute bottom-6 left-1/2 -translate-x-1/2 w-full max-w-4xl px-4">
     <div class="flex gap-3 overflow-x-auto py-2 px-2 bg-black/30 rounded-lg backdrop-blur-sm justify-center">
       <div *ngFor="let photo of photos; let i = index"
         class="cursor-pointer shrink-0 hover:scale-105 transition-transform">
         <img *ngIf="photo.tipo === 'imagen'" [src]="photo.rutaArchivo" alt="Preview"
+          class="h-20 w-20 object-cover rounded-sm border-2 transition-all duration-300" [ngClass]="{
+        'border-blue-500': i === currentIndex,
+        'border-gray-500 opacity-60 hover:opacity-100': i !== currentIndex
+      }" (click)="currentIndex = i" />
+
+        <img *ngIf="photo.tipo === 'gif'" [src]="photo.rutaArchivo" alt="Preview"
           class="h-20 w-20 object-cover rounded-sm border-2 transition-all duration-300" [ngClass]="{
         'border-blue-500': i === currentIndex,
         'border-gray-500 opacity-60 hover:opacity-100': i !== currentIndex
