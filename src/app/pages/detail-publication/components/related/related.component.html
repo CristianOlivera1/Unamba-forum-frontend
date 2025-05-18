@@ -1,9 +1,9 @@
 <div class="flex xl:flex-col xl:space-y-4 gap-x-4 overflow-x-auto xl:overflow-visible">
   <!-- Publicaciones relacionadas -->
   <div *ngFor="let related of publicationRelated"
-    class="group flex-shrink-0 w-[85%] sm:w-[45%] xl:w-full bg-white p-4 rounded-xl shadow border border-gray-200 hover:bg-gray-50 transition duration-300 hover:border-gray-300">
+    class="group flex-shrink-0 w-[85%] sm:w-[45%] xl:w-full bg-white p-4 rounded-xl border border-gray-200 hover:border-gray-300">
     <a (click)="navigateToDetailPublication(related.idPublicacion)" title="Ver más...">
-      <h3 class="text-sm font-semibold text-gray-800 leading-snug group-hover:text-primary-blue group-hover:underline transition duration-300">
+      <h3 class="text-sm font-semibold text-gray-800 leading-snug group-hover:text-secondary-blue group-hover:underline transition duration-300">
         {{ related.titulo }}
       </h3>
       <div class="flex text-xs text-gray-500 mt-1">
