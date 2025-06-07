@@ -15,5 +15,5 @@ export class RolService {
     const url = `${this.apiRol}/user/${idUsuario}`;
     return this.httpClient.get<any>(url);
   }
-  
+
 }
