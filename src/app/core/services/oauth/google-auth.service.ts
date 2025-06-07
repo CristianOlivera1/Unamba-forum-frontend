@@ -3,16 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-const cabecera = {headers: new HttpHeaders({'Content-Type' : 'application/json'})};
-
 @Injectable({
   providedIn: 'root'
 })
 export class GoogleAuthService  {
   private oauthURL = environment.oauthURL;
   private clientId = environment.clientId;
-  private redirectUriRegister = environment.redirectUriRegister;
-  private redirectUriLogin =environment.redirectUriLogin;
   private redirectUriLoginModal =environment.redirectUriLoginModal;
   private scope = environment.scope;
   private responseType = 'token id_token';
