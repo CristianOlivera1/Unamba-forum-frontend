@@ -6,11 +6,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CareerService } from '../../../core/services/career/career.service';
 import { animate, svg, stagger } from 'animejs';
+import { NotificationComponent } from './components/notification/notification.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,NotificationComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -32,7 +33,7 @@ export class HeaderComponent implements OnInit {
       if (this.isLoggedIn) {
         this.loadUserProfile();
       }
-  
+
       // Escucha cambios en localStorage
       window.addEventListener('storage', () => {
         this.isLoggedIn = !!this.tokenService.getToken();
@@ -59,13 +60,13 @@ export class HeaderComponent implements OnInit {
   navigateToProfileUser(idUsuario: string) {
     this.router.navigate(['/profile', idUsuario]);
   }
-  
+
   loadCareers(): void {
     this.careerService.getAllCareer().subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
           this.career = response.data;
-    
+
         } else {
           console.error('Error al cargar las carreras:', response.listMessage);
           alert('No se pudieron cargar las carreras.');
@@ -101,11 +102,11 @@ export class HeaderComponent implements OnInit {
     this.userProfile = null;
     this.router.navigate(['/']);
   }
-  
+
   navigateToLogin(): void {
     window.location.href = '/login';
   }
-  
+
   navigateToRegister(): void {
     window.location.href = '/register';
   }
@@ -113,7 +114,7 @@ export class HeaderComponent implements OnInit {
   navigateToCareer(idCarrera: string) {
     this.router.navigate(['/career', idCarrera]);
   }
-  
+
   navigateToAllCareers(){
     this.router.navigate(['/career/all']);
   }
@@ -132,7 +133,7 @@ export class HeaderComponent implements OnInit {
   toggleMenu() {
     this.menuAbierto = !this.menuAbierto;
   }
-  
+
 // Detecta clics fuera del menú desplegable y del menú móvil
 @HostListener('document:click', ['$event'])
 onClickOutside(event: MouseEvent): void {
@@ -147,5 +148,9 @@ onClickOutside(event: MouseEvent): void {
   if (this.menuAbierto && this.menuMovil && !this.menuMovil.nativeElement.contains(target)) {
     this.menuAbierto = false;
   }
+}
+
+navigateToNewPublication(){
+  this.router.navigate(['/newpublication']);
 }
 }
