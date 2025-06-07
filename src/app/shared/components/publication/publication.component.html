@@ -1,8 +1,8 @@
-<div class="container mx-auto mt-15 mb-20">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mx-3 lg:mx-0">
+<div class="container mx-auto lg:px-8 mt-15 mb-20">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Columna lateral -->
         <div class="md:col-span-1">
-            <div class="h-full max-h-[100vh] overflow-y-auto space-y-6  sticky top-28 no-scrollbar">
+            <div class="h-full max-h-[100vh] overflow-y-auto space-y-6 sticky top-28 no-scrollbar">
                 <app-welcome *ngIf="isLoggedIn"></app-welcome>
                 <app-filter></app-filter>
                 <app-publication-without-files></app-publication-without-files>
