@@ -1,0 +1,46 @@
+<div class="relative mr-4 mt-2">
+  <button (click)="toggleNotifications()" title="Notificaciones" type="button" class="flex items-center gap-x-1 text-sm font-semibold text-gray-700 relative focus:outline-none">
+    <svg class="size-8 button-scroll-animate" viewBox="0 0 24 24">
+      <use xlink:href="/assets/sprite.svg#notification" />
+    </svg>
+    <span *ngIf="unreadCount > 0"
+      class="absolute size-5 -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+      {{ unreadCount }}
+    </span>
+  </button>
+<div *ngIf="showNotifications"
+    class="fixed inset-0 z-10" (click)="showNotifications = false"></div>
+  <div *ngIf="showNotifications"
+    class="absolute top-full right-0 z-20 mt-3 w-96 rounded-3xl bg-white ring-1 ring-gray-900/5 shadow-lg transition-all duration-300 overflow-y-auto max-h-96">
+    <div class="p-4 pb-2">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-lg font-semibold text-gray-800">Notificaciones</h3>
+        <button class="text-sm text-blue-600 hover:underline" (click)="markAllAsRead()">Marcar todas como leídas</button>
+      </div>
+
+      <ng-container *ngIf="notifications.length > 0; else noNotifications">
+        <div *ngFor="let n of notifications"
+          (click)="handleNotificationClick(n)"
+          [ngClass]="{'bg-blue-100': !n.leido, 'bg-white': n.leido}"
+          class="group relative flex items-start gap-x-4 rounded-lg p-4 hover:bg-gray-100 transition cursor-pointer mb-1">
+          <div class="flex-shrink-0">
+            <img [src]="n.avatar" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+          </div>
+          <div class="flex-grow text-sm text-gray-700">
+            <p><span class="font-semibold text-gray-900">{{ n.nombreActor }}</span></p>
+            <p class="text-gray-600" [innerHTML]="n.mensaje"></p>
+          </div>
+          <span class="text-xs text-gray-400 whitespace-nowrap">{{ n.fechaRegistro | date:'short' }}</span>
+        </div>
+        <button *ngIf="hasMore && !loading" (click)="loadNotifications()"
+          class="w-full py-2 mt-2 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition">
+          Cargar más
+        </button>
+        <div *ngIf="loading" class="text-center py-2 text-gray-500">Cargando...</div>
+      </ng-container>
+      <ng-template #noNotifications>
+        <div class="text-center py-4 text-gray-400">No tienes notificaciones.</div>
+      </ng-template>
+    </div>
+  </div>
+</div>

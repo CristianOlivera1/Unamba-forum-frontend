@@ -1,0 +1,15 @@
+@keyframes button-bg-scroll {
+  0% {
+    color: white;
+  }
+  100% {
+    color: black;
+  }
+}
+
+.button-scroll-animate {
+  animation: button-bg-scroll 0.3s linear both;
+  animation-timeline: scroll();
+  animation-range: 0 250px;
+  transition: all 0.3s ease;
+}
