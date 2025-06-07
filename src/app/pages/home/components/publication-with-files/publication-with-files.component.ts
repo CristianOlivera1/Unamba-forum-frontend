@@ -65,12 +65,12 @@ export class PublicationWithFilesComponent implements OnInit {
         .pipe(debounceTime(300))
         .subscribe(() => this.onScroll());
     }
-    
+
     this.checkIfCurrentUserIsAdmin();
 
     this.loadPublications();
   }
-  
+
   checkIfCurrentUserIsAdmin(): void {
     this.rolService.getRolByUserId(this.currentUserId!).subscribe({
       next: (response: any) => {
@@ -99,7 +99,7 @@ export class PublicationWithFilesComponent implements OnInit {
       }
     });
   }
-  
+
   getTimeElapsedWrapper(fechaRegistro: string): string {
     return TimeUtils.getTimeElapsed(fechaRegistro);
   }
@@ -110,7 +110,7 @@ export class PublicationWithFilesComponent implements OnInit {
       idPublicacion: publication.idPublicacion,
       fijada: !publication.fijada
     };
-  
+
     this.publicationService.fixPublication(dtoFixPublication).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
@@ -136,11 +136,11 @@ export class PublicationWithFilesComponent implements OnInit {
 
   loadPublications(page: number = 0): void {
     if (this.isLoading || !this.hasMorePublications) {
-      return; 
+      return;
     }
-  
+
     this.isLoading = true;
-  
+
     this.publicationService.getPublicationsWithFilesPaginated(page).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
@@ -152,14 +152,14 @@ export class PublicationWithFilesComponent implements OnInit {
             reactionType: '',
             hoverPosition: { top: 0, left: 0 }
           }));
-  
+
           if (newPublications.length === 0) {
             this.hasMorePublications = false;
           } else {
             this.publications = [...this.publications, ...newPublications];
             this.currentPage++;
           }
-  
+
           // Obtener el rol de cada usuario en las publicaciones
           newPublications.forEach((publication: Publication) => {
             this.rolService.getRolByUserId(publication.idUsuario).subscribe({
@@ -220,7 +220,7 @@ export class PublicationWithFilesComponent implements OnInit {
   onScroll(): void {
     const scrollPosition = window.innerHeight + window.scrollY;
     const threshold = document.body.offsetHeight - 250;
-  
+
     if (scrollPosition >= threshold) {
       this.loadPublications(this.currentPage);
     }
