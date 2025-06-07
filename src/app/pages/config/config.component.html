@@ -23,13 +23,13 @@
 
   <div class="flex border-b border-gray-200 mb-10">
     <button (click)="activeTab = 'personal'" class="flex-1 py-2 text-center font-medium" [ngClass]="{
-        'border-b-2 border-blue-600 text-blue-600': activeTab === 'personal',
+        'text-blue-600 bg-blue-50 rounded-sm': activeTab === 'personal',
         'text-gray-500 hover:text-blue-600': activeTab !== 'personal'
       }">
       Información Personal
     </button>
     <button (click)="activeTab = 'security'" class="flex-1 py-2 text-center font-medium" [ngClass]="{
-        'border-b-2 border-blue-600 text-blue-600': activeTab === 'security',
+        'text-blue-600 bg-blue-50 rounded-sm': activeTab === 'security',
         'text-gray-500 hover:text-blue-600': activeTab !== 'security'
       }">
       Seguridad
