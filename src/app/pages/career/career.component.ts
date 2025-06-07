@@ -736,7 +736,7 @@ export class CareerComponent implements OnInit, AfterViewInit {
     const canvas = this.canvas.nativeElement;
     const gridSize = 50;
 
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
     ctx.lineWidth = 1 / this.scale;
 
     // Calcular área visible
