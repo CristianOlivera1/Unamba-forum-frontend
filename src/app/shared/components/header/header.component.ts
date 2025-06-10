@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { CareerService } from '../../../core/services/career/career.service';
 import { animate, svg, stagger } from 'animejs';
 import { NotificationComponent } from './components/notification/notification.component';
+import { ShearchComponent } from './components/shearch/shearch.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule,FormsModule,NotificationComponent],
+  imports: [CommonModule,FormsModule,NotificationComponent,ShearchComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
