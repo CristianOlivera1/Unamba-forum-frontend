@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { CareerService } from '../../../core/services/career/career.service';
 import { animate, svg, stagger } from 'animejs';
 import { NotificationComponent } from './components/notification/notification.component';
-import { ShearchComponent } from './components/shearch/shearch.component';
+import { ShearchComponent } from './components/search/search.component';
 
 @Component({
   selector: 'app-header',
