@@ -63,4 +63,10 @@ export class PublicationService {
       params: { page: page.toString() }
     });
   }
+
+  public searchPublications(query: string, page: number = 0, size: number = 10): Observable<any> {
+    return this.httpClient.get(`${this.apiPublication}/search`, {
+      params: {query, page: page.toString(), size: size.toString()}
+    });
+  }
 }
