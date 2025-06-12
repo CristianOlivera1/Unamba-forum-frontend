@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CareerService } from '../../../core/services/career/career.service';
 import { SummaryService } from '../../../core/services/summary/summary.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TokenService } from '../../../core/services/oauth/token.service';
