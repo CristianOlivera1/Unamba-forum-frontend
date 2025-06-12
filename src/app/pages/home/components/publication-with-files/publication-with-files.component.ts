@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, HostListener, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
@@ -28,10 +28,12 @@ import { debounceTime, fromEvent } from 'rxjs';
 })
 
 export class PublicationWithFilesComponent implements OnInit {
-  publications: Publication[] = [];
   currentUserId: string | null = null;
   currentPublicationId: string | null = null;
   isCurrentUserAdmin: boolean = false;
+  @Input() publications: Publication[] = [];
+@Input() isFiltered: boolean = false;
+internalPublications: Publication[] = [];
 
   isLoginModalVisible$: any;
   isInfoCompleteModalVisible$: any;
@@ -53,8 +55,9 @@ export class PublicationWithFilesComponent implements OnInit {
   publicationToDelete: Publication | null = null;
   alert: { type: string; message: string } | null = null;
 
+
   constructor(private publicationService: PublicationService, private tokenService: TokenService, private commentPublicationService: CommentPublicationService,
-    private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private profileService: ProfileService, private rolService: RolService, private reactionPublicationService: ReactionPublicationService,@Inject(PLATFORM_ID) private platformId: Object,private reactionService: ReactionPublicationService) { }
+    private router: Router, private modalService: ModalLoginService, private modalInfoCompleteService: ModalInfoCompleteService, private profileService: ProfileService, private rolService: RolService, private reactionPublicationService: ReactionPublicationService, @Inject(PLATFORM_ID) private platformId: Object, private reactionService: ReactionPublicationService) { }
 
   ngOnInit(): void {
     this.currentUserId = this.tokenService.getUserId();
@@ -68,7 +71,12 @@ export class PublicationWithFilesComponent implements OnInit {
 
     this.checkIfCurrentUserIsAdmin();
 
+  if (!this.isFiltered) {
+    this.internalPublications = [];
+    this.currentPage = 0;
+    this.hasMorePublications = true;
     this.loadPublications();
+  }
   }
 
   checkIfCurrentUserIsAdmin(): void {
@@ -115,7 +123,7 @@ export class PublicationWithFilesComponent implements OnInit {
       next: (response: any) => {
         if (response.type === 'success') {
           publication.fijada = !publication.fijada;
-        this.showAlert('success', `Publicación ${publication.fijada ? 'fijada' : 'desfijada'} con éxito.`);
+          this.showAlert('success', `Publicación ${publication.fijada ? 'fijada' : 'desfijada'} con éxito.`);
         } else {
           this.showAlert('error', 'Error al fijar/desfijar la publicación');
           console.error('Error al fijar/desfijar la publicación:', response.listMessage);
@@ -156,7 +164,8 @@ export class PublicationWithFilesComponent implements OnInit {
           if (newPublications.length === 0) {
             this.hasMorePublications = false;
           } else {
-            this.publications = [...this.publications, ...newPublications];
+          this.internalPublications = [...this.internalPublications, ...newPublications];
+
             this.currentPage++;
           }
 
@@ -206,24 +215,25 @@ export class PublicationWithFilesComponent implements OnInit {
         next: () => {
           this.publications = this.publications.filter(p => p.idPublicacion !== this.publicationToDelete?.idPublicacion);
           this.closeDeleteModal();
-        this.showAlert('success','Publicación eliminada con éxito.');
+          this.showAlert('success', 'Publicación eliminada con éxito.');
         },
         error: (error) => {
           console.error('Error al eliminar la publicación:', error);
-        this.showAlert('error','Ocurrió un error al eliminar la publicación.');
+          this.showAlert('error', 'Ocurrió un error al eliminar la publicación.');
         }
       });
     }
   }
 
-  @HostListener('window:scroll', [])
-  onScroll(): void {
+@HostListener('window:scroll', [])
+onScroll(): void {
+  if (!this.isFiltered) {
     const scrollPosition = window.innerHeight + window.scrollY;
     const threshold = document.body.offsetHeight - 250;
-
     if (scrollPosition >= threshold) {
       this.loadPublications(this.currentPage);
     }
+  }
   }
 
   navigateToDetailPublication(idPublication: string) {
@@ -247,7 +257,7 @@ export class PublicationWithFilesComponent implements OnInit {
 
     this.hoverPosition = {
       top: rect.top + window.scrollY + rect.height - 40,
-      left: rect.left + window.scrollX + rect.width / 2 +30
+      left: rect.left + window.scrollX + rect.width / 2 + 30
     };
 
     this.profileService.getUserProfileHover(userId).subscribe({
@@ -375,7 +385,7 @@ export class PublicationWithFilesComponent implements OnInit {
     }
     this.router.navigate(['/editpublication', idPublicacion]);
   }
-closeDropdown(publication: any) {
-  publication.isDropdownVisible = false;
-}
+  closeDropdown(publication: any) {
+    publication.isDropdownVisible = false;
+  }
 }

@@ -15,7 +15,7 @@
     <span class="text-sm font-medium">{{ alert.message }}</span>
   </div>
 
-  <div *ngFor="let publication of publications"
+  <div *ngFor="let publication of isFiltered ? publications || [] : internalPublications"
     class="border border-gray-200 rounded-xl hover:shadow-md p-4 space-y-4 hover:border-gray-300 transition-all duration-300 ease-in-out bg-white">
     <!-- Mostrar ícono de publicación fijada -->
     <div class="relative">
