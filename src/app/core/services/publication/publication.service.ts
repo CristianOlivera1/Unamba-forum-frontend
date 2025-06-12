@@ -69,4 +69,10 @@ export class PublicationService {
       params: {query, page: page.toString(), size: size.toString()}
     });
   }
+public filterPublications(idCategoria?: string,idCarrera?: string, page: number = 0,size: number = 10): Observable<any> {const params: any = { page, size };
+  if (idCategoria) params.idCategoria = idCategoria;
+  if (idCarrera) params.idCarrera = idCarrera;
+  return this.httpClient.get(`${this.apiPublication}/filter`, { params });
+}
+
 }
