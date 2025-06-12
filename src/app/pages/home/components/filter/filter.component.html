@@ -1,47 +1,42 @@
-<div class="border border-gray-200 bg-white rounded-lg p-5 mb-5" >
-    <div class="space-y-3">
-        <h3 class="text-gray-800 font-semibold text-md">Carreras</h3>
+<div class="border border-gray-200 bg-white rounded-lg p-5 mb-5">
+  <div class="space-y-3">
+    <h3 class="text-gray-800 font-semibold text-md">Carreras</h3>
 
-        <!-- Contenedor con referencia local -->
-        <div #scrollContainer class="flex md:grid md:grid-cols-2 gap-2 whitespace-nowrap overflow-x-auto scrollbar-hide -mx-4 px-4 
-       cursor-grab active:cursor-grabbing select-none 
-       md:cursor-default md:active:cursor-default" (mousedown)="startDrag($event)"
-            (mouseup)="stopDrag()" (mouseleave)="stopDrag()" (mousemove)="onDrag($event)"
-            (touchstart)="startDrag($event)" (touchend)="stopDrag()" (touchmove)="onDrag($event)">
-            <button
-                class="bg-primary-blue flex-shrink-0 text-white text-sm font-medium py-2 px-4 rounded-lg">Todas</button>
-            <button
-                class="flex-shrink-0 bg-gray-dark hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Administración</button>
-            <button
-                class="bg-gray-dark flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg col-span-2">Ing.
-                Informática y sistemas</button>
-            <button
-                class="bg-gray-dark flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Ing.
-                Minas</button>
-            <button
-                class="bg-gray-200 flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Ing.
-                Civil</button>
-            <button
-                class="bg-gray-dark flex-shrink-0 hover:bg-gray-300 text-gray-700 text-sm font-medium py-2 px-4 rounded-lg">Educación
-                Inicial</button>
-        </div>
+    <!-- Contenedor con referencia local -->
+    <div #scrollContainer class="flex md:grid md:grid-cols-2 gap-2 whitespace-nowrap overflow-x-auto scrollbar-hide -mx-4 px-4
+       cursor-grab active:cursor-grabbing select-none
+       md:cursor-default md:active:cursor-default" (mousedown)="startDrag($event)" (mouseup)="stopDrag()"
+      (mouseleave)="stopDrag()" (mousemove)="onDrag($event)" (touchstart)="startDrag($event)" (touchend)="stopDrag()"
+      (touchmove)="onDrag($event)">
+      <button class="flex-shrink-0 text-sm py-2 px-4 rounded-lg" [ngClass]="{
+    'gradient-bg text-blue-600 border border-blue-200 font-bold': selectedCareer === '',
+    'bg-gray-100 text-gray-700 hover:bg-blue-50 font-medium ': selectedCareer !== ''
+  }" (click)="onCareerSelect('')">
+        Todas
+      </button>
+      <button *ngFor="let career of careers || []"
+        class="flex-shrink-0 text-sm py-2 px-4 rounded-lg line-clamp-1" [ngClass]="{
+    'gradient-bg text-blue-600 border border-blue-200 font-bold': selectedCareer === career.idCarrera,
+    'bg-gray-100 text-gray-700 hover:bg-blue-100 font-medium': selectedCareer !== career.idCarrera
+  }" (click)="onCareerSelect(career.idCarrera)">
+        {{ career.nombre }}
+      </button>
     </div>
+  </div>
 
-    <!-- Filtro por categorías -->
-    <div class="space-y-2 relative mt-5">
-        <h3 class="text-gray-800 font-semibold text-md">Categorías</h3>
-        <select
-            class="w-full border border-gray-300 rounded-lg py-2 px-3 cursor-pointer  text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-100 appearance-none">
-            <option>Todas</option>
-            <option>Proyectos</option>
-            <option>Eventos</option>
-            <option>Ofertas</option>
-            <option>Noticias</option>
-        </select>
-        <svg viewBox="0 0 16 16" fill="currentColor"
-        aria-hidden="true"
-        class="absolute right-2 top-11 w-5 h-5 text-gray-500 pointer-events-none">
-            <use xlink:href="/assets/sprite.svg#select" />
-        </svg>
-    </div>
+  <!-- Filtro por categorías -->
+  <div class="space-y-2 relative mt-5">
+    <h3 class="text-gray-800 font-semibold text-md">Categorías</h3>
+    <select (change)="onCategorySelect($event)"
+      class="w-full border border-gray-300 rounded-lg py-2 px-3 cursor-pointer  text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-100 appearance-none">
+      <option value="">Todas</option>
+      <option *ngFor="let category of categories || []" [value]="category.idCategoria">
+        {{ category.nombre }}
+      </option>
+    </select>
+    <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"
+      class="absolute right-2 top-11 w-5 h-5 text-gray-500 pointer-events-none">
+      <use xlink:href="/assets/sprite.svg#select" />
+    </svg>
+  </div>
 </div>

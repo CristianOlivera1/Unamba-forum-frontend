@@ -7,4 +7,7 @@
     -ms-overflow-style: none; /* IE */
     scrollbar-width: none; /* Firefox */
   }
-  
+
+  .gradient-bg {
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.19) 0%, rgba(135, 206, 250, 0.25) 100%);
+  }
