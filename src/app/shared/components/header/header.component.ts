@@ -154,4 +154,9 @@ onClickOutside(event: MouseEvent): void {
 navigateToNewPublication(){
   this.router.navigate(['/newpublication']);
 }
+
+navigateToIndex(){
+  this.router.navigate(['/']);
+
+}
 }

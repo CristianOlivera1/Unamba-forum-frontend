@@ -1,7 +1,7 @@
 <header (click)="onClickOutside($event)">
   <nav class="flex items-center justify-between p-4 md:px-8 z-10" aria-label="Global">
     <div class="flex md:flex-1">
-      <a href="#" class="relative -m-1.5 p-1.5 md:flex">
+      <a (click)="navigateToIndex()" class="relative -m-1.5 p-1.5 md:flex">
         <svg class="absolute opacity-30 -z-10" width="64" height="44" viewBox="0 0 64 44" fill="none">
           <use xlink:href="/assets/sprite.svg#logouffondo" />
         </svg>
