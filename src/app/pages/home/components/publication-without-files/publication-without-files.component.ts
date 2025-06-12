@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
 import { CommonModule } from '@angular/common';
 import {TimeUtils } from '../../../../Utils/TimeElapsed';
@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
 })
 export class PublicationWithoutFilesComponent implements OnInit {
 
-  publications: any[] = [];
+@Input() publications: any[] = [];
 
   constructor(private publicationService: PublicationService,private router: Router) {}
 
   ngOnInit(): void {
-    this.loadPublications();
+   // this.loadPublications();
   }
-  
+
   loadPublications(): void {
     this.publicationService.getAllPublicationwithoutFile().subscribe({
       next: (response: any) => {
@@ -42,9 +42,9 @@ export class PublicationWithoutFilesComponent implements OnInit {
   dragState: { [key: string]: { isDragging: boolean; startX: number; scrollLeft: number } } = {
     publi: { isDragging: false, startX: 0, scrollLeft: 0 },
   };
-  
+
   @ViewChild('scrollPubli') scrollPubli!: ElementRef;
-  
+
   startDrag(event: MouseEvent | TouchEvent, key: string) {
     this.dragState[key].isDragging = true;
     const scrollEl = this.getScrollEl(key);
@@ -52,7 +52,7 @@ export class PublicationWithoutFilesComponent implements OnInit {
     this.dragState[key].startX = pageX - scrollEl.offsetLeft;
     this.dragState[key].scrollLeft = scrollEl.scrollLeft;
   }
-  
+
   onDrag(event: MouseEvent | TouchEvent, key: string) {
     if (!this.dragState[key].isDragging) return;
     event.preventDefault();
@@ -62,11 +62,11 @@ export class PublicationWithoutFilesComponent implements OnInit {
     const walk = x - this.dragState[key].startX;
     scrollEl.scrollLeft = this.dragState[key].scrollLeft - walk;
   }
-  
+
   stopDrag(key: string) {
     this.dragState[key].isDragging = false;
   }
-  
+
   getScrollEl(key: string): HTMLElement {
     switch (key) {
       case 'publi':
