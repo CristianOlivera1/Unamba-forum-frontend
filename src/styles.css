@@ -33,7 +33,7 @@ button {
 }
 
 input::placeholder, textarea::placeholder {
-  color: #6B7280; 
+  color: #6B7280;
 }
 
 .clamped {
