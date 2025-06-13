@@ -32,8 +32,8 @@ export class PublicationWithFilesComponent implements OnInit {
   currentPublicationId: string | null = null;
   isCurrentUserAdmin: boolean = false;
   @Input() publications: Publication[] = [];
-@Input() isFiltered: boolean = false;
-internalPublications: Publication[] = [];
+  @Input() isFiltered: boolean = false;
+  internalPublications: Publication[] = [];
 
   isLoginModalVisible$: any;
   isInfoCompleteModalVisible$: any;
@@ -71,12 +71,12 @@ internalPublications: Publication[] = [];
 
     this.checkIfCurrentUserIsAdmin();
 
-  if (!this.isFiltered) {
-    this.internalPublications = [];
-    this.currentPage = 0;
-    this.hasMorePublications = true;
-    this.loadPublications();
-  }
+    if (!this.isFiltered) {
+      this.internalPublications = [];
+      this.currentPage = 0;
+      this.hasMorePublications = true;
+      this.loadPublications();
+    }
   }
 
   checkIfCurrentUserIsAdmin(): void {
@@ -164,7 +164,7 @@ internalPublications: Publication[] = [];
           if (newPublications.length === 0) {
             this.hasMorePublications = false;
           } else {
-          this.internalPublications = [...this.internalPublications, ...newPublications];
+            this.internalPublications = [...this.internalPublications, ...newPublications];
 
             this.currentPage++;
           }
@@ -225,15 +225,15 @@ internalPublications: Publication[] = [];
     }
   }
 
-@HostListener('window:scroll', [])
-onScroll(): void {
-  if (!this.isFiltered) {
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const threshold = document.body.offsetHeight - 250;
-    if (scrollPosition >= threshold) {
-      this.loadPublications(this.currentPage);
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if (!this.isFiltered) {
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const threshold = document.body.offsetHeight - 250;
+      if (scrollPosition >= threshold) {
+        this.loadPublications(this.currentPage);
+      }
     }
-  }
   }
 
   navigateToDetailPublication(idPublication: string) {
