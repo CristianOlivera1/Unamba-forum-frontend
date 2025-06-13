@@ -22,6 +22,7 @@ export class ReactionComponent implements OnInit {
   tooltipActivo: string | null = null;
   currentReaction: string | null = null;
   isLoggedIn = false;
+  copied = false;
 
   constructor(private reactionService: ReactionPublicationService,    private tokenService: TokenService,private modalService: ModalLoginService,    private modalInfoCompleteService: ModalInfoCompleteService,
     private profileService: ProfileService,private router: Router,@Inject(PLATFORM_ID) private platformId: Object
@@ -63,7 +64,7 @@ export class ReactionComponent implements OnInit {
       this.removeReaction();
       return;
     }
-  
+
     // Verificar si el perfil del usuario tiene idCarrera
     this.profileService.getProfileByUserId(this.idUsuario).subscribe({
       next: (response: any) => {
@@ -105,7 +106,7 @@ export class ReactionComponent implements OnInit {
         }
         });
       }
-      
+
       },
       error: (err) => {
       console.error('Error al verificar el perfil del usuario:', err);
@@ -124,7 +125,7 @@ export class ReactionComponent implements OnInit {
       this.addReaction('Me identifica');
       return;
     }
-  
+
     this.reactionService.removeReaction(this.idUsuario, this.idPublicacion).subscribe({
       next: () => {
         this.currentReaction = null;
@@ -140,19 +141,19 @@ export class ReactionComponent implements OnInit {
   mostrarPopover() {
     this.popoverVisible = true;
   }
-  
+
   mantenerPopoverVisible() {
     this.popoverVisible = true;
   }
-  
+
   ocultarPopover() {
     this.popoverVisible = false;
   }
-  
+
   mostrarTooltip(nombre: string) {
     this.tooltipActivo = nombre;
   }
-  
+
   ocultarTooltip() {
     this.tooltipActivo = null;
   }
@@ -161,5 +162,14 @@ export class ReactionComponent implements OnInit {
       window.location.href = `/publication/${this.idPublicacion}?focusComment=true`;
     }
   }
-  
+
+  copyLink(): void {
+  const url = `${window.location.origin}/publication/${this.idPublicacion}`;
+  navigator.clipboard.writeText(url).then(() => {
+    this.copied = true;
+    setTimeout(() => {
+      this.copied = false;
+    }, 3000);
+  });
+}
 }
