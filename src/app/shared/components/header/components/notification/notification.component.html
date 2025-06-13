@@ -1,5 +1,5 @@
 <div class="relative mr-4">
-  <button (click)="toggleNotifications()" title="Notificaciones" type="button" class="flex items-center gap-x-1 text-sm font-semibold text-gray-700 relative focus:outline-none">
+  <button (click)="toggleNotifications()" title="Notificaciones" type="button" class="flex items-center gap-x-1 p-1 hover:rounded-md text-sm font-semibold text-gray-700 relative focus:outline-none white10" [ngClass]="{ 'colorwhite15 rounded-md': showNotifications }">
     <svg class="size-8 button-scroll-animate" viewBox="0 0 24 24">
       <use xlink:href="/assets/sprite.svg#notification" />
     </svg>

@@ -13,3 +13,8 @@
   animation-range: 0 250px;
   transition: all 0.3s ease;
 }
+
+.colorwhite15{
+  background-color: rgba(255,255,255,0.15);
+
+}
