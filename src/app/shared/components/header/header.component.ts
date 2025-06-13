@@ -8,11 +8,12 @@ import { CareerService } from '../../../core/services/career/career.service';
 import { animate, svg, stagger } from 'animejs';
 import { NotificationComponent } from './components/notification/notification.component';
 import { ShearchComponent } from './components/search/search.component';
+import { ModalInfoCompleteService } from '../../../core/services/modal/modalCompleteInfo.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule,FormsModule,NotificationComponent,ShearchComponent],
+  imports: [CommonModule, FormsModule, NotificationComponent, ShearchComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -24,8 +25,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private tokenService: TokenService,
     private profileService: ProfileService,
-    private router: Router,private careerService: CareerService,  @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+    private router: Router, private careerService: CareerService, @Inject(PLATFORM_ID) private platformId: Object, private modalInfoCompleteService: ModalInfoCompleteService
+  ) { }
 
   ngOnInit(): void {
     this.loadCareers();
@@ -35,7 +36,6 @@ export class HeaderComponent implements OnInit {
         this.loadUserProfile();
       }
 
-      // Escucha cambios en localStorage
       window.addEventListener('storage', () => {
         this.isLoggedIn = !!this.tokenService.getToken();
         if (this.isLoggedIn) {
@@ -116,14 +116,14 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/career', idCarrera]);
   }
 
-  navigateToAllCareers(){
+  navigateToAllCareers() {
     this.router.navigate(['/career/all']);
   }
-  navigateToConfiguration(){
+  navigateToConfiguration() {
     this.router.navigate(['/config']);
   }
 
-  showPopover=false;
+  showPopover = false;
   @ViewChild('popoverMenu') popoverMenu!: ElementRef;
   togglePopover(): void {
     this.showPopover = !this.showPopover;
@@ -135,28 +135,45 @@ export class HeaderComponent implements OnInit {
     this.menuAbierto = !this.menuAbierto;
   }
 
-// Detecta clics fuera del menú desplegable y del menú móvil
-@HostListener('document:click', ['$event'])
-onClickOutside(event: MouseEvent): void {
-  const target = event.target as HTMLElement;
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
 
-  // Cierra el popover si el clic ocurre fuera de él
-  if (this.showPopover && this.popoverMenu && !this.popoverMenu.nativeElement.contains(target)) {
-    this.showPopover = false;
+    if (this.showPopover && this.popoverMenu && !this.popoverMenu.nativeElement.contains(target)) {
+      this.showPopover = false;
+    }
+
+    if (this.menuAbierto && this.menuMovil && !this.menuMovil.nativeElement.contains(target)) {
+      this.menuAbierto = false;
+    }
   }
 
-  // Cierra el menú móvil si el clic ocurre fuera de él
-  if (this.menuAbierto && this.menuMovil && !this.menuMovil.nativeElement.contains(target)) {
-    this.menuAbierto = false;
+  navigateToNewPublication() {
+    const userId = this.tokenService.getUserId();
+    if (userId) {
+      this.profileService.getProfileByUserId(userId).subscribe({
+        next: (response: any) => {
+          if (response.type === 'success') {
+            if (!response.data.idCarrera) {
+              this.modalInfoCompleteService.showInfoCompleteModal();
+            } else {
+              this.router.navigate(['/newpublication']);
+            }
+          } else {
+            this.modalInfoCompleteService.showInfoCompleteModal();
+          }
+        },
+        error: () => {
+          this.modalInfoCompleteService.showInfoCompleteModal();
+        }
+      });
+    } else {
+      this.modalInfoCompleteService.showInfoCompleteModal();
+    }
   }
-}
 
-navigateToNewPublication(){
-  this.router.navigate(['/newpublication']);
-}
+  navigateToIndex() {
+    this.router.navigate(['/']);
 
-navigateToIndex(){
-  this.router.navigate(['/']);
-
-}
+  }
 }
