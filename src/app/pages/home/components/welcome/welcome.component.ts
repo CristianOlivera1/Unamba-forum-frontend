@@ -3,6 +3,7 @@ import { TokenService } from '../../../../core/services/oauth/token.service';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ModalInfoCompleteService } from '../../../../core/services/modal/modalCompleteInfo.service';
 
 @Component({
   selector: 'app-welcome',
@@ -15,7 +16,7 @@ export class WelcomeComponent implements OnInit {
 
   constructor(
     private tokenService: TokenService,
-    private profileService: ProfileService, private router:Router
+    private profileService: ProfileService, private router:Router,private modalInfoCompleteService: ModalInfoCompleteService
   ) {}
   isLoggedIn: boolean = false;
   userProfile: any = null;
@@ -25,7 +26,7 @@ export class WelcomeComponent implements OnInit {
       if (this.isLoggedIn) {
         this.loadUserProfile();
       }
-  
+
       // Escucha cambios en localStorage
       window.addEventListener('storage', () => {
         this.isLoggedIn = !!this.tokenService.getToken();
@@ -38,12 +39,32 @@ export class WelcomeComponent implements OnInit {
     }
   }
 
-  newPublication():void{
-    this.router.navigate(["newpublication"])
+newPublication(): void {
+  const userId = this.tokenService.getUserId();
+  if (userId) {
+    this.profileService.getProfileByUserId(userId).subscribe({
+      next: (response: any) => {
+        if (response.type === 'success') {
+          if (!response.data.idCarrera) {
+            this.modalInfoCompleteService.showInfoCompleteModal();
+          } else {
+            this.router.navigate(['/newpublication']);
+          }
+        } else {
+          this.modalInfoCompleteService.showInfoCompleteModal();
+        }
+      },
+      error: () => {
+        this.modalInfoCompleteService.showInfoCompleteModal();
+      }
+    });
+  } else {
+    this.modalInfoCompleteService.showInfoCompleteModal();
   }
+}
 
   loadUserProfile(): void {
-    const userId = this.extractUserIdFromToken();
+    const userId = this.tokenService.getUserId();
     if (userId) {
       this.profileService.getProfileByUserId(userId).subscribe(
         (response) => {
@@ -58,14 +79,5 @@ export class WelcomeComponent implements OnInit {
         }
       );
     }
-  }
-
-  extractUserIdFromToken(): string | null {
-    const token = this.tokenService.getToken();
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1])); // Decodifica el payload del JWT
-      return payload.idUsuario || null;
-    }
-    return null;
   }
 }
