@@ -67,6 +67,30 @@ export class CompleteInfoRegisterGoogleComponent implements OnInit {
       return;
     }
 
+    // Validar fecha de nacimiento
+  if (this.formData.fechaNacimiento) {
+    const birthDate = new Date(this.formData.fechaNacimiento);
+    const today = new Date();
+    // Quitar la hora para comparar solo fechas
+    birthDate.setHours(0,0,0,0);
+    today.setHours(0,0,0,0);
+
+    // No permitir fechas futuras
+    if (birthDate > today) {
+      this.showAlert('error', 'La fecha de nacimiento no puede ser mayor a la fecha actual.');
+      return;
+    }
+
+    // Validar mayor o igual a 18 años
+    const ageDifMs = today.getTime() - birthDate.getTime();
+    const ageDate = new Date(ageDifMs);
+    const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+    if (age < 18) {
+      this.showAlert('error', 'Debes tener al menos 18 años.');
+      return;
+    }
+  }
+
     this.isLoading = true;
     const payload = new FormData();
     payload.append('idUsuario', idUsuario);
