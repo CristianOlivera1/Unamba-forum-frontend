@@ -166,6 +166,20 @@ input::placeholder, textarea::placeholder {
   scrollbar-width: none;
 }
 
+.white10:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: background-color 0.3s ease;
+
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
 /*Fuente personalizadas*/
 @font-face {
   font-family: 'Caveat';
