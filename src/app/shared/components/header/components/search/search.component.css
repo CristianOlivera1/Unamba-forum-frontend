@@ -1,8 +1,8 @@
-
 @keyframes search-bg-scroll {
   0% {
     border: 1px solid white;
   }
+
   100% {
     border: 1px solid black;
     color: black;
@@ -18,13 +18,15 @@
 
 @keyframes placeholder-bg-scroll {
   0% {
-    color:#dddddd;
+    color: #dddddd;
   }
+
   100% {
     color: black;
   }
 }
-.placeholder-scroll-animate{
+
+.placeholder-scroll-animate {
   animation: placeholder-bg-scroll 0.3s linear both;
   animation-timeline: scroll();
   animation-range: 0 250px;
@@ -33,13 +35,13 @@
 
 
 @media (max-width: 650px) {
-.hidden-borde{
-  border: none !important;
-  margin-left: -50px !important;
+  .hidden-borde {
+    border: none !important;
+    margin-left: -50px !important;
 
-}
+  }
 
-.hidden-borde svg{
-  margin-left: -50px !important;
-}
+  .hidden-borde svg {
+    margin-left: -50px !important;
+  }
 }
