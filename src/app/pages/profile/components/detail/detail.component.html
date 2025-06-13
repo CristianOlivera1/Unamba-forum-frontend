@@ -28,11 +28,11 @@
   <span>Miembro desde <strong>{{ userDetails?.fechaRegistro | date: 'longDate':'':'es' }}</strong></span>
 </li>
 
-<li *ngIf="userDetails?.fechNacimiento" class="flex items-center gap-2 mb-3">
+<li *ngIf="userDetails?.fechaNacimiento" class="flex items-center gap-2 mb-3">
   <svg width="24" height="24" viewBox="0 0 48 48">
     <use xlink:href="/assets/sprite.svg#birthday" />
   </svg>
-  <span>Cumpleaños <strong>{{ userDetails?.fechNacimiento | date: 'longDate':'':'es' }}</strong></span>
+  <span>Cumpleaños <strong>{{ userDetails?.fechaNacimiento | date: 'longDate':'':'es' }}</strong></span>
 </li>
 
 <li *ngIf="userDetails?.genero !== null" class="flex items-center gap-2 mb-3">
