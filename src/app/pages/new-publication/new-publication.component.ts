@@ -31,7 +31,7 @@ export class NewPublicationComponent implements OnInit {
     archivos: []
   };
 
-  isChecked = false;
+  isChecked = true;
   selectedCategory = signal<string>('');
   title = signal<string>('');
   characterCount = signal<number>(0);
@@ -41,7 +41,7 @@ export class NewPublicationComponent implements OnInit {
   randomImage: string | null = null;
   apiCat = environment.apiCat;
   isPublishing: boolean = false;
-  userDetails: any = null; 
+  userDetails: any = null;
 
   showEmojiPicker: boolean = false;
 
@@ -67,6 +67,10 @@ export class NewPublicationComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       import('emoji-picker-element');
     }
+
+     if (this.isChecked) {
+    this.addRandomImage();
+  }
   }
 
   loadUserDetails(userId: string): void {

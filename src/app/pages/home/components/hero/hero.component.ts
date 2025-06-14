@@ -42,7 +42,7 @@ export class HeroComponent implements AfterViewInit {
         canvas.height = 600;
       }
 
-      const TOTAL_FRAMES: number = 34;
+      const TOTAL_FRAMES: number = 48;
 
       const createImage = (index: number): string => {
         return `./assets/img/frame/scene${index.toString().padStart(5, '0')}.webp`;

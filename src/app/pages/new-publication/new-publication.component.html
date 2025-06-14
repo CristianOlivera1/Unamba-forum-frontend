@@ -89,7 +89,7 @@
             class="text-gray-500 font-normal">(opcional)</span></label>
         <div class="flex items-center space-x-2 border border-gray-300 rounded-lg p-1 sm:p-2 bg-white"
           title="Añadir una imagen aleatoria generada por el sistema">
-          <input type="checkbox" id="enableButton" (change)="toggleButton($event)"
+          <input type="checkbox" id="enableButton" [checked]="isChecked" (change)="toggleButton($event)"
             class="w-4 h-4 shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500">
           <label class="flex items-center text-sm" [ngClass]="isChecked ? 'text-blue-600' : 'text-gray-500'">
             Imagen aleatoria
