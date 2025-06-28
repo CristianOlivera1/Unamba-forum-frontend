@@ -20,7 +20,7 @@
 </div>
 
 <div class="flex flex-col items-center min-h-screen pb-20 px-4 sm:px-6 lg:px-8 mesh ">
-  <div class="w-full max-w-4xl mx-auto space-y-10 mt-6 p-4 sm:p-8 shadow-md rounded-sm bg-white">
+  <div class="w-full max-w-4xl mx-auto space-y-10 mt-10 p-4 sm:p-8 shadow-md rounded-sm bg-white">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
       <!-- Input de título -->
       <div class="space-y-2">
@@ -67,7 +67,7 @@
               <use xlink:href="/assets/sprite.svg#addemoji" />
             </svg>
           </button>
-          <div *ngIf="showEmojiPicker" class="absolute bottom-12 right-0 bg-white shadow-lg rounded-lg z-50">
+<div *ngIf="showEmojiPicker" class="absolute top-full mt-2 right-0 bg-white shadow-lg rounded-lg z-50">
             <emoji-picker (emoji-click)="addEmoji($event)"></emoji-picker>
           </div>
         </div>
@@ -87,11 +87,10 @@
       <div class="flex justify-between items-center">
         <label class="block text-sm font-semibold text-gray-700">Multimedia <span
             class="text-gray-500 font-normal">(opcional)</span></label>
-        <div class="flex items-center space-x-2 border border-gray-300 rounded-lg p-1 sm:p-2 bg-white"
-          title="Añadir una imagen aleatoria generada por el sistema">
-          <input type="checkbox" id="enableButton" [checked]="isChecked" (change)="toggleButton($event)"
-            class="w-4 h-4 shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500">
-          <label class="flex items-center text-sm" [ngClass]="isChecked ? 'text-blue-600' : 'text-gray-500'">
+        <div class="flex items-center space-x-2 rounded-lg p-1 sm:p-2 bg-white"
+          title="Añadir una imagen aleatoria generada por el sistema" [ngClass]="isChecked ? 'text-selected bg-selected' : 'text-gray-500 bg-white'">
+          <input type="checkbox" id="enableButton" [checked]="isChecked" (change)="toggleButton($event)" class="w-4 h-4 shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500">
+          <label class="flex items-center text-sm" >
             Imagen aleatoria
           </label>
         </div>

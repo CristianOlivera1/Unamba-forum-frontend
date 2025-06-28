@@ -13,7 +13,8 @@
     <div class="md:col-span-2">
 <app-publication-with-files
   [publications]="publicationsWithFiles"
-  [isFiltered]="isFiltered">
+  [isFiltered]="isFiltered"
+  (publicationDeleted)="onPublicationDeleted($event)">
 </app-publication-with-files>
     </div>
   </div>

@@ -250,25 +250,29 @@ export class NewPublicationComponent implements OnInit {
     }
   }
 
-  addRandomImage(): void {
-    this.http.get<any[]>(this.apiCat).subscribe({
-      next: (response) => {
-        if (response.length > 0) {
-          const randomImgUrl = response[0].url;
-
-          // Eliminar cualquier imagen aleatoria existente
-          this.previewUrls = this.previewUrls.filter(url => url !== this.randomImage);
-
-          // Actualizar la URL de la imagen aleatoria
-          this.randomImage = randomImgUrl;
-          this.previewUrls.push(randomImgUrl);
-        }
-      },
-      error: (err) => {
-        console.error('Error al obtener la imagen aleatoria:', err);
-        this.showToast('Error al obtener la imagen aleatoria.', 'error');
-      }
-    });
+ addRandomImage(): void {
+  if (this.randomImage) {
+    this.previewUrls = this.previewUrls.filter(url => url !== this.randomImage);
+    this.randomImage = null;
   }
+
+  const url = this.apiCat + (this.apiCat.includes('?') ? '&' : '?') + 'rand=' + Math.random();
+
+  this.http.get<any[]>(url).subscribe({
+    next: (response) => {
+      if (response.length > 0) {
+        const randomImgUrl = response[0].url;
+
+        // Actualiza la URL de la imagen aleatoria
+        this.randomImage = randomImgUrl;
+        this.previewUrls.push(randomImgUrl);
+      }
+    },
+    error: (err) => {
+      console.error('Error al obtener la imagen aleatoria:', err);
+      this.showToast('Error al obtener la imagen aleatoria.', 'error');
+    }
+  });
+}
 
 }

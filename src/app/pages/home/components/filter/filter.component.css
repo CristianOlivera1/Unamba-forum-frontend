@@ -8,6 +8,18 @@
     scrollbar-width: none; /* Firefox */
   }
 
-  .gradient-bg {
-    background: linear-gradient(135deg, rgba(0, 123, 255, 0.19) 0%, rgba(135, 206, 250, 0.25) 100%);
-  }
+
+.selected-button {
+  position: relative;
+}
+
+.selected-button::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 4px;
+  background: linear-gradient(to right, #4f46e5, #3b82f6);
+  border-radius: 9999px;
+}

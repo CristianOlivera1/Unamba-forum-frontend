@@ -9,14 +9,14 @@
       (mouseleave)="stopDrag()" (mousemove)="onDrag($event)" (touchstart)="startDrag($event)" (touchend)="stopDrag()"
       (touchmove)="onDrag($event)">
       <button class="flex-shrink-0 text-sm py-2 px-4 rounded-lg" [ngClass]="{
-    'gradient-bg text-blue-600 border border-blue-200 font-bold': selectedCareer === '',
+    'bg-selected font-bold selected-button text-selected': selectedCareer === '',
     'bg-gray-100 text-gray-700 hover:bg-blue-50 font-medium ': selectedCareer !== ''
   }" (click)="onCareerSelect('')">
         Todas
       </button>
       <button *ngFor="let career of careers || []"
         class="flex-shrink-0 text-sm py-2 px-4 rounded-lg line-clamp-1" [ngClass]="{
-    'gradient-bg text-blue-600 border border-blue-200 font-bold': selectedCareer === career.idCarrera,
+    'bg-selected font-bold selected-button text-selected': selectedCareer === career.idCarrera,
     'bg-gray-100 text-gray-700 hover:bg-blue-100 font-medium': selectedCareer !== career.idCarrera
   }" (click)="onCareerSelect(career.idCarrera)">
         {{ career.nombre }}

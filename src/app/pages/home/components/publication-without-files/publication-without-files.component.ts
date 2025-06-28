@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
 import { CommonModule } from '@angular/common';
 import {TimeUtils } from '../../../../Utils/TimeElapsed';
@@ -9,14 +9,18 @@ import { Router } from '@angular/router';
   templateUrl: './publication-without-files.component.html',
   styleUrl: './publication-without-files.component.css'
 })
-export class PublicationWithoutFilesComponent implements OnInit {
+export class PublicationWithoutFilesComponent implements OnInit, OnChanges {
 
 @Input() publications: any[] = [];
+localPublications: any[] = [];
 
   constructor(private publicationService: PublicationService,private router: Router) {}
 
   ngOnInit(): void {
    // this.loadPublications();
+  }
+  ngOnChanges() {
+  this.localPublications = this.publications ? [...this.publications] : [];
   }
 
   loadPublications(): void {

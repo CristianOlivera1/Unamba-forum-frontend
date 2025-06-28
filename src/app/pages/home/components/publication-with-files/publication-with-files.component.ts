@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, EventEmitter, HostListener, Inject, Input, OnChanges, OnInit, Output, PLATFORM_ID } from '@angular/core';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
@@ -27,14 +27,15 @@ import { debounceTime, fromEvent } from 'rxjs';
   styleUrl: './publication-with-files.component.css'
 })
 
-export class PublicationWithFilesComponent implements OnInit {
+export class PublicationWithFilesComponent implements OnInit,OnChanges {
   currentUserId: string | null = null;
   currentPublicationId: string | null = null;
   isCurrentUserAdmin: boolean = false;
-  @Input() publications: Publication[] = [];
+@Input() publications: any[] = [];
   @Input() isFiltered: boolean = false;
   internalPublications: Publication[] = [];
-
+localPublications: any[] = [];
+@Output() publicationDeleted = new EventEmitter<string>();
   isLoginModalVisible$: any;
   isInfoCompleteModalVisible$: any;
 
@@ -78,7 +79,9 @@ export class PublicationWithFilesComponent implements OnInit {
       this.loadPublications();
     }
   }
-
+ngOnChanges() {
+  this.localPublications = this.publications ? [...this.publications] : [];
+}
   checkIfCurrentUserIsAdmin(): void {
     this.rolService.getRolByUserId(this.currentUserId!).subscribe({
       next: (response: any) => {
@@ -92,7 +95,9 @@ export class PublicationWithFilesComponent implements OnInit {
       }
     });
   }
-
+get publicationsToShow() {
+  return this.isFiltered ? this.publications : this.internalPublications;
+}
   updateReactions(idPublicacion: string): void {
     this.reactionService.getReactionAndCommentSummary(idPublicacion).subscribe({
       next: (response) => {
@@ -209,21 +214,21 @@ export class PublicationWithFilesComponent implements OnInit {
     this.publicationToDelete = null;
   }
 
-  confirmDelete(): void {
-    if (this.publicationToDelete) {
-      this.publicationService.deletePublication(this.publicationToDelete.idPublicacion).subscribe({
-        next: () => {
-          this.publications = this.publications.filter(p => p.idPublicacion !== this.publicationToDelete?.idPublicacion);
-          this.closeDeleteModal();
-          this.showAlert('success', 'Publicación eliminada con éxito.');
-        },
-        error: (error) => {
-          console.error('Error al eliminar la publicación:', error);
-          this.showAlert('error', 'Ocurrió un error al eliminar la publicación.');
-        }
-      });
-    }
+confirmDelete(): void {
+  if (this.publicationToDelete) {
+    this.publicationService.deletePublication(this.publicationToDelete.idPublicacion).subscribe({
+      next: () => {
+        this.publicationDeleted.emit(this.publicationToDelete?.idPublicacion);
+        this.closeDeleteModal();
+        this.showAlert('success', 'Publicación eliminada con éxito.');
+      },
+      error: (error) => {
+        console.error('Error al eliminar la publicación:', error);
+        this.showAlert('error', 'Ocurrió un error al eliminar la publicación.');
+      }
+    });
   }
+}
 
   @HostListener('window:scroll', [])
   onScroll(): void {

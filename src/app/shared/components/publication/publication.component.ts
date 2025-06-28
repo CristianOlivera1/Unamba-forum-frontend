@@ -29,8 +29,8 @@ onFilterChanged(filter: { idCarrera: string, idCategoria: string }) {
   this.isFiltered = !!(filter.idCarrera || filter.idCategoria);
   this.publicationService.filterPublications(filter.idCategoria, filter.idCarrera).subscribe(res => {
     if (res.type === 'success') {
-      this.publicationsWithFiles = Array.isArray(res.publicacionesConArchivos) ? res.publicacionesConArchivos : [];
-      this.publicationsWithoutFiles = Array.isArray(res.publicacionesSinArchivos) ? res.publicacionesSinArchivos : [];
+this.publicationsWithFiles = Array.isArray(res.publicacionesConArchivos) ? res.publicacionesConArchivos : [];
+this.publicationsWithoutFiles = Array.isArray(res.publicacionesSinArchivos) ? res.publicacionesSinArchivos : [];
     } else {
       this.publicationsWithFiles = [];
       this.publicationsWithoutFiles = [];
@@ -39,5 +39,8 @@ onFilterChanged(filter: { idCarrera: string, idCategoria: string }) {
     this.publicationsWithFiles = [];
     this.publicationsWithoutFiles = [];
   });
+}
+onPublicationDeleted(id: string) {
+  this.publicationsWithFiles = this.publicationsWithFiles.filter(p => p.idPublicacion !== id);
 }
 }
