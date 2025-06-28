@@ -4,6 +4,7 @@
 @theme {
   --color-primary-blue: #2b5d9c;
   --color-secondary-blue: #2b7fff;
+  --color-selected: #0546ff;
   --color-gray-dark: #E2E8F0;
   --color-hover-secondary-blue: #1555b6;
   --color-black-50: rgba(0, 0, 0, 0.5);
@@ -46,7 +47,9 @@ input::placeholder, textarea::placeholder {
 .hover-img-avatar {
   transition: opacity 0.4s ease-in-out;
 }
-
+.bg-selected {
+    background: color-mix(in srgb, var(--color-selected)  8%, transparent);
+}
 .hover-img-avatar:hover {
   opacity: 0.8;
 }
