@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-modal-user-comment-publication',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './modal-user-comment-publication.component.html',
   styleUrl: './modal-user-comment-publication.component.css'
 })

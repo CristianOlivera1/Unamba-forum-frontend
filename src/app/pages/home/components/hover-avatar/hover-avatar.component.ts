@@ -1,24 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FollowService } from '../../../../core/services/follow/follow.service';
 import { TokenService } from '../../../../core/services/oauth/token.service';
 
 @Component({
   selector: 'app-hover-avatar',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './hover-avatar.component.html',
   styleUrl: './hover-avatar.component.css'
 })
 export class HoverAvatarComponent implements OnChanges {
-  @Input() profileData: any; 
-  @Input() position?: { top: number; left: number }; 
+  @Input() profileData: any;
+  @Input() position?: { top: number; left: number };
   currentUserId: string | null = null;
   isFollowing: boolean = false;
 
   constructor(private router: Router, private followService: FollowService,    private tokenService: TokenService
   ) {}
-  
+
   ngOnInit(): void {
     this.currentUserId = this.tokenService.getUserId();
   }
@@ -27,10 +27,6 @@ export class HoverAvatarComponent implements OnChanges {
     if (changes['profileData'] && changes['profileData'].currentValue) {
       this.checkIfFollowing();
     }
-  }
-
-  navigateToProfileUser(idPerfil: string) {
-    this.router.navigate(['/profile', idPerfil]);
   }
 
   checkIfFollowing(): void {

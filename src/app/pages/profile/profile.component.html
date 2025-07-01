@@ -73,7 +73,7 @@
     </div>
 
     <div *ngIf="currentUserId === userId" class="xl:self-start">
-      <button class="w-full justify-center bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2" (click)="navigateToEditProfile()"
+      <button class="w-full justify-center bg-secondary-blue hover:bg-hover-secondary-blue text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2" routerLink="/config"
         title="Editar perfil">
         <svg class="w-4 h-4" viewBox="0 0 32 32">
           <use xlink:href="/assets/sprite.svg#editpencil" />
@@ -123,14 +123,14 @@
             </div>
           </div>
           <div class="flex items-center gap-3">
-            <a (click)="navigateToProfileUser(publication.idUsuario)">
+            <a [routerLink]="['/profile', publication.idUsuario]">
               <img [src]="publication.avatar" alt="Avatar"
                 class="w-10 h-10 rounded-full transition-opacity hover:opacity-90"
                 (mouseenter)="showHoverModal(publication.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
             </a>
             <div class="flex-1">
               <div class="flex items-center gap-2">
-                <a (click)="navigateToProfileUser(publication.idUsuario)">
+                <a [routerLink]="['/profile', publication.idUsuario]">
                   <h3 class="text-sm font-semibold text-gray-800 hover:underline transition-all duration-300">{{
                     publication.nombreCompleto }}</h3>
                 </a>
@@ -241,7 +241,7 @@
 
           <!-- Contenido publicación -->
           <div>
-            <a (click)="navigateToDetailPublication(publication.idPublicacion)" title="Ver mas..." class="group">
+            <a [routerLink]="['/publication',publication.idPublicacion]" title="Ver mas..." class="group">
               <h4
                 class="group-hover:text-secondary-blue group-hover:underline font-semibold truncate text-gray-900 text-sm w-80 sm:w-120 xl:w-100">
                 {{ publication.titulo }}

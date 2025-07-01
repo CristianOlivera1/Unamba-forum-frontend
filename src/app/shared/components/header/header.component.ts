@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TokenService } from '../../../core/services/oauth/token.service';
 import { ProfileService } from '../../../core/services/profile/profile.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -13,7 +13,7 @@ import { ModalInfoCompleteService } from '../../../core/services/modal/modalComp
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule, NotificationComponent, ShearchComponent],
+  imports: [CommonModule, FormsModule, NotificationComponent, ShearchComponent,RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -58,9 +58,6 @@ export class HeaderComponent implements OnInit {
       });
     }
   }
-  navigateToProfileUser(idUsuario: string) {
-    this.router.navigate(['/profile', idUsuario]);
-  }
 
   loadCareers(): void {
     this.careerService.getAllCareer().subscribe({
@@ -102,25 +99,6 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = false;
     this.userProfile = null;
     this.router.navigate(['/']);
-  }
-
-  navigateToLogin(): void {
-    window.location.href = '/login';
-  }
-
-  navigateToRegister(): void {
-    window.location.href = '/register';
-  }
-
-  navigateToCareer(idCarrera: string) {
-    this.router.navigate(['/career', idCarrera]);
-  }
-
-  navigateToAllCareers() {
-    this.router.navigate(['/career/all']);
-  }
-  navigateToConfiguration() {
-    this.router.navigate(['/config']);
   }
 
   showPopover = false;
@@ -170,10 +148,5 @@ export class HeaderComponent implements OnInit {
     } else {
       this.modalInfoCompleteService.showInfoCompleteModal();
     }
-  }
-
-  navigateToIndex() {
-    this.router.navigate(['/']);
-
   }
 }

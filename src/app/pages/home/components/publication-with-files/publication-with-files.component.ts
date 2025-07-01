@@ -3,7 +3,7 @@ import { PublicationService } from '../../../../core/services/publication/public
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
 import { ReactionComponent } from '../reaction/reaction.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TokenService } from '../../../../core/services/oauth/token.service';
 import { TotalsReactionCommentComponent } from '../totals-reaction-comment/totals-reaction-comment.component';
 
@@ -22,7 +22,7 @@ import { Publication } from '../../../../core/interfaces/publication';
 import { debounceTime, fromEvent } from 'rxjs';
 @Component({
   selector: 'app-publication-with-files',
-  imports: [CommonModule, ReactionComponent, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ModalUsersByReactionTypeComponent, ModalUserCommentPublicationComponent],
+  imports: [CommonModule, ReactionComponent, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ModalUsersByReactionTypeComponent, ModalUserCommentPublicationComponent,RouterLink],
   templateUrl: './publication-with-files.component.html',
   styleUrl: './publication-with-files.component.css'
 })
@@ -239,14 +239,6 @@ confirmDelete(): void {
         this.loadPublications(this.currentPage);
       }
     }
-  }
-
-  navigateToDetailPublication(idPublication: string) {
-    this.router.navigate(['/publication', idPublication]);
-  }
-
-  navigateToProfileUser(idUsuario: string) {
-    this.router.navigate(['/profile', idUsuario]);
   }
 
   showHoverModal(userId: string, event: MouseEvent): void {

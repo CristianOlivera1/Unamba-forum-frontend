@@ -2,7 +2,7 @@
 <ul>
   <li *ngFor="let user of suggestedUsers"
     class="group flex items-center justify-between mb-2 hover:bg-gray-200 rounded-md py-2 px-1 cursor-pointer transition duration-300">
-    <a (click)="navigateToProfileUser(user.idUsuario)">
+    <a [routerLink]="['/profile',user.idUsuario]" >
       <div class="flex items-center gap-3">
         <img [src]="user.fotoPerfil" class="w-10 h-10 rounded-full object-cover hover-img-avatar" alt="Foto de perfil">
         <div class="text-sm">

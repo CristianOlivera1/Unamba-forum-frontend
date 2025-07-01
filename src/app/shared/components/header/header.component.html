@@ -1,7 +1,7 @@
 <header (click)="onClickOutside($event)">
   <nav class="flex items-center justify-between p-4 md:px-8 z-10 fade-in" aria-label="Global">
     <div class="flex md:flex-1">
-      <a (click)="navigateToIndex()" class="relative -m-1.5 p-1.5 md:flex">
+      <a routerLink="/" class="relative -m-1.5 p-1.5 md:flex">
         <svg class="absolute opacity-30 -z-10" width="64" height="44" viewBox="0 0 64 44" fill="none">
           <use xlink:href="/assets/sprite.svg#logouffondo" />
         </svg>
@@ -63,7 +63,7 @@
                 <img src="/assets/img/career/todascarreras.webp" alt="Todas" />
               </div>
               <div class="flex-auto">
-                <a class="block font-semibold text-gray-600 cursor-pointer" (click)="navigateToAllCareers()"> Todas
+                <a class="block font-semibold text-gray-600 cursor-pointer" routerLink="career/all"> Todas
                   <span class="absolute inset-0"></span>
                 </a>
                 <p class="mt-1 text-gray-600">
@@ -78,7 +78,7 @@
                 <img [src]="c.logo" [alt]="c.nombre" />
               </div>
               <div class="flex-auto">
-                <a class="block font-semibold text-gray-600 cursor-pointer" (click)="navigateToCareer(c.idCarrera)"> {{
+                <a class="block font-semibold text-gray-600 cursor-pointer" [routerLink]="['/career', c.idCarrera]"> {{
                   c.nombre }}
                   <span class="absolute inset-0"></span>
                 </a>
@@ -127,8 +127,7 @@
             </div>
             <ul>
               <li>
-                <a (click)="navigateToProfileUser(userProfile.idUsuario)"
-                  class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-600 text-sm">
+                <a [routerLink]="['/profile', userProfile.idUsuario]" class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-600 text-sm">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="/assets/sprite.svg#user" />
                   </svg>
@@ -137,7 +136,7 @@
               </li>
               <li>
                 <a class="flex items-center gap-3 px-6 py-2 hover:bg-gray-100 text-gray-600 text-sm"
-                  (click)="navigateToConfiguration()">
+                  routerLink="/config">
                   <svg width="24" height="24" viewBox="0 0 24 24">
                     <use xlink:href="/assets/sprite.svg#configuration" />
                   </svg>
@@ -159,12 +158,11 @@
       </ng-container>
       <ng-template #guestButtons>
         <div>
-          <button class="px-1 text-sm sm:text-lg sm:px-2 sm:py-1 rounded mr-0 md:mr-2 hover:text-gray-400" (click)="navigateToLogin()">
+          <button class="px-1 text-sm sm:text-lg sm:px-2 sm:py-1 rounded mr-0 md:mr-2 hover:text-gray-400" routerLink="/login">
             Iniciar sesión
           </button>
           <button
-            class="button-scroll-animate text-sm sm:text-lg text-[#2b7fff] px-1 py-1 sm:px-2 sm:py-2 md:px-4 md:py-2 rounded hover:bg-gray-300 font-semibold"
-            (click)="navigateToRegister()">
+            class="button-scroll-animate text-sm sm:text-lg text-[#2b7fff] px-1 py-1 sm:px-2 sm:py-2 md:px-4 md:py-2 rounded hover:bg-gray-300 font-semibold" routerLink="/register">
             Registrarse
           </button>
         </div>
@@ -233,11 +231,11 @@
       <div class="space-y-2 py-6">
         <ng-container *ngIf="!isLoggedIn">
           <div class="flex flex-col items-center justify-center space-y-2">
-            <button class="px-4 py-2 rounded hover:text-blue-600 w-full" (click)="navigateToLogin()">
+            <button class="px-4 py-2 rounded hover:text-blue-600 w-full" routerLink="/login">
               Iniciar sesión
             </button>
             <button class="text-white bg-secondary-blue px-4 py-2 rounded w-full hover:bg-gray-300 font-semibold"
-              (click)="navigateToRegister()">
+              routerLink="/register">
               Registrarse
             </button>
           </div>
@@ -280,8 +278,7 @@
                 <img [src]="c.logo" [alt]="c.nombre" />
               </div>
               <div class="flex-auto">
-                <a class="block font-semibold text-gray-600 cursor-pointer clamped"
-                  (click)="navigateToCareer(c.idCarrera)">
+                <a class="block font-semibold text-gray-600 cursor-pointer clamped" [routerLink]="['/career', c.idCarrera]">
                   {{ c.nombre }}
                   <span class="absolute inset-0"></span>
                 </a>

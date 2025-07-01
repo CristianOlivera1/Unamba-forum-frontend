@@ -3,7 +3,7 @@ import { HeaderComponent } from "../../shared/components/header/header.component
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { SuggestionComponent } from './components/suggestion/suggestion.component';
 import { DetailComponent } from './components/detail/detail.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProfileService } from '../../core/services/profile/profile.service';
 import { PublicationService } from '../../core/services/publication/publication.service';
 import { CommonModule } from '@angular/common';
@@ -32,13 +32,13 @@ import { RolService } from '../../core/services/rol/rol.service';
 
 @Component({
   selector: 'app-profile',
-  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent, PhotoSliderComponent, EditPhotoProfileComponent, EditFrontPageComponent, ModalFollowerComponent, ModalFollowingComponent, ModalUserCommentPublicationComponent, ModalUsersByReactionTypeComponent],
+  imports: [HeaderComponent, FooterComponent, HeaderComponent, SuggestionComponent, DetailComponent, CommonModule, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ReactionComponent, PhotoSliderComponent, EditPhotoProfileComponent, EditFrontPageComponent, ModalFollowerComponent, ModalFollowingComponent, ModalUserCommentPublicationComponent, ModalUsersByReactionTypeComponent,RouterLink],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 
 export class ProfileComponent implements OnInit {
-  userProfile: any = {}; 
+  userProfile: any = {};
   userDetails: any = null;
   userPublications: any[] = [];
   currentUserId: string | null = null;
@@ -220,7 +220,7 @@ closeDropdown(publication: any) {
       }
     });
   }
-  
+
   loadUserDetails(userId: string): void {
     this.profileService.getUserProfileDetail(userId).subscribe({
       next: (response: any) => {
@@ -240,7 +240,7 @@ closeDropdown(publication: any) {
     this.publicationService.getPublicationUser(userId).subscribe({
       next: (response: any) => {
         if (response.type === 'success') {
-          
+
           this.userPublications = response.data;
         } else {
           console.error('Error al cargar las publicaciones:', response.listMessage);
@@ -518,22 +518,11 @@ closeDropdown(publication: any) {
     return TimeUtils.getTimeElapsed(fechaRegistro);
   }
 
-  navigateToDetailPublication(idPublication: string) {
-    this.router.navigate(['/publication', idPublication]);
-  }
-
-  navigateToProfileUser(idUsuario: string) {
-    this.router.navigate(['/profile', idUsuario]);
-  }
   navigateToEditPublication(idPublicacion: string) {
     const publication = this.publications.find(p => p.idPublicacion === idPublicacion);
     if (publication) {
       publication.isDropdownVisible = false;
     }
     this.router.navigate(['/editpublication', idPublicacion]);
-  }
-
-  navigateToEditProfile(){
-    this.router.navigate(['/config']);
   }
 }

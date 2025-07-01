@@ -39,7 +39,6 @@ export class AppComponent implements OnInit{
           }
         );
   
-        // Limpiar la URL después de procesar los tokens
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
