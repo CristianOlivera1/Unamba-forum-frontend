@@ -1,7 +1,7 @@
 import { CommonModule, isPlatformBrowser, Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PublicationService } from '../../core/services/publication/publication.service';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
@@ -29,7 +29,7 @@ import { RolService } from '../../core/services/rol/rol.service';
 
 @Component({
   selector: 'app-detail-publication',
-  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, PhotoSliderComponent, ModalUserCommentPublicationComponent, ModalUserCommentPublicationComponent, ModalUsersByReactionTypeComponent, LoginModalComponent, HoverAvatarComponent, TotalsReactionCommentComponent, ReactionComponent, CompleteInfoRegisterGoogleComponent, CommentComponent, RelatedComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, FooterComponent, PhotoSliderComponent, ModalUserCommentPublicationComponent, ModalUserCommentPublicationComponent, ModalUsersByReactionTypeComponent, LoginModalComponent, HoverAvatarComponent, TotalsReactionCommentComponent, ReactionComponent, CompleteInfoRegisterGoogleComponent, CommentComponent, RelatedComponent,RouterLink],
   templateUrl: './detail-publication.component.html',
   styleUrl: './detail-publication.component.css'
 })
@@ -385,9 +385,6 @@ export class DetailPublicationComponent implements OnInit {
     setTimeout(() => {
       this.commentComponent?.focusTextarea();
     }, 0);
-  }
-  navigateToProfileUser(idUsuario: string) {
-    this.router.navigate(['/profile', idUsuario]);
   }
 
   showAlert(type: string, message: string): void {

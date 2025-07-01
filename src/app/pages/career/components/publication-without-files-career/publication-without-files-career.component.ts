@@ -1,12 +1,12 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PublicationService } from '../../../../core/services/publication/publication.service';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-publication-without-files-career',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './publication-without-files-career.component.html',
   styleUrl: './publication-without-files-career.component.css'
 })
@@ -20,9 +20,9 @@ export class PublicationWithoutFilesCareerComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['idCarrera'] && this.idCarrera) {
    if (this.idCarrera === 'all') {
-      this.loadAllPublicationsWithoutFiles(); 
+      this.loadAllPublicationsWithoutFiles();
     } else {
-      this.loadPublications(); 
+      this.loadPublications();
     }
     }
   }
@@ -54,7 +54,7 @@ export class PublicationWithoutFilesCareerComponent implements OnChanges {
       }
     });
   }
-  
+
   loadMore(): void {
     this.currentPage++;
     this.publicationService.getPublicationsWithoutFilesByCareerPaginated(this.idCarrera, this.currentPage).subscribe({
@@ -79,9 +79,9 @@ export class PublicationWithoutFilesCareerComponent implements OnChanges {
   dragState: { [key: string]: { isDragging: boolean; startX: number; scrollLeft: number } } = {
     publi: { isDragging: false, startX: 0, scrollLeft: 0 },
   };
-  
+
   @ViewChild('scrollPubli') scrollPubli!: ElementRef;
-  
+
   startDrag(event: MouseEvent | TouchEvent, key: string) {
     this.dragState[key].isDragging = true;
     const scrollEl = this.getScrollEl(key);
@@ -89,7 +89,7 @@ export class PublicationWithoutFilesCareerComponent implements OnChanges {
     this.dragState[key].startX = pageX - scrollEl.offsetLeft;
     this.dragState[key].scrollLeft = scrollEl.scrollLeft;
   }
-  
+
   onDrag(event: MouseEvent | TouchEvent, key: string) {
     if (!this.dragState[key].isDragging) return;
     event.preventDefault();
@@ -99,11 +99,11 @@ export class PublicationWithoutFilesCareerComponent implements OnChanges {
     const walk = x - this.dragState[key].startX;
     scrollEl.scrollLeft = this.dragState[key].scrollLeft - walk;
   }
-  
+
   stopDrag(key: string) {
     this.dragState[key].isDragging = false;
   }
-  
+
   getScrollEl(key: string): HTMLElement {
     switch (key) {
       case 'publi':
@@ -111,9 +111,5 @@ export class PublicationWithoutFilesCareerComponent implements OnChanges {
       default:
         return document.body;
     }
-}
-
-navigateToDetailPublication(idPublication: string) {
-  this.router.navigate(['/publication', idPublication]);
 }
 }

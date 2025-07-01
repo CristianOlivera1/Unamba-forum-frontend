@@ -90,7 +90,7 @@
           <div class="p-6">
             <div class="flex items-center justify-between mt-3">
               <div class="flex items-center gap-3">
-                <a (click)="navigateToProfileUser(publication.idUsuario)">
+                <a [routerLink]="['/profile', publication.idUsuario]">
                   <img
                     [src]="publication.avatar"
                     alt="Avatar"
@@ -100,16 +100,11 @@
                   />
                 </a>
                 <div>
-                  <a
-                    class="flex items-center gap-2"
-                    (click)="navigateToProfileUser(publication.idUsuario)"
-                  >
+                  <a class="flex items-center gap-2" [routerLink]="['/profile', publication.idUsuario]">
                     <p class="font-semibold text-gray-800 text-sm">
                       {{ publication.nombreCompleto }}
                     </p>
-                    <ng-container
-                      *ngIf="publication.tipoRol === 'ADMINISTRADOR'"
-                    >
+                    <ng-container *ngIf="publication.tipoRol === 'ADMINISTRADOR'">
                       <svg width="20" height="20" viewBox="0 0 24 24">
                         <use xlink:href="/assets/sprite.svg#verified" />
                       </svg>

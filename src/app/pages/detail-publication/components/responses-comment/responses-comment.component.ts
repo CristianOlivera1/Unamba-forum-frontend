@@ -5,14 +5,14 @@ import { ResponseCommentService } from '../../../../core/services/commentPublica
 import { TokenService } from '../../../../core/services/oauth/token.service';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 import { HoverAvatarComponent } from '../../../home/components/hover-avatar/hover-avatar.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ModalInfoCompleteService } from '../../../../core/services/modal/modalCompleteInfo.service';
 import { ModalLoginService } from '../../../../core/services/modal/modalLogin.service';
 
 
 @Component({
   selector: 'app-responses-comment',
-  imports: [CommonModule, FormsModule, HoverAvatarComponent],
+  imports: [CommonModule, FormsModule, HoverAvatarComponent,RouterLink],
   templateUrl: './responses-comment.component.html',
   styleUrl: './responses-comment.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -220,7 +220,7 @@ export class ResponsesCommentComponent implements OnInit {
     this.selectedResponseId = response.idRespuesta;
     this.responseContents[response.idRespuesta] = `@${response.nombreCompleto} `;
   }
-  
+
   showHoverModal(userId: string, event: MouseEvent): void {
     const target = event.target as HTMLElement;
     if (!target) {
@@ -283,7 +283,4 @@ export class ResponsesCommentComponent implements OnInit {
     const mention = `@${nombreCompleto} `;
   }
 
-  navigateToProfileUser(idUsuario: string) {
-    this.router.navigate(['/profile', idUsuario])
-  }
 }

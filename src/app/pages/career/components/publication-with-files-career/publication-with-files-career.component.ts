@@ -1,6 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, HostListener, Inject, Input, OnChanges, OnInit, PLATFORM_ID, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { fromEvent, debounceTime } from 'rxjs';
 import { Publication } from '../../../../core/interfaces/publication';
 import { CommentPublicationService } from '../../../../core/services/commentPublication/comment-publication.service';
@@ -22,7 +22,7 @@ import { CompleteInfoRegisterGoogleComponent } from '../../../oauth/complete-inf
 
 @Component({
   selector: 'app-publication-with-files-career',
-  imports: [CommonModule, ReactionComponent, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ModalUsersByReactionTypeComponent, ModalUserCommentPublicationComponent],
+  imports: [CommonModule, ReactionComponent, TotalsReactionCommentComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent, HoverAvatarComponent, ModalUsersByReactionTypeComponent, ModalUserCommentPublicationComponent,RouterLink],
   templateUrl: './publication-with-files-career.component.html',
   styleUrl: './publication-with-files-career.component.css'
 })
@@ -283,14 +283,6 @@ export class PublicationWithFilesCareerComponent implements OnChanges {
     if (scrollPosition >= threshold) {
       this.loadPublications(this.currentPage);
     }
-  }
-
-  navigateToDetailPublication(idPublication: string) {
-    this.router.navigate(['/publication', idPublication]);
-  }
-
-  navigateToProfileUser(idUsuario: string) {
-    this.router.navigate(['/profile', idUsuario]);
   }
 
   showHoverModal(userId: string, event: MouseEvent): void {

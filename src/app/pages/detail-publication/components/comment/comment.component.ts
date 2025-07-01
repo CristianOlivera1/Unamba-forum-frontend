@@ -8,13 +8,13 @@ import { ReactionCommentAndResponse } from '../../../../core/services/reaction/r
 import { ResponsesCommentComponent } from '../responses-comment/responses-comment.component';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
 import { HoverAvatarComponent } from '../../../home/components/hover-avatar/hover-avatar.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ModalLoginService } from '../../../../core/services/modal/modalLogin.service';
 import { ModalInfoCompleteService } from '../../../../core/services/modal/modalCompleteInfo.service';
 
 @Component({
   selector: 'app-comment',
-  imports: [CommonModule, FormsModule, ResponsesCommentComponent,HoverAvatarComponent],
+  imports: [CommonModule, FormsModule, ResponsesCommentComponent,HoverAvatarComponent,RouterLink],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -28,7 +28,7 @@ export class CommentComponent implements OnInit {
   isLoggedIn: boolean = false;
   userProfile: any = null;
   tiposReacciones: string[] = ['Me identifica', 'Es increíble', 'Qué divertido'];
-  
+
   hoverProfileData: any = null;
   hoverPosition = { top: 0, left: 0 };
   isHoverModalVisible = false;
@@ -84,11 +84,11 @@ export class CommentComponent implements OnInit {
   handleReply(commentId: string): void {
     this.selectedCommentId = commentId;
   }
-  
+
   focusTextarea(): void {
     setTimeout(() => {
       this.commentTextarea?.nativeElement.focus();
-    }, 0); 
+    }, 0);
   }
 
   loadUserProfile(): Promise<void> {
@@ -114,7 +114,7 @@ export class CommentComponent implements OnInit {
       }
     });
   }
-  
+
   toggleEmojiPicker(): void {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
@@ -173,21 +173,21 @@ export class CommentComponent implements OnInit {
       console.error('El comentario no puede estar vacío.');
       return;
     }
-  
+
     // Verificar si el perfil del usuario tiene idCarrera
     this.profileService.getProfileByUserId(this.userProfile.idUsuario).subscribe({
       next: (response: any) => {
         if (response.type === 'success' && !response.data.idCarrera) {
-          this.modalInfoCompleteService.showInfoCompleteModal(); 
+          this.modalInfoCompleteService.showInfoCompleteModal();
           return;
         }
-  
+
         // Si el usuario tiene carrera, proceder a agregar el comentario
         const formData = new FormData();
         formData.append('idUsuario', this.userProfile.idUsuario);
         formData.append('idPublicacion', this.idPublicacion);
         formData.append('contenido', this.newCommentContent);
-  
+
         this.commentPublicationService.addComment(formData).subscribe({
           next: (response: any) => {
             if (response.type === 'success') {
@@ -404,9 +404,5 @@ export class CommentComponent implements OnInit {
   }
   getTimeElapsedWrapper(fechaRegistro: string): string {
     return TimeUtils.getTimeElapsed(fechaRegistro);
-  }
-
-  navigateToProfileUser(idUsuario: string) {
-    this.router.navigate(['/profile', idUsuario]);
   }
 }

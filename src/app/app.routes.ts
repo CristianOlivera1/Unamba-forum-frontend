@@ -13,8 +13,8 @@ import { EditPhotoProfileComponent } from './pages/profile/components/edit-photo
 import { ModalFollowerComponent } from './pages/profile/components/modal-follower/modal-follower.component';
 import { NewPublicationComponent } from './pages/new-publication/new-publication.component';
 import { EditPublicationComponent } from './pages/edit-publication/edit-publication.component';
-import { AboutMeComponent } from './pages/about-me/about-me.component';
 import { ConfigComponent } from './pages/config/config.component';
+import { LogoComponent } from './pages/logo/logo.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -35,8 +35,7 @@ export const routes: Routes = [
     { path: 'newpublication', component: NewPublicationComponent },
     { path: 'editpublication/:idPublicacion', component: EditPublicationComponent },
     { path: 'career/all', component: CareerComponent },
-    { path: 'aboutme', component: AboutMeComponent },
     { path: 'config', component: ConfigComponent },
-
+    {path: 'logo', component: LogoComponent},
     { path: '**', redirectTo: '' }
 ];

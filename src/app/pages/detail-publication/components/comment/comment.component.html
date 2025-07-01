@@ -1,6 +1,6 @@
 <!-- Formulario de nuevo comentario -->
 <div class="flex gap-4 mt-5">
-  <a (click)="navigateToProfileUser(userProfile.idUsuario)">
+  <a [routerLink]="['/profile',userProfile.idUsuario]">
     <img class="h-10 w-10 object-cover rounded-full hover-img-avatar"
       [src]="userProfile?.fotoPerfil || '/assets/img/profile/avatar-perfil-uf.avif'" alt="avatar usuario logueado"
       (mouseenter)="showHoverModal(userProfile.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
@@ -43,7 +43,7 @@
 <!-- Lista de comentarios -->
 <div class="space-y-6 mt-10">
   <div *ngFor="let comment of comments" class="flex gap-1 xl:gap-4 pb-4 border-b border-gray-200 last:border-0">
-    <a (click)="navigateToProfileUser(comment.idUsuario)">
+    <a [routerLink]="['/profile',comment.idUsuario]">
       <img class="h-10 w-10 object-cover rounded-full hover-img-avatar" [src]="comment.avatar"
         alt="avatar del que comentó" (mouseenter)="showHoverModal(comment.idUsuario, $event)"
         (mouseleave)="hideHoverModal()" />
@@ -52,7 +52,7 @@
 
     <div class="flex-1">
       <div class="flex items-center justify-between mb-1">
-        <a (click)="navigateToProfileUser(comment.idUsuario)">
+        <a [routerLink]="['/profile',comment.idUsuario]">
           <span class="text-sm font-semibold hover:underline cursor-pointer">{{ comment.nombreCompleto }}</span>
         </a>
         <span class="text-xs text-gray-500">{{ getTimeElapsedWrapper(comment.fechaRegistro )}}</span>

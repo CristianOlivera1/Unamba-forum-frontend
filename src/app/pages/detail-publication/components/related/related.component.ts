@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TimeUtils } from '../../../../Utils/TimeElapsed';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 
 @Component({
   selector: 'app-related',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './related.component.html',
   styleUrl: './related.component.css'
 })
@@ -22,9 +22,5 @@ export class RelatedComponent {
 
   getTimeElapsedWrapper(fechaRegistro: string): string {
     return TimeUtils.getTimeElapsed(fechaRegistro);
-  }
-
-  navigateToDetailPublication(idPublication: string) {
-    this.router.navigate(['/publication', idPublication]);
   }
 }

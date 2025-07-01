@@ -1,5 +1,5 @@
 <div class="flex gap-2 mt-4 xl:ml-4">
-  <a (click)="navigateToProfileUser(userProfile.idUsuario)">
+  <a [routerLink]="['/profile', userProfile.idUsuario]">
     <span class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
       <img [src]="userProfile?.fotoPerfil || '/assets/img/profile/avatar-perfil-uf.avif'"
         class="w-full h-full object-cover rounded-full hover-img-avatar"
@@ -48,7 +48,7 @@
     <!-- Contenedor de respuestas registradas(si no las hay no se muestra)-->
     <div class="mt-1 border-t border-gray-300 pt-1" *ngFor="let response of responses">
       <div class="flex gap-2 mt-2">
-        <a (click)="navigateToProfileUser(response.idUsuario)">
+        <a [routerLink]="['/profile',response.idUsuario]">
           <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full">
             <img [src]="response.avatar || '/assets/img/profile/avatar-perfil-uf.avif'" alt="avatar" class="w-full h-full object-cover rounded-full hover-img-avatar"
               (mouseenter)="showHoverModal(response.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
@@ -57,7 +57,7 @@
 
         <div class="flex-1">
           <div class="flex items-center justify-between">
-            <a (click)="navigateToProfileUser(response.idUsuario)">
+            <a [routerLink]="['/profile',response.idUsuario]">
               <span class="text-sm font-semibold hover:underline">{{ response.nombreCompleto }}</span>
             </a>
             <span class="text-xs text-gray-500">{{ response.fechaRegistro | date: 'short' }}</span>
