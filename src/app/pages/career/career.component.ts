@@ -12,18 +12,18 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 import { HeaderComponent } from '../../shared/components/header/header.component';
 import { TimeUtils } from '../../Utils/TimeElapsed';
 import { RolService } from '../../core/services/rol/rol.service';
-import { PublicationWithFilesCareerComponent } from './components/publication-with-files-career/publication-with-files-career.component';
+
 import { PublicationWithoutFilesCareerComponent } from './components/publication-without-files-career/publication-without-files-career.component';
-import { FilterCareerComponent } from './components/filter-career/filter-career.component';
 import { LoginModalComponent } from '../home/components/login-modal/login-modal.component';
 import { CompleteInfoRegisterGoogleComponent } from '../oauth/complete-info-register-google/complete-info-register-google.component';
 import { ModalInfoCompleteService } from '../../core/services/modal/modalCompleteInfo.service';
 import { ModalLoginService } from '../../core/services/modal/modalLogin.service';
+import { PublicationWithFilesCareerComponent } from './components/publication-with-files-career/publication-with-files-career.component';
 
 @Component({
   selector: 'app-career',
   standalone: true,
-  imports: [CommonModule, FooterComponent, CommonModule, FormsModule, HeaderComponent, PublicationWithFilesCareerComponent, PublicationWithoutFilesCareerComponent, FilterCareerComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent],
+  imports: [CommonModule, FooterComponent, CommonModule, FormsModule, HeaderComponent, PublicationWithFilesCareerComponent, PublicationWithoutFilesCareerComponent, LoginModalComponent, CompleteInfoRegisterGoogleComponent],
   templateUrl: './career.component.html',
   styleUrl: './career.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -72,7 +72,9 @@ export class CareerComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
   }
-
+onCategoryChanged(categoryId: string) {
+  this.selectedCategory = categoryId;
+}
   ngAfterViewInit() {
     this.currentUserId = this.tokenService.getUserId();
     this.isLoginModalVisible$ = this.modalService.isLoginModalVisible$;
@@ -234,10 +236,6 @@ export class CareerComponent implements OnInit, AfterViewInit {
     });
   }
   renderCanvas() {
-    // if (!isPlatformBrowser(this.platformId)) {
-    //   // Si no estamos en el navegador, no ejecutar la animación
-    //   return;
-    // }
 
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
@@ -264,10 +262,6 @@ export class CareerComponent implements OnInit, AfterViewInit {
     });
   }
   initCanvas() {
-    // if (!isPlatformBrowser(this.platformId)) {
-    //   console.warn('El canvas no se inicializa porque no estamos en el navegador.');
-    //   return;
-    // }
 
     if (!this.canvas) {
       console.error('El elemento canvas no está disponible.');
