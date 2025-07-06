@@ -230,6 +230,7 @@ confirmDelete(): void {
   }
 }
 
+  //Scroll infinito
   @HostListener('window:scroll', [])
   onScroll(): void {
     if (!this.isFiltered) {
