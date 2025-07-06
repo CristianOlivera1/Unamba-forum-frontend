@@ -16,12 +16,33 @@ export class HeroComponent implements AfterViewInit {
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       gsap.registerPlugin(ScrollTrigger);
-
+      gsap.from(".title", {
+        opacity: 1,
+        y: 40,
+        duration: 1.2,
+        ease: "power2.out",
+        delay: 0.2
+      });
       gsap.to(".title", {
         scale: 1.5,
         autoAlpha: 0,
         scrollTrigger: {
           end: 300,
+          scrub: 0.5
+        }
+      });
+      gsap.from(".post", {
+        opacity: 1,
+        y: 40,
+        duration: 1.2,
+        ease: "power2.out",
+        delay: 0.2
+      });
+      gsap.to(".post", {
+        scale: 1.5,
+        autoAlpha: 0,
+        scrollTrigger: {
+          end: 200,
           scrub: 0.5
         }
       });
@@ -58,19 +79,19 @@ export class HeroComponent implements AfterViewInit {
       };
 
       // Animación de scroll en imágenes con GSAP
-gsap.to(micaela, {
-  frame: TOTAL_FRAMES - 1,
-  ease: "none",
-  snap: "frame",
-  scrollTrigger: {
-    trigger: "#hero-section",
-    start: 0,
-    end: "500", // o "+=400" para una altura personalizada
-    scrub: 0.5,
-    pin: true // Esto fija el hero mientras dura la animación
-  },
-  onUpdate: render
-});
+      gsap.to(micaela, {
+        frame: TOTAL_FRAMES - 1,
+        ease: "none",
+        snap: "frame",
+        scrollTrigger: {
+          trigger: "#hero-section",
+          start: 0,
+          end: "500", // o "+=400" para una altura personalizada
+          scrub: 0.5,
+          pin: true // Esto fija el hero mientras dura la animación
+        },
+        onUpdate: render
+      });
 
       images[0].onload = () => render();
 
