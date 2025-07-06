@@ -1,6 +1,6 @@
 <!-- Formulario de nuevo comentario -->
 <div class="flex gap-4 mt-5">
-  <a [routerLink]="['/profile',userProfile.idUsuario]">
+  <a [routerLink]="['/profile',userProfile?.idUsuario]">
     <img class="h-10 w-10 object-cover rounded-full hover-img-avatar"
       [src]="userProfile?.fotoPerfil || '/assets/img/profile/avatar-perfil-uf.avif'" alt="avatar usuario logueado"
       (mouseenter)="showHoverModal(userProfile.idUsuario, $event)" (mouseleave)="hideHoverModal()" />
