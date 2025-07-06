@@ -2,7 +2,7 @@
   <!-- Publicaciones relacionadas -->
   <div *ngFor="let related of publicationRelated"
     class="group flex-shrink-0 w-[85%] sm:w-[45%] xl:w-full bg-white p-4 rounded-xl border border-gray-200 hover:border-gray-300">
-    <a [routerLink]="['/profile',related.idPublicacion]" title="Ver más...">
+    <a [routerLink]="['/publication',related.idPublicacion]" title="Ver más...">
       <h3 class="text-sm font-semibold text-gray-800 leading-snug group-hover:text-secondary-blue group-hover:underline transition duration-300 truncate">
         {{ related.titulo }}
       </h3>
