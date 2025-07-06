@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PublicationWithFilesCareerComponent } from './publication-with-files-career.component';
+import { PublicationWithFilesCareerComponent } from './filter-career.component';
 
 describe('PublicationWithFilesCareerComponent', () => {
   let component: PublicationWithFilesCareerComponent;

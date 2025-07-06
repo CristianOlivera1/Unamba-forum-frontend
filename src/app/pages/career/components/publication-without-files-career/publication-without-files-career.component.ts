@@ -11,8 +11,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './publication-without-files-career.component.css'
 })
 export class PublicationWithoutFilesCareerComponent implements OnChanges {
-  @Input() idCarrera!: string;
-  publications: any[] = [];
+@Input() idCarrera!: string;
+@Input() categoryId: string = '';
+@Input() publications: any[] = [];
   currentPage: number = 0;
 
   constructor(private publicationService: PublicationService,private router: Router) {}
