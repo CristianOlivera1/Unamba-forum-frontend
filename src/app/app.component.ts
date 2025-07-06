@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { Init } from 'v8';
 import { GoogleAuthService } from './core/services/oauth/google-auth.service';
 import { TokenService } from './core/services/oauth/token.service';
 import { isPlatformBrowser } from '@angular/common';
@@ -38,10 +37,10 @@ export class AppComponent implements OnInit{
             console.error('Error al procesar los tokens de Google:', error);
           }
         );
-  
+
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
   }
-  
+
 }
