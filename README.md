@@ -1,7 +1,6 @@
 # UnambaForumFrontend
 
-![Unamba Forum  Únete- conecta y comparte - Google Chrome 6-13-2025 18-12-32 (2)](https://github.com/user-attachments/assets/81019594-cd57-42ed-9e0f-a09a0fc03e5f)
-
+<img src="https://github.com/user-attachments/assets/81019594-cd57-42ed-9e0f-a09a0fc03e5f" alt="Demo Unamba Forum" >
 
 Este proyecto esta realizado en [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
 
